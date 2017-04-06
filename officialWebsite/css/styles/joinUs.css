@@ -155,27 +155,37 @@ img.full_height {
     background-color: #FFF;
 }
 
-.main-wrap .module {
+.module {
     width: 100%;
     min-width: 1200px;
     font-family: "Microsoft YaHei", "Hiragino Sans GB";
 }
 
-.main-wrap .module .inner {
+.inner {
     width: 100%;
     overflow: hidden;
 
 }
 
-.main-wrap .module .inner .inner-banner {
+.txt-desc{
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top:0
+}
+
+.inner-banner {
     width: 100%;
     height: 460px;
+    position: relative;
     overflow: hidden;
-    background: url("../images/bg_1.png") no-repeat;
-    background-size: 100% 100%;
 }
 
-.main-wrap .module .inner .inner-banner .inner-content {
+.inner-banner img{
+    overflow: hidden;
+}
+
+.inner-content {
     width: 1200px;
     height: 100%;
     margin: 0 auto;
@@ -183,7 +193,7 @@ img.full_height {
     box-sizing: border-box;
 }
 
-.main-wrap .module .inner .inner-banner .inner-content .inner-title {
+.inner-content .inner-title {
     height: 45px;
     line-height: 45px;
     color: #fff;
@@ -191,13 +201,13 @@ img.full_height {
     overflow: hidden;
 }
 
-.main-wrap .module .inner .inner-banner .inner-content .inner-text-box {
+.inner-content .inner-text-box {
     overflow: hidden;
     width: 100%;
     margin: 70px auto 20px auto;
 }
 
-.main-wrap .module .inner .inner-banner .inner-content .inner-text-box .inner-text {
+.inner-content .inner-text-box .inner-text {
     color: #fff;
     overflow: hidden;
     width: 50%;
@@ -205,32 +215,31 @@ img.full_height {
     text-indent: 2em;
 }
 
-.main-wrap .module .inner .inner-background {
+.inner-background {
     width: 100%;
     height: 455px;
-    background: url("../images/bg_2.png") no-repeat;
-    background-size: 100% 100%;
     overflow: hidden;
+    position: relative;
 }
 
-.main-wrap .module .inner .inner-background .team {
+.team {
     width: 1200px;
     margin: 0 auto;
     padding: 30px 0 40px;
 }
 
-.main-wrap .module .inner .inner-background .team .inner-title {
+.team .inner-title {
     height: 45px;
     line-height: 45px;
     padding: 40px 0 20px 0;
 }
 
-.main-wrap .module .inner .inner-background .team .teamFrom {
+.team .teamFrom {
     color: #2673C1;
     padding: 10px 0 10px 0;
 }
 
-.main-wrap .module .inner .inner-background .team .team-brief {
+.team .team-brief {
     overflow: hidden;
     width: 71%;
     margin: 0 auto;
@@ -238,7 +247,7 @@ img.full_height {
     line-height: 40px;
 }
 
-.main-wrap .module .inner .inner-box {
+.inner-box {
     width: 100%;
     background-color: #fff;
     overflow: hidden;
@@ -252,28 +261,28 @@ img.full_height {
     width: 100%;
 }
 
-.main-wrap .module .inner .lifeExperience {
+.lifeExperience {
     width: 1200px;
     margin: 0 auto;
     padding: 30px 0 50px;
 }
 
-.main-wrap .module .inner .lifeExperience .inner-title {
+.lifeExperience .inner-title {
     padding: 40px 0 20px 0;
 }
 
-.main-wrap .module .inner .lifeExperience .timeLine {
+.lifeExperience .timeLine {
     margin: 100px 10px 20px 150px;
     cursor: pointer;
 }
 
-.main-wrap .module .inner .lifeExperience .timeLine .timeLine-date {
+.lifeExperience .timeLine .timeLine-date {
     position: relative;
     padding-left: 40px;
     padding-top: 10px;
 }
 
-.main-wrap .module .inner .lifeExperience .timeLine .timeLine-date:not(.first):before {
+.lifeExperience .timeLine .timeLine-date:not(.first):before {
     content: "";
     display: inline-block;
     position: absolute;
@@ -286,7 +295,7 @@ img.full_height {
     z-index: 2;
 }
 
-.main-wrap .module .inner .lifeExperience .timeLine .timeLine-date.first:before {
+.lifeExperience .timeLine .timeLine-date.first:before {
     content: "";
     display: inline-block;
     position: absolute;
@@ -298,19 +307,19 @@ img.full_height {
     z-index: 1;
 }
 
-.main-wrap .module .inner .lifeExperience .timeLine .more {
+.lifeExperience .timeLine .more {
     padding: 30px 20px 10px 43px;
     font-family: "Microsoft YaHei", "Hiragino Sans GB";
     color: #595757;
 }
 
-.main-wrap .module .inner .lifeExperience .timeLine .timeLine-year {
+.lifeExperience .timeLine .timeLine-year {
     position: relative;
     padding-left: 40px;
     padding-top: 10px;
 }
 
-.main-wrap .module .inner .lifeExperience .timeLine-year .year {
+.lifeExperience .timeLine-year .year {
     display: inline-block;
     background-color: #fff;
     border: 1px solid #2673C1;
@@ -326,7 +335,7 @@ img.full_height {
     -webkit-box-sizing: border-box;
 }
 
-.main-wrap .module .inner .lifeExperience .timeLine-year .year span {
+.lifeExperience .timeLine-year .year span {
     display: inline-block;
     color: #2673C1;
     height: 30px;
@@ -334,7 +343,7 @@ img.full_height {
     padding: 0 35px;
 }
 
-.main-wrap .module .inner .lifeExperience .timeLine-year .year .line {
+.lifeExperience .timeLine-year .year .line {
     position: absolute;
     width: 40px;
     height: 2px;
@@ -344,17 +353,17 @@ img.full_height {
     overflow: hidden;
 }
 
-.main-wrap .module .inner .lifeExperience .timeLine-year .year .line.left {
+.lifeExperience .timeLine-year .year .line.left {
     left: -75px;
     top: 19px;
 }
 
-.main-wrap .module .inner .lifeExperience .timeLine-year .year .line.right {
+.lifeExperience .timeLine-year .year .line.right {
     left: 79px;
     top: 19px;
 }
 
-.main-wrap .module .inner .lifeExperience .timeLine-date:not(.first):after {
+.lifeExperience .timeLine-date:not(.first):after {
     content: "";
     display: inline-block;
     position: absolute;
@@ -368,7 +377,7 @@ img.full_height {
     z-index: 1;
 }
 
-.main-wrap .module .inner .lifeExperience .timeLine-date.active:not(.first):after {
+.lifeExperience .timeLine-date.active:not(.first):after {
     width: 15px;
     height: 15px;
     left: 14px;
@@ -376,19 +385,19 @@ img.full_height {
     box-shadow: 0 0 10px 7px #C8DCEF;
 }
 
-.main-wrap .module .inner .lifeExperience .timeLine .more .desc {
+.lifeExperience .timeLine .more .desc {
     position: absolute;
-    top: 44px;
+    top: 46px;
     left: 85px;
 }
 
-.main-wrap .module .inner .lifeExperience .timeLine-date .more .time {
+.lifeExperience .timeLine-date .more .time {
     position: absolute;
     left: -80px;
     top: 47px
 }
 
-.main-wrap .module .inner .lifeExperience .timeLine-date .line {
+.lifeExperience .timeLine-date .line {
     position: absolute;
     width: 40px;
     height: 2px;
@@ -401,85 +410,85 @@ img.full_height {
     z-index: 2;
 }
 
-.main-wrap .module .inner .lifeExperience .timeLine-date.one:not(.first):before {
+.lifeExperience .timeLine-date.one:not(.first):before {
     min-height: 105px;
 }
 
-.main-wrap .module .inner .lifeExperience .timeLine-date.lists:not(.first):after {
+.lifeExperience .timeLine-date.lists:not(.first):after {
     top: 10%;
 
 }
 
-.main-wrap .module .inner .lifeExperience .timeLine-date.lists .more {
+.lifeExperience .timeLine-date.lists .more {
     padding-bottom: 0;
 }
 
-.main-wrap .module .inner .lifeExperience .timeLine-date.lists .line {
+.lifeExperience .timeLine-date.lists .line {
     top: 7px
 }
 
-.main-wrap .module .inner .lifeExperience .timeLine-date.lists .desc {
+.lifeExperience .timeLine-date.lists .desc {
     top: -6px;
 }
 
-.main-wrap .module .inner .lifeExperience .timeLine-date.lists .time {
+.lifeExperience .timeLine-date.lists .time {
     top: -3px
 }
 
-.main-wrap .module .inner .lifeExperience .timeLine-date .more .detail-time, .main-wrap .module .inner .lifeExperience .timeLine-date.lists .time.time-detail {
+.lifeExperience .timeLine-date .more .detail-time, .lifeExperience .timeLine-date.lists .time.time-detail {
     left: -105px;
 }
 
-.main-wrap .module .inner .lifeExperience .timeLine-date.one .line {
+.lifeExperience .timeLine-date.one .line {
     top: 12px
 }
 
-.main-wrap .module .inner .lifeExperience .timeLine .timeLine-date.last:after {
+.lifeExperience .timeLine .timeLine-date.last:after {
     top: 60%
 }
 
-.main-wrap .module .inner .lifeExperience .timeLine .timeLine-date.last .desc {
-    top: 70px
+.lifeExperience .timeLine .timeLine-date.last .desc {
+    top: 73px
 }
 
-.main-wrap .module .inner .lifeExperience .timeLine .timeLine-date.last .detail-time {
+.lifeExperience .timeLine .timeLine-date.last .detail-time {
     top: 75px
 }
 
-.main-wrap .module .inner .lifeExperience .timeLine .timeLine-date.last .line {
+.lifeExperience .timeLine .timeLine-date.last .line {
     top: 87px
 }
 
-.main-wrap .module .inner .lifeExperience .timeLine .companyLogo {
+.lifeExperience .timeLine .companyLogo {
     position: relative;
     padding-top: 4px;
 }
 
-.main-wrap .module .inner .lifeExperience .timeLine .companyLogo .logo-icon {
+.lifeExperience .timeLine .companyLogo .logo-icon {
     display: inline-block;
     padding: 0 20px;
     height: 40px;
     background: url("../images/joinUs.png") no-repeat -351px -38px;
 }
 
-.main-wrap .module .inner .inner-contact {
+.inner-contact {
     width: 100%;
     min-height: 0 !important;
     background-color: #F7F8F8;
     overflow: hidden;
 }
 
-.main-wrap .module .inner .inner-contact .contactWay {
+.inner-contact .contactWay {
     width: 1200px;
     margin: 20px auto;
     padding: 30px 0 40px;
 }
 
-.main-wrap .module .inner .inner-contact .contactWay .inner-title {
+.contactWay .inner-title {
     padding: 30px 0 20px 0;
 }
 
-.main-wrap .module .inner .inner-contact .contactWay .location {
+.contactWay .location {
     position: relative;
     margin-top: 40px;
     padding-top: 40px;
@@ -487,7 +496,7 @@ img.full_height {
     height: 100px;
 }
 
-.main-wrap .module .inner .inner-contact .contactWay .location .longLine {
+.contactWay .location .longLine {
     width: 80%;
     height: 2px;
     border-bottom: 1px dashed #2673C1;
@@ -497,20 +506,20 @@ img.full_height {
     left: 50%;
 }
 
-.main-wrap .module .inner .inner-contact .contactWay .location .location-area {
+.contactWay .location .location-area {
     width: 60%;
     margin: 0 auto;
     overflow: hidden;
 }
 
-.main-wrap .module .inner .inner-contact .contactWay .location .location-icon {
+.contactWay .location .location-icon {
     width: 25%;
     margin-left: 44px;
     top: -20px;
     display: inline-block;
 }
 
-.main-wrap .module .inner .inner-contact .contactWay .location .location-icon .city {
+.contactWay .location .location-icon .city {
     width: 110px;
     height: 110px;
     position: absolute;
@@ -520,7 +529,7 @@ img.full_height {
     background-repeat: no-repeat;
 }
 
-.main-wrap .module .inner .inner-contact .contactWay .location .location-icon .sh {
+.contactWay .location .location-icon .sh {
     width: 92px;
     height: 92px;
     top: -6px;
@@ -528,16 +537,16 @@ img.full_height {
     background-position: -7px -11px;
 }
 
-.main-wrap .module .inner .inner-contact .contactWay .location .location-icon .sz {
+.contactWay .location .location-icon .sz {
     top: -7px;
     background-position: -114px -11px;
 }
 
-.main-wrap .module .inner .inner-contact .contactWay .location .location-icon .bj {
+.contactWay .location .location-icon .bj {
     background-position: -225px -11px;
 }
 
-.main-wrap .module .inner .inner-contact .contactWay .location .location-icon .sh.active {
+.contactWay .location .location-icon .sh.active {
     width: 110px;
     height: 110px;
     top: -12px;
@@ -545,48 +554,48 @@ img.full_height {
     background-position: -13px -121px;
 }
 
-.main-wrap .module .inner .inner-contact .contactWay .location .location-icon .sz.active {
+.contactWay .location .location-icon .sz.active {
     top: -20px;
     background-position: -135px -122px;
 }
 
-.main-wrap .module .inner .inner-contact .contactWay .location .location-icon .bj.active {
+.contactWay .location .location-icon .bj.active {
     top: -17px;
     background-position: -264px -122px;
 }
 
-.main-wrap .module .inner .inner-contact .contactWay .location .location-icon .city-title {
+.contactWay .location .location-icon .city-title {
     position: absolute;
     color: #3E3A39;
     top: 110px
 }
 
-.main-wrap .module .inner .inner-contact .contactWay .location .location-icon .sz-company {
+.contactWay .location .location-icon .sz-company {
     margin-left: 18px
 }
 
-.main-wrap .module .inner .inner-contact .contactWay .location .location-icon .bj-company {
+.contactWay .location .location-icon .bj-company {
     margin-left: 45px
 }
 
-.main-wrap .module .inner .inner-contact .contactWay .location .location-icon .city-hover {
+.contactWay .location .location-icon .city-hover {
     color: #2673C1;
 }
 
-.main-wrap .module .inner .inner-contact .contactWay .add-area {
+.contactWay .add-area {
     margin: 40px 0 20px 0;
     padding: 10px;
 }
 
-.main-wrap .module .inner .inner-contact .contactWay .add-area .add-show {
+.contactWay .add-area .add-show {
     display: none;
 }
 
-.main-wrap .module .inner .inner-contact .contactWay .add-area .add-show.active {
+.contactWay .add-area .add-show.active {
     display: block;
 }
 
-.main-wrap .module .inner .inner-contact .contactWay .add-area .add-detail {
+.contactWay .add-area .add-detail {
     position: relative;
     padding: 15px;
     margin-bottom: 0;
@@ -596,21 +605,21 @@ img.full_height {
     text-align: center;
 }
 
-.main-wrap .module .inner .inner-contact .contactWay .add-area .map {
+.contactWay .add-area #map {
     border: 2px solid #000000;
     height: 400px;
 }
 
-.main-wrap .module .inner .inner-contact .contactUs {
+.contactUs {
     width: 100%;
     background: #2EA7E0;
-    height: 300px;
+    height: 360px;
     box-sizing: border-box;
-    padding-top: 40px;
-    padding-bottom: 40px;
+    padding-top: 70px;
+    padding-bottom: 60px;
 }
 
-.main-wrap .module .inner .inner-contact .contactUs .contactDetail {
+.contactUs .contactDetail {
     width: 25%;
     height: 100px;
     margin: 25px auto;
@@ -626,12 +635,12 @@ img.full_height {
     height: 0;
 }
 
-.main-wrap .module .inner .inner-contact .contactUs .contactDetail .box {
+.contactUs .contactDetail .box {
     margin: 0 auto;
     width: 100px;
 }
 
-.main-wrap .module .inner .inner-contact .contactUs .contactDetail .box .icon-top {
+.contactUs .contactDetail .box .icon-top {
     position: relative;
     margin: 0 auto;
     width: 100px;
@@ -640,54 +649,54 @@ img.full_height {
     background-repeat: no-repeat;
 }
 
-.main-wrap .module .inner .inner-contact .contactUs .contactDetail .box .icon-phone {
+.contactUs .contactDetail .box .icon-phone {
     background-position: -20px -245px;
 }
 
-.main-wrap .module .inner .inner-contact .contactUs .contactDetail .box .icon-email {
+.contactUs .contactDetail .box .icon-email {
     background-position: -137px -245px;
 }
 
-.main-wrap .module .inner .inner-contact .contactUs .contactDetail .box .icon-business {
+.contactUs .contactDetail .box .icon-business {
     background-position: -253px -246px;
 }
 
-.main-wrap .module .inner .inner-contact .contactUs .contactDetail .box .icon-social {
+.contactUs .contactDetail .box .icon-social {
     background-position: -396px -133px;
 }
 
-.main-wrap .module .inner .inner-contact .contactUs .contactDetail .box .icon-title {
+.contactUs .contactDetail .box .icon-title {
     margin-top: 20px;
     color: #fff;
 }
 
-.main-wrap .module .inner .joinUs-container {
+.joinUs-container {
     width: 1200px;
     margin: 0 auto;
 }
 
-.main-wrap .module .inner .joinUs {
+.joinUs {
     margin-top: 50px;
     margin-bottom: 60px;
 }
 
-.main-wrap .module .inner .joinUs .joinUs-head {
+.joinUs .joinUs-head {
     position: relative;
     padding-top: 10px;
     margin-bottom: 30px;
 }
 
-.main-wrap .module .inner .joinUs .joinUs-head .inner-title {
+.joinUs .joinUs-head .inner-title {
     font-weight: normal;
 
 }
 
-.main-wrap .module .inner .joinUs .joinUs-head .joinUs-info {
+.joinUs .joinUs-head .joinUs-info {
     margin-top: 10px;
     color: #000;
 }
 
-.main-wrap .module .inner .joinUs .joinUs-content {
+.joinUs .joinUs-content {
     position: relative;
     margin-bottom: 30px;
     overflow: hidden;
@@ -795,4 +804,21 @@ img.full_height {
     margin-top: 40px;
     margin-bottom: 50px;
     color: #3E3A39;
+}
+
+.iw_poi_title {
+    color: #CC5522;
+    font-size: 14px;
+    font-weight: bold;
+    overflow: hidden;
+    padding-right: 13px;
+    white-space: nowrap;
+}
+
+.iw_poi_content {
+    font: 12px arial,sans-serif;
+    overflow: visible;
+    padding-top: 4px;
+    white-space: -moz-pre-wrap;
+    word-wrap: break-word;
 }

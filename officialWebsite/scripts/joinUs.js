@@ -1,5 +1,5 @@
 $(function(){
-
+    var i = 0;
     $(".more .txt").hover(function(){
         $(this).parents(".timeLine-date").addClass("active");
     },function(){
@@ -14,39 +14,24 @@ $(function(){
 
 
 
-    //function mapClick(className) {
-    //    switch (className) {
-    //        case "sh":
-    //            $(".sh-show").addClass("active");
-    //            $(".sz-show,.bj-show").removeClass("active");
-    //            $(".sz,.bj").removeClass("active");
-    //            $(".sh-company").addClass("city-hover");
-    //            $(".sz-company,.bj-company").removeClass("city-hover");
-    //            break;
-    //        case "sz":
-    //            $(".sz-show").addClass("active");
-    //            $(".sh-show,.bj-show").removeClass("active");
-    //            $(".sh,.bj").removeClass("active");
-    //            $(".sz-company").addClass("city-hover");
-    //            $(".sh-company,.bj-company").removeClass("city-hover");
-    //            break;
-    //        case "bj":
-    //            $(".bj-show").addClass("active");
-    //            $(".sh,.sz").removeClass("active");
-    //            $(".sh-show,.sz-show").removeClass("active");
-    //            $(".bj-company").addClass("city-hover");
-    //            $(".sh-company,.sz-company").removeClass("city-hover");
-    //            break;
-    //    }
-    //};
 
-    $(".sh").on('click', function(e) {
+    function mapClick(className) {
+        switch (className) {
+            case "sh":
+                $(".add-detail").text("上海市长宁区江苏路369号兆丰世贸大厦19楼G座");
+                break;
+            case "sz":
+                $(".add-detail").text("深圳市南山区科苑中路8号迅美科技广场1号楼6楼6203室");
+                break;
+            case "bj":
+                $(".add-detail").text("北京市海淀区丹棱街1号院1号楼3层306室");
+                break;
+        }
+    };
 
-        console.log(e.target);
-
-        $(this).addClass("active").siblings().addClass("city-hover").parent().siblings().children(".city").removeClass("active").parents(".location-icon").siblings().children(".city-title").removeClass("city-hover");
-        $(this).parents(".location").siblings(".add-area").children(".sh-show").addClass("active").siblings().removeClass("active");
-        //mapClick("sh");
+    $(".sh").on('click', function() {
+        mapClick("sh");
+        $(this).addClass("active").parent().addClass("selected").siblings().removeClass("selected");
     });
 
     $(".sz").on('click', function() {
