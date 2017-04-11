@@ -155,11 +155,14 @@ img.full_height {
     background-color: #FFF;
 }
 
+
+
 .module {
     width: 100%;
     min-width: 1200px;
     font-family: "Microsoft YaHei", "Hiragino Sans GB";
 }
+
 
 .inner {
     width: 100%;
@@ -276,15 +279,19 @@ img.full_height {
     cursor: pointer;
 }
 
-.lifeExperience .timeLine .timeLine-date {
+.lifeExperience .timeLine .timeLine-date,.lifeExperience .timeLine .timeLine-date-first{
     position: relative;
     padding-left: 40px;
     padding-top: 10px;
 }
 
-.lifeExperience .timeLine .timeLine-date:not(.first):before {
+.lifeExperience .timeLine .lists{
+    /*padding-top: 0;*/
+}
+
+.lifeExperience .timeLine .timeLine-date:before {
     content: "";
-    display: inline-block;
+    /*display: inline-block;*/
     position: absolute;
     top: 0;
     width: 1px;
@@ -293,12 +300,15 @@ img.full_height {
     border-right: 2px solid #2673C1;
     left: 19px;
     z-index: 2;
+    display: inline;
+    zoom: 1;
 }
 
-.lifeExperience .timeLine .timeLine-date.first:before {
-    content: "";
-    display: inline-block;
+.lifeExperience .timeLine .timeLine-date-first:before{
     position: absolute;
+    content: "";
+    display: inline;
+    zoom: 1;
     top: 3px;
     width: 1px;
     height: 100%;
@@ -333,6 +343,8 @@ img.full_height {
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
+    position: relative;
+    behavior: url("scripts/PIE.htc");
 }
 
 .lifeExperience .timeLine-year .year span {
@@ -354,30 +366,36 @@ img.full_height {
 }
 
 .lifeExperience .timeLine-year .year .line.left {
-    left: -75px;
-    top: 19px;
+    /*left: -75px;*/
+    /*top: 19px;*/
+    left: -40px;
+    top:14px;
 }
 
 .lifeExperience .timeLine-year .year .line.right {
-    left: 79px;
-    top: 19px;
+   /* left: 79px;*/
+    left: 113px;
+    top:14px;
+    /*top: 19px;*/
 }
 
-.lifeExperience .timeLine-date:not(.first):after {
-    content: "";
-    display: inline-block;
+.lifeExperience .timeLine-date:after {
+    content: url("css/images/mapcircle.png");
+    /*display: inline-block;*/
     position: absolute;
-    width: 12px;
-    height: 12px;
-    background-color: #2673C1;
-    border-radius: 20px;
-    left: 15px;
-    top: 40%;
+    /*width: 12px;*/
+    /*height: 12px;*/
+    /*background-color: #2673C1;*/
+    /*border-radius: 20px;*/
+    left: 12px;
+    top: 37%;
     margin-top: -2px;
     z-index: 1;
+    display: inline;
+    zoom: 1;
 }
 
-.lifeExperience .timeLine-date.active:not(.first):after {
+.lifeExperience .timeLine-date.active:after {
     width: 15px;
     height: 15px;
     left: 14px;
@@ -406,15 +424,15 @@ img.full_height {
     background-color: #2673C1;
     overflow: hidden;
     top: 60px;
-    left: 27px;
+    left: 24px;
     z-index: 2;
 }
 
-.lifeExperience .timeLine-date.one:not(.first):before {
+.lifeExperience .timeLine-date.one:before {
     min-height: 105px;
 }
 
-.lifeExperience .timeLine-date.lists:not(.first):after {
+.lifeExperience .timeLine-date.lists:after {
     top: 10%;
 
 }
@@ -424,7 +442,7 @@ img.full_height {
 }
 
 .lifeExperience .timeLine-date.lists .line {
-    top: 7px
+    top: 11px
 }
 
 .lifeExperience .timeLine-date.lists .desc {
@@ -435,12 +453,12 @@ img.full_height {
     top: -3px
 }
 
-.lifeExperience .timeLine-date .more .detail-time, .lifeExperience .timeLine-date.lists .time.time-detail {
+.lifeExperience .timeLine-date .more .time.detail-time, .lifeExperience .timeLine-date.lists .time.time-detail {
     left: -105px;
 }
 
 .lifeExperience .timeLine-date.one .line {
-    top: 12px
+    top: 17px
 }
 
 .lifeExperience .timeLine .timeLine-date.last:after {
@@ -456,7 +474,7 @@ img.full_height {
 }
 
 .lifeExperience .timeLine .timeLine-date.last .line {
-    top: 87px
+    top: 92px
 }
 
 .lifeExperience .timeLine .companyLogo {
@@ -468,7 +486,7 @@ img.full_height {
     display: inline-block;
     padding: 0 20px;
     height: 40px;
-    background: url("../images/joinUs.png") no-repeat -351px -38px;
+    background: url("css/images/joinUs.png") no-repeat -351px -38px;
 }
 
 .inner-contact {
@@ -523,22 +541,23 @@ img.full_height {
     width: 110px;
     height: 110px;
     position: absolute;
-    top: -10px;
+    top: -8px;
     border-radius: 100%;
-    background-image: url("../images/joinUs.png");
+    background-image: url("css/images/joinUs.png");
     background-repeat: no-repeat;
+    behavior: url("scripts/PIE.htc");
 }
 
 .contactWay .location .location-icon .sh {
     width: 92px;
     height: 92px;
-    top: -6px;
+    top: -2px;
     background-color: #fff;
     background-position: -7px -11px;
 }
 
 .contactWay .location .location-icon .sz {
-    top: -7px;
+    top: -3px;
     background-position: -114px -11px;
 }
 
@@ -555,12 +574,12 @@ img.full_height {
 }
 
 .contactWay .location .location-icon .sz.active {
-    top: -20px;
+    top: -17px;
     background-position: -135px -122px;
 }
 
 .contactWay .location .location-icon .bj.active {
-    top: -17px;
+    top: -21px;
     background-position: -264px -122px;
 }
 
@@ -605,9 +624,16 @@ img.full_height {
     text-align: center;
 }
 
-.contactWay .add-area #map {
-    border: 2px solid #000000;
+.contactWay .add-area .map {
+    position: relative;
     height: 400px;
+}
+
+#map{
+    position: relative;
+    overflow: hidden;
+    height: 400px;
+    border: 1px solid red;
 }
 
 .contactUs {
@@ -637,7 +663,7 @@ img.full_height {
 
 .contactUs .contactDetail .box {
     margin: 0 auto;
-    width: 100px;
+    width: 150px;
 }
 
 .contactUs .contactDetail .box .icon-top {
@@ -645,7 +671,7 @@ img.full_height {
     margin: 0 auto;
     width: 100px;
     height: 100px;
-    background-image: url("../images/joinUs.png");
+    background-image: url("css/images/joinUs.png");
     background-repeat: no-repeat;
 }
 
@@ -704,6 +730,7 @@ img.full_height {
 }
 
 .job {
+    position: relative;
     display: inline-block;
     height: 45px;
     line-height: 45px;
@@ -715,6 +742,7 @@ img.full_height {
     border-radius: 5px;
     margin-right: 15px;
     margin-bottom: 30px;
+    behavior: url("scripts/PIE.htc");
 }
 
 .job.hover {

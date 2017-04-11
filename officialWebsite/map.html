@@ -27,24 +27,26 @@
             word-wrap: break-word;
         }
     </style>
-    <script src='scripts/jquery-2.2.0.min.js'></script>
+    <script src='scripts/jquery-1.11.3.js'></script>
     <script type="text/javascript" src="http://api.map.baidu.com/api?key=&v=1.1&services=true"></script>
 </head>
 
 <body>
 <!--百度地图容器-->
-<div class="location-icon selected" data-point="121.438069,31.225249" style="border: 1px solid #000;width: 100px; height: 100px"><span class="sh">sh</span>上海市长宁区江苏路369号兆丰世贸大厦19楼G座</div>
-<div class="location-icon" data-point="113.953818,22.552278" style="border: 1px solid #000;width: 100px; height: 100px"><span class="sz">sz</span>深圳市南山区科苑中路8号迅美科技广场1号楼6楼6203室</div>
-<div class="location-icon" data-point="116.319662,39.985404" style="border: 1px solid #000;width: 100px; height: 100px"><span class="bj">bj</span>北京市海淀区丹棱街1号院1号楼3层306室</div>
+<div class="box" style="width: 500px;height: 500px;position: relative;border: 1px solid red">
+    <div id="mapBackOrigin" onclick="theLocation()" style="position: absolute;top:10px;right: 0;width: 50px;height: 50px">
+        <div class="icons icon_mapLocation" style="background: url('css/images/locate.png') no-repeat;width: 35px;height: 35px"></div>
+    </div>
+    <div class="location-icon selected" data-point="121.438069,31.225249" style="border: 1px solid #000;width: 100px; height: 100px"><span class="sh">sh</span>上海市长宁区江苏路369号兆丰世贸大厦19楼G座</div>
+    <div class="location-icon" data-point="113.953818,22.552278" style="border: 1px solid #000;width: 100px; height: 100px"><span class="sz">sz</span>深圳市南山区科苑中路8号迅美科技广场1号楼6楼6203室</div>
+    <div class="location-icon" data-point="116.319662,39.985404" style="border: 1px solid #000;width: 100px; height: 100px"><span class="bj">bj</span>北京市海淀区丹棱街1号院1号楼3层306室</div>
+</div>
 <div style="width:510px;height:370px;border:#ccc solid 1px;" id="map"></div>
 </body>
 <script type="text/javascript">
 
 
 
-//    var address=$(".selected").data("point");
-//    alert(address);
-//    var address="";
 
     function initMap() {
         createMap();//创建地图
@@ -100,12 +102,11 @@
             var p1 = json.point.split(",")[1];
             var point = new BMap.Point(p0, p1);
             var iconImg = createIcon(json.icon);
-            var circle = new BMap.Circle(point,100,{fillColor:"#87B4EF", strokeWeight: 1 ,fillOpacity: 0.3, strokeOpacity: 0.3});
+            //var circle = new BMap.Circle(point,100,{fillColor:"#87B4EF", strokeWeight: 1 ,fillOpacity: 0.3, strokeOpacity: 0.3});
             var marker = new BMap.Marker(point, { icon: iconImg });
             var iw = createInfoWindow(i);
             var label = new BMap.Label(json.title, { "offset": new BMap.Size(json.icon.lb - json.icon.x + 10, -20) });
             marker.setLabel(label);
-            map.addOverlay(circle);
             map.addOverlay(marker);
             label.setStyle({
                 borderColor: "#808080",
@@ -155,6 +156,20 @@ function showInfo(){
 
 
       initMap();//创建和初始化地图  `
+
+//回到起始位置
+window.theLocation = function () {
+    map.clearOverlays();
+    var location = "";
+    if ($(".location-icon").hasClass("selected")) {
+        location = $(".selected").data("point");
+    };
+    var new_point = new BMap.Point(location.split(",")[0], location.split(",")[1]);//定义一个中心点坐标
+    //var marker = new BMap.Marker(new_point);  // 创建标注
+    //map.addOverlay(marker);              // 将标注添加到地图中
+    map.panTo(new_point);
+    addMarker();
+}
 
 $(".sh").on('click', function() {
     console.log($(this).parent().data("point"));

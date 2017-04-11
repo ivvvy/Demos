@@ -1,5 +1,4 @@
 $(function(){
-    var i = 0;
     $(".more .txt").hover(function(){
         $(this).parents(".timeLine-date").addClass("active");
     },function(){
@@ -18,7 +17,7 @@ $(function(){
     function mapClick(className) {
         switch (className) {
             case "sh":
-                $(".add-detail").text("上海市长宁区江苏路369号兆丰世贸大厦19楼G座");
+                 $(".add-detail").text("上海市长宁区江苏路369号兆丰世贸大厦19楼G座");
                 break;
             case "sz":
                 $(".add-detail").text("深圳市南山区科苑中路8号迅美科技广场1号楼6楼6203室");
@@ -31,23 +30,20 @@ $(function(){
 
     $(".sh").on('click', function() {
         mapClick("sh");
-        $(this).addClass("active").parent().addClass("selected").siblings().removeClass("selected");
+        $(this).addClass("active").parent().addClass("selected").siblings().removeClass("selected").children(".city").removeClass("active");
+        $(this).siblings(".city-title").addClass("city-hover").parent().siblings().children(".city-title").removeClass("city-hover");
     });
 
     $(".sz").on('click', function() {
-        //$(this).addClass("active");
-        //mapClick("sz");
-        console.log($(".sz").siblings());
-
-        $(this).addClass("active").siblings().addClass("city-hover").parent().siblings().children(".city").removeClass("active").parents(".location-icon").siblings().children(".city-title").removeClass("city-hover");
-        $(this).parents(".location").siblings(".add-area").children(".sz-show").addClass("active").siblings().removeClass("active");
+        mapClick("sz");
+        $(this).addClass("active").parent().addClass("selected").siblings().removeClass("selected").children(".city").removeClass("active");
+        $(this).siblings(".city-title").addClass("city-hover").parent().siblings().children(".city-title").removeClass("city-hover");
     });
 
     $(".bj").on('click', function() {
-        //$(this).addClass("active");
-        //mapClick("bj");
-        console.log($(".bj").siblings().parent().siblings().children());
-        $(this).addClass("active").siblings().addClass("city-hover").parent().siblings().children(".city").removeClass("active").parents(".location-icon").siblings().children(".city-title").removeClass("city-hover");
-        $(this).parents(".location").siblings(".add-area").children(".bj-show").addClass("active").siblings().removeClass("active");
+        mapClick("bj");
+        $(this).addClass("active").parent().addClass("selected").siblings().removeClass("selected").children(".city").removeClass("active");
+        $(this).siblings(".city-title").addClass("city-hover").parent().siblings().children(".city-title").removeClass("city-hover");
+
     });
 });
