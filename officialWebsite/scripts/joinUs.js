@@ -13,7 +13,6 @@ $(function(){
 
 
 
-
     function mapClick(className) {
         switch (className) {
             case "sh":
