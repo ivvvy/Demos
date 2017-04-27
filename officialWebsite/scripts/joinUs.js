@@ -1,8 +1,9 @@
+
 $(function(){
-    $(".more .txt").hover(function(){
-        $(this).parents(".timeLine-date").addClass("active");
-    },function(){
-        $(this).parents(".timeLine-date").removeClass("active");
+    $(".desc").hover(function () {
+        $(this).parents("li").addClass("active");
+    }, function () {
+        $(this).parents("li").removeClass("active");
     });
 
 
@@ -44,5 +45,23 @@ $(function(){
         $(this).addClass("active").parent().addClass("selected").siblings().removeClass("selected").children(".city").removeClass("active");
         $(this).siblings(".city-title").addClass("city-hover").parent().siblings().children(".city-title").removeClass("city-hover");
 
+    });
+
+
+// 返回顶部效果
+    var timer = 0;
+    var x = 0;
+    var back_timer = '';
+    $(window).scroll(function () {
+        var top = $(window).scrollTop();
+        (top > 300) ? $('#backTop').show() : $('#backTop').hide();
+    });
+    $('#backTop').click(function () {
+        back_timer = setInterval(function () {
+            $(window).scrollTop($(window).scrollTop() - 1000);
+            if ($(window).scrollTop() <= 0) {
+                clearInterval(back_timer);
+            }
+        }, 1)
     });
 });

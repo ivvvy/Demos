@@ -36,6 +36,10 @@ a {
     font-size: 15px;
 }
 
+.font-mmm {
+    font-size: 16px;
+}
+
 .font-smm {
     font-size: 18px;
 }
@@ -155,14 +159,11 @@ img.full_height {
     background-color: #FFF;
 }
 
-
-
 .module {
     width: 100%;
     min-width: 1200px;
     font-family: "Microsoft YaHei", "Hiragino Sans GB";
 }
-
 
 .inner {
     width: 100%;
@@ -170,11 +171,11 @@ img.full_height {
 
 }
 
-.txt-desc{
+.txt-desc {
     width: 100%;
     position: absolute;
     left: 0;
-    top:0
+    top: 0
 }
 
 .inner-banner {
@@ -184,7 +185,7 @@ img.full_height {
     overflow: hidden;
 }
 
-.inner-banner img{
+.inner-banner img {
     overflow: hidden;
 }
 
@@ -267,226 +268,167 @@ img.full_height {
 .lifeExperience {
     width: 1200px;
     margin: 0 auto;
-    padding: 30px 0 50px;
+    padding: 0px 0 50px;
 }
 
 .lifeExperience .inner-title {
-    padding: 40px 0 20px 0;
+    padding: 50px 0 20px 0;
 }
 
-.lifeExperience .timeLine {
-    margin: 100px 10px 20px 150px;
+.timeLine {
+    margin: 30px 10px 20px 150px;
     cursor: pointer;
 }
 
-.lifeExperience .timeLine .timeLine-date,.lifeExperience .timeLine .timeLine-date-first{
+.yearBox {
     position: relative;
-    padding-left: 40px;
-    padding-top: 10px;
 }
 
-.lifeExperience .timeLine .lists{
-    /*padding-top: 0;*/
-}
-
-.lifeExperience .timeLine .timeLine-date:before {
-    content: "";
-    /*display: inline-block;*/
-    position: absolute;
-    top: 0;
-    width: 1px;
+.yearBox.more {
+    min-height: 50px;
     height: 100%;
-    min-height: 145px;
-    border-right: 2px solid #2673C1;
-    left: 19px;
-    z-index: 2;
-    display: inline;
-    zoom: 1;
 }
 
-.lifeExperience .timeLine .timeLine-date-first:before{
-    position: absolute;
-    content: "";
-    display: inline;
-    zoom: 1;
-    top: 3px;
-    width: 1px;
+.dateMore {
+    border-left: 1px dashed #2673C1;
+    position: relative;
+    padding-left: 20px;
+    min-height: 50px;
     height: 100%;
-    border-right: 2px dashed #2673C1;
-    left: 19px;
-    z-index: 1;
+    z-index: 100;
 }
 
-.lifeExperience .timeLine .more {
-    padding: 30px 20px 10px 43px;
-    font-family: "Microsoft YaHei", "Hiragino Sans GB";
-    color: #595757;
-}
-
-.lifeExperience .timeLine .timeLine-year {
-    position: relative;
-    padding-left: 40px;
-    padding-top: 10px;
-}
-
-.lifeExperience .timeLine-year .year {
-    display: inline-block;
-    background-color: #fff;
-    border: 1px solid #2673C1;
-    border-radius: 20px;
-    -webkit-border-radius: 20px;
-    -moz-border-radius: 20px;
-    -webkit-box-shadow: 0 0 10px 7px #d4e3f3;
-    box-shadow: 0 0 10px 7px #d4e3f3;
-    margin-left: -75px;
-    margin-top: -8px;
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    position: relative;
-    behavior: url("scripts/PIE.htc");
-}
-
-.lifeExperience .timeLine-year .year span {
-    display: inline-block;
+.year {
+    position: absolute;
+    left: -54px;
+    width: 114px;
     color: #2673C1;
     height: 30px;
     line-height: 30px;
     padding: 0 35px;
+    border: 1px solid #2673C1;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -webkit-box-shadow: 0 0 0 5px #d4e3f3;
+    box-shadow: 0 0 0 5px #d4e3f3;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    z-index: 99;
 }
 
-.lifeExperience .timeLine-year .year .line {
+.txt {
+    position: absolute;
+    left: 35px;
+    top: 10px
+}
+
+.lineLeft {
     position: absolute;
     width: 40px;
-    height: 2px;
+    height: 1px;
     margin: 0 auto;
     padding: 0;
     background-color: #2673C1;
     overflow: hidden;
+    left: -99px;
+    top: 14px;
 }
 
-.lifeExperience .timeLine-year .year .line.left {
-    /*left: -75px;*/
-    /*top: 19px;*/
-    left: -40px;
-    top:14px;
-}
-
-.lifeExperience .timeLine-year .year .line.right {
-   /* left: 79px;*/
-    left: 113px;
-    top:14px;
-    /*top: 19px;*/
-}
-
-.lifeExperience .timeLine-date:after {
-    content: url("css/images/mapcircle.png");
-    /*display: inline-block;*/
+.lineRight {
     position: absolute;
-    /*width: 12px;*/
-    /*height: 12px;*/
-    /*background-color: #2673C1;*/
-    /*border-radius: 20px;*/
-    left: 12px;
-    top: 37%;
-    margin-top: -2px;
-    z-index: 1;
-    display: inline;
-    zoom: 1;
+    width: 40px;
+    height: 1px;
+    margin: 0 auto;
+    padding: 0;
+    background-color: #2673C1;
+    overflow: hidden;
+    left: 65px;
+    top: 14px;
 }
 
-.lifeExperience .timeLine-date.active:after {
-    width: 15px;
-    height: 15px;
-    left: 14px;
-    -webkit-box-shadow: 0 0 10px 7px #C8DCEF;
-    box-shadow: 0 0 10px 7px #C8DCEF;
+.experienceFlow {
+    padding-top: 30px;
 }
 
-.lifeExperience .timeLine .more .desc {
-    position: absolute;
-    top: 46px;
-    left: 85px;
+.experienceFlow > li {
+    position: relative;
+    border-left: 1px solid #2673C1;
+    z-index: 100;
+    box-sizing:border-box ;
+    padding-bottom: 10px;
 }
 
-.lifeExperience .timeLine-date .more .time {
-    position: absolute;
+.experienceFlow li .time {
+    position: relative;
     left: -80px;
-    top: 47px
+    top: 17px;
+    font-size: 16px;
+    width: 80px;
 }
 
-.lifeExperience .timeLine-date .line {
+.experienceFlow li .detailTime {
+    left: -101px;
+}
+
+.experienceFlow li.active .point {
+    width: 14px;
+    height: 14px;
+    left: -6px;
+    -webkit-box-shadow: 0 0 0px 5px #C8DCEF;
+    -ms-box-shadow: 0 0 0px 5px #C8DCEF;
+    box-shadow: 0 0 0px 5px #C8DCEF;
+    filter: progid:DXImageTransform.Microsoft.Shadow(color='#C8DCEF', Direction=360, Strength=0); /* ie8 shadow */
+}
+
+.experienceFlow li .point {
     position: absolute;
+    width: 12px;
+    height: 12px;
+    background-color: #2673C1;
+    border-radius: 20px;
+    left: -6px;
+
+}
+
+.experienceFlow li .point .pointRight {
+    position: relative;
+    display: inline-block;
     width: 40px;
-    height: 2px;
+    height: 1px;
     margin: 0 auto;
     padding: 0;
     background-color: #2673C1;
     overflow: hidden;
-    top: 60px;
-    left: 24px;
+    top: -10px;
+    left: 11px;
     z-index: 2;
 }
 
-.lifeExperience .timeLine-date.one:before {
-    min-height: 105px;
-}
-
-.lifeExperience .timeLine-date.lists:after {
-    top: 10%;
-
-}
-
-.lifeExperience .timeLine-date.lists .more {
-    padding-bottom: 0;
-}
-
-.lifeExperience .timeLine-date.lists .line {
-    top: 11px
-}
-
-.lifeExperience .timeLine-date.lists .desc {
-    top: -6px;
-}
-
-.lifeExperience .timeLine-date.lists .time {
-    top: -3px
-}
-
-.lifeExperience .timeLine-date .more .time.detail-time, .lifeExperience .timeLine-date.lists .time.time-detail {
-    left: -105px;
-}
-
-.lifeExperience .timeLine-date.one .line {
-    top: 17px
-}
-
-.lifeExperience .timeLine .timeLine-date.last:after {
-    top: 60%
-}
-
-.lifeExperience .timeLine .timeLine-date.last .desc {
-    top: 73px
-}
-
-.lifeExperience .timeLine .timeLine-date.last .detail-time {
-    top: 75px
-}
-
-.lifeExperience .timeLine .timeLine-date.last .line {
-    top: 92px
-}
-
-.lifeExperience .timeLine .companyLogo {
+.experienceFlow li .desc {
     position: relative;
-    padding-top: 4px;
+    left: 49px;
+    top: -5px;
+    font-size: 16px;
 }
 
-.lifeExperience .timeLine .companyLogo .logo-icon {
+.experienceFlow > li:first-of-type{
+    padding-top: 40px;
+}
+
+.experienceFlow > li:last-of-type {
+    padding-bottom: 60px;
+}
+
+.experienceFlow li .icon-company {
     display: inline-block;
     padding: 0 20px;
     height: 40px;
     background: url("css/images/lineLogo.png") no-repeat 0 0;
+    position: relative;
+    left: -21px;
+    top: 84px
 }
 
 .inner-contact {
@@ -552,7 +494,6 @@ img.full_height {
 
 .contactWay .location .location-icon .sh {
     background: url("css/images/sh.png") no-repeat 0 0;
-
 
 }
 
@@ -622,7 +563,7 @@ img.full_height {
     height: 400px;
 }
 
-#map{
+#map {
     position: relative;
     overflow: hidden;
     height: 400px;
@@ -829,6 +770,31 @@ img.full_height {
     color: #3E3A39;
 }
 
+#backTop {
+    position: fixed;
+    right: 40px;
+    bottom: 40px;
+    background-color: #bdcce5;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    border-radius: 4px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+#backTop:hover {
+    background-color: #a8b6cc;
+}
+
+.arrow {
+    background: url("css/images/arrow.png") no-repeat center center;
+    width: 50px;
+    height: 50px;
+    display: block;
+    background-size: 50% 50%;
+}
+
 .iw_poi_title {
     color: #CC5522;
     font-size: 14px;
@@ -839,7 +805,7 @@ img.full_height {
 }
 
 .iw_poi_content {
-    font: 12px arial,sans-serif;
+    font: 12px arial, sans-serif;
     overflow: visible;
     padding-top: 4px;
     white-space: -moz-pre-wrap;
