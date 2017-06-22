@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="equalsExample">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="//code.angularjs.org/snapshot/angular.min.js"></script>
+    <script src="script/controller/demo1.js"></script>
+</head>
+<body>
+ <div ng-controller="exampleController">
+      <form novalidate>
+          <h3>User 1</h3>
+          name:<input type="text" ng-model="user1.name">
+          age:<input type="text" ng-model="user1.age"><br>
+          <h3>User 2</h3>
+          name:<input type="text" ng-model="user2.name">
+          age:<input type="text" ng-model="user2.age"><br>
+          <div>
+              <input type="button" value="Compare" ng-click="compare()">
+          </div>
+          Equal:<h4>{{result}}</h4>
+      </form>
+ </div>
+</body>
+</html>

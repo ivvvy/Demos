@@ -1,0 +1,11 @@
+.idea
+src/angular-practice/flymeal/node_modules
+src/angular-practice/resource
+src/angular-practice/http-server
+src/js-practice/searchpca
+src/angular-practice/dropdown/json.js
+src/angular-practice/voice
+node_modules
+npm-debug.log
+src/js-practice/table/index.js
+src/js-practice/code-snippet

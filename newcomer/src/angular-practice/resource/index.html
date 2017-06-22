@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <title>$resource用法</title>
+</head>
+<body ng-controller="MainController as vm">
+    <h2>$resource</h2>
+    <button ng-click="vm.get()">get</button>
+    <button ng-click="vm.save()">save</button>
+    <button ng-click="vm.query()">query</button>
+    <button ng-click="vm.delete()">delete</button>
+
+    <h2>$resource</h2>
+    <button ng-click="vm._save()">$save</button>
+    <button ng-click="vm._delete()">$delete</button>
+
+</body>
+<script src="./angular.min.js"></script>
+<script src="./angular-resource.min.js"></script>
+<script>
+    // http://stackoverflow.com/questions/22186671/angular-resource-delete-wont-send-body-to-express-js-server
+    // 为什么 $resource 的 delete 方法不支持 request body, 实际上并不是 http 规范不支持, 而是 AngularJS 做了特殊处理
+    // 因此我们需要添加一些配置
+    (function() {
+        angular.module('app', ['ngResource']).config(function ($httpProvider) {
+            $httpProvider.defaults.headers.delete = { "Content-Type": "application/json;charset=utf-8" };
+            $httpProvider.interceptors.push(function() {
+                return {
+                    'request': function(config) {
+                        console.log('----- $httpProvider interceptor request ----');
+                        return config;
+                    },
+                    'response': function(response) {
+                        console.log('----- $httpProvider interceptor response ----');
+                        return response;
+                    }
+                };
+            });
+        });
+        angular.module('app').controller('MainController', function(UserResource, BookResource) {
+            var vm = this;
+
+            vm.get = function() {
+                UserResource.get({id: 1}, function(data) {
+                    console.log('----- user resource get success ----');
+                    console.log(data);
+                });
+//                BookResource.get({id: 1}, function(data) {
+//                    console.log(data);
+//                });
+            };
+
+            vm.save = function() {
+                UserResource.save({name: 'haha', grade: 99}, function(data) {
+                    console.log(data);
+                });
+                BookResource.save({name: '$resource有这么难吗', grade: 5}, function(data) {
+                    console.log(data);
+                }, function(res){
+                    console.log(res);
+                });
+            };
+
+            vm.query = function() {
+                UserResource.query(function(data) {
+                    console.log(data);
+                });
+                BookResource.list(function(data) {
+                    console.log(data);
+                });
+            };
+
+            vm.delete = function() {
+                UserResource.delete({id: 1}, {test: 1000}, function(data) {
+                    console.log(data);
+                });
+                BookResource.delete({id: 1}, function(data) {
+                    console.log(data);
+                });
+            };
+
+            var user3 = UserResource.get({id: 3}, function(data) {
+                user3 = data;
+            });
+
+            vm._save = function() {
+                user3.name = 'XXXX';
+                user3.grade = '78';
+                user3.$save(function(data) {
+                    console.log(data);
+                });
+
+                console.log(user3.isPass());
+            };
+
+            vm._delete = function() {
+                user3.$delete({id: user3.id}, function(data) {
+                    console.log(data);
+                });
+            };
+
+        });
+
+        angular.module('app').service('UserResource', function($resource, $http) {
+            var User = $resource('/users/:id', {id: '@_id'}, {
+                get: {
+                    transformRequest: [function(data, headersGetter){
+                        console.log('----- user resource get transformRequest function ----');
+                        return data;
+                    }],
+                    transformResponse: [function(data, headersGetter, status){
+                        console.log('----- user resource get transformResponse function ----');
+                        return angular.fromJson(data);
+                    }],
+                    interceptor: {
+                        'response': function(response) {
+                            console.log('----- user resource get interceptor response ----');
+                            return response;
+                        }
+                    }
+                },
+                update: {
+                    method: 'PUT'
+                }
+            });
+
+            User.prototype.isPass = function() {
+                return this.grade >= 60;
+            };
+
+            // this is a hack
+            User.delete = function(params, postData, success, error) {
+                return $http({
+                    url: '/users/' + params.id,
+                    method: 'DELETE',
+                    data: postData
+                }).then(success, error);
+            };
+
+            return User;
+        });
+
+        // 当请求不符合 RESTful 时候, 通过第三个参数 进行重写
+        angular.module('app').service('BookResource', function($resource) {
+            var Book = $resource('/book?id=:id', {id: '@_id'}, {
+                list: {
+                    method: 'GET',
+                    url: '/book/list',
+                    isArray: true
+                },
+                save: {
+                    method: 'POST',
+                    url: '/book/save'
+                },
+                delete: {
+                    method: 'GET',
+                    url: '/book/delete'
+                },
+                get: {
+                    transformRequest: [function(data, headersGetter){
+                        console.log('----- book resource get transformRequest function ----');
+                        return data;
+                    }],
+                    transformResponse: [function(data, headersGetter, status){
+                        console.log('----- book resource get transformResponse function ----');
+                        return angular.fromJson(data);
+                    }],
+                    interceptor: {
+                        'response': function(response) {
+                            console.log('----- book resource get interceptor response ----');
+                            return response;
+                        }
+                    }
+                }
+            });
+
+            return Book;
+        });
+
+    }());
+</script>
+</html>

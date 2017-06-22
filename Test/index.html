@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="script/libs/angular.js"></script>
+    <script src="script/controller/index.js"></script>
+</head>
+<body ng-controller="HelloCtrl">
+<div>
+    <h2>{{hello}}</h2>
+</div>
+
+<table>
+    <tr><th>row number</th></tr>
+    <tr ng-repeat="i in number"><td>{{i+1}}</td></tr>
+</table>
+<!--<script data-main="script/main" src="script/libs/require.js"></script>-->
+
+</body>
+</html>
