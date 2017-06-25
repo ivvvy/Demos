@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+    <style>
+        .table th, .table td{
+            padding: 8px;
+            line-height: 20px;
+            text-align: left;
+            vertical-align: top;
+            border-top: 1px solid #ddd;
+
+        }
+        .table-border th, .table-border td {
+            border-left: 1px solid #ddd;
+
+        }
+        .table-border th:last-child,.table-border td:last-child{
+            border-right: 1px solid #ddd;
+        }
+    </style>
+    <script src="script/libs/jquery-2.2.0.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+//获取表格的行数
+            var tabRowLen = $("table tbody tr").length;
+//点击add按钮时，
+            $("#add").on("click", function () {
+//获取表格的行数
+                tabRowLen = $("table tbody tr").length;
+                var index = tabRowLen - 1;
+//表格行数为0时，或者表格不存在空值时
+                if (IsNull(index) || tabRowLen == 0) {
+//添加一行
+                    $("table tbody").append("<tr>" +
+                        "<td class='name'><div id='dName" + tabRowLen + "'></div></td>" +
+                        "<td class='age'><div id='dAge" + tabRowLen + "'></div></td>" +
+                        "<td><input type='button' class='add' value='delete' /></td>" +
+                        "<td><input type='button' class='edit' value='modify' /></tr>"
+                )
+                    ;
+//删除一行
+                    $(".add").on("click", function () {
+                        $(this).parents("tr").remove();
+                    });
+
+                    $(".save").on("click",function(){
+
+                    });
+
+
+
+                }
+
+                //点击edit按钮时
+                $(".edit").on("click", function () {
+                    var name = $("table tbody input").eq([index-1]).val();
+                    var age = $("table tbody input").eq([index-1]).val();
+                    var html="";
+                    html+='<td><input type="text" class="Name" value=""+name+""/><div id="dName" + tabRowLen + ""></div></td>';
+                    html+='<td><input type="text" class="Age" value=""+age+"/><div id="dAge" + tabRowLen + ""></div></td>';
+                    html+="<td><input type='button' class='add' value='delete ' /></td>" ;
+                    html+='<td><input type="button" class="save" value="save" /></td>';
+                    $(this).parents("tr").html(html);
+                });
+//keyup事件
+                $("table input").on("keyup", function () {
+//验证是否有空值
+                    IsNull(index);
+                });
+            });
+
+
+
+            function IsNull(trIndex) {
+                var result = true;
+                debugger;
+//遍历表格的input
+                $("table tbody input").each(function (trIndex) {
+//判断是否存在空值
+                    if ($("table tbody input")[trIndex].value == "") {
+//提示空值
+                        result = false;
+                        $(this).next().html("required");
+                    }
+//不为空
+                    else {
+//清空提示信息
+                        $(this).next().html("");
+                    }
+                });
+                return result;
+            };
+        });
+    </script>
+</head>
+<body>
+<table class="table table-border">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Age</th>
+        <th><input type="button" id="add" value="addRow "/></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td class="name">ff</td>
+        <td class="age">13</td>
+        <td><input type='button' class='add' value='delete ' /></td>
+        <td><input type='button' class='edit' value='modify ' /></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
