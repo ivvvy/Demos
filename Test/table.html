@@ -4,112 +4,135 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title></title>
     <style>
-        .table th, .table td{
-            padding: 8px;
-            line-height: 20px;
-            text-align: left;
-            vertical-align: top;
-            border-top: 1px solid #ddd;
+        #js_stu_tb {
+            width:500px;
+            margin-top:10px;
 
         }
-        .table-border th, .table-border td {
-            border-left: 1px solid #ddd;
-
+        #js_stu_tb td{
+            outline: none;
         }
-        .table-border th:last-child,.table-border td:last-child{
-            border-right: 1px solid #ddd;
+        #js_stu_tb .stu_no{
+            width:80px;
+        }
+        #js_stu_tb .stu_name{
+            width:80px;
+        }
+        #js_stu_tb .stu_age{
+            width:80px;
+        }
+        #js_stu_tb .op{
+            width:180px;
+        }
+        #js_stu_tb input[type="text"]{
+            width:90%;
+        }
+        #js_stu_tb input[type="button"]{
+            margin-left:5px;
         }
     </style>
     <script src="script/libs/jquery-2.2.0.min.js"></script>
     <script type="text/javascript">
         $(function () {
-//获取表格的行数
-            var tabRowLen = $("table tbody tr").length;
-//点击add按钮时，
-            $("#add").on("click", function () {
-//获取表格的行数
-                tabRowLen = $("table tbody tr").length;
+            //添加
+            $("#js_addstu_btn").on('click',function(){
+                var hideTr=$("#js_hide_tby").children().first();
+                var newTr='<tr>';
+                newTr+='<td class="stu_no"></td>';
+                newTr+='<td class="stu_name"></td>';
+                newTr+='<td class="stu_age"></td>';
+                newTr+='<td class="op" align="center">';
+                newTr+='<input class="js_stusave_btn" type="button" value="保存" style="display:none;"/>';
+                newTr+='<input class="js_stuedit_btn" type="button" value="修改" />';
+                newTr+='<input class="js_studel_btn" type="button" value="删除"/>';
+                newTr+='</tr>';
+                $("#js_stuinfo_tby").append(newTr);
+            });
+            //修改学生信息
+            $(".js_stuedit_btn").on('click',function(){
+                var tr=$(this).parent().parent();
+                $("td:not('.op')",tr).each(function(i,el){
+                    el=$(el);
+                    el.parent().attr("contenteditable","true");
+                });
+                $(".js_stuedit_btn",tr).hide();
+                $(".js_stusave_btn",tr).show();
+            });
+            //保存学生信息
+            $(".js_stusave_btn").off().on("click",function(){
+                var tabRowLen = $("#js_stuinfo_tby tr").length;
                 var index = tabRowLen - 1;
-//表格行数为0时，或者表格不存在空值时
-                if (IsNull(index) || tabRowLen == 0) {
-//添加一行
-                    $("table tbody").append("<tr>" +
-                        "<td class='name'><div id='dName" + tabRowLen + "'></div></td>" +
-                        "<td class='age'><div id='dAge" + tabRowLen + "'></div></td>" +
-                        "<td><input type='button' class='add' value='delete' /></td>" +
-                        "<td><input type='button' class='edit' value='modify' /></tr>"
-                )
-                    ;
-//删除一行
-                    $(".add").on("click", function () {
-                        $(this).parents("tr").remove();
-                    });
-
-                    $(".save").on("click",function(){
+                if (IsNull(index)) {
+                    var tr=$(this).parent().parent();
+                    $("#js_stuinfo_tby tr td").each(function(i,el){
+                        el=$(el);
+                        el.text(el.text());
+                        el.parent().attr("contenteditable","false");
 
                     });
-
-
-
+                    $(".js_stuedit_btn",tr).show();
+                    $(".js_stusave_btn",tr).hide();
                 }
 
-                //点击edit按钮时
-                $(".edit").on("click", function () {
-                    var name = $("table tbody input").eq([index-1]).val();
-                    var age = $("table tbody input").eq([index-1]).val();
-                    var html="";
-                    html+='<td><input type="text" class="Name" value=""+name+""/><div id="dName" + tabRowLen + ""></div></td>';
-                    html+='<td><input type="text" class="Age" value=""+age+"/><div id="dAge" + tabRowLen + ""></div></td>';
-                    html+="<td><input type='button' class='add' value='delete ' /></td>" ;
-                    html+='<td><input type="button" class="save" value="save" /></td>';
-                    $(this).parents("tr").html(html);
-                });
-//keyup事件
-                $("table input").on("keyup", function () {
-//验证是否有空值
-                    IsNull(index);
-                });
             });
-
-
-
             function IsNull(trIndex) {
                 var result = true;
-                debugger;
-//遍历表格的input
-                $("table tbody input").each(function (trIndex) {
-//判断是否存在空值
-                    if ($("table tbody input")[trIndex].value == "") {
-//提示空值
+                //debugger;
+                //遍历表格的input
+                $("#js_stu_tb #js_stuinfo_tby tr td").each(function (trIndex) {
+                    //判断是否存在空值
+                    if ($("#js_stu_tb #js_stuinfo_tby tr td")[trIndex].text == "") {
+                        //提示空值
                         result = false;
-                        $(this).next().html("required");
+                        alert("不能为空!");
+
                     }
-//不为空
-                    else {
-//清空提示信息
-                        $(this).next().html("");
-                    }
+                    //不为空
                 });
                 return result;
             };
-        });
+        })
     </script>
 </head>
 <body>
-<table class="table table-border">
+学生信息表
+<br/>
+    
+关键字：
+<input id="js_keyword_text" type="text" />
+<input id="js_searchstu_btn" type="button" value="查询"/>
+<input id="js_addstu_btn" type="button" value="新增" style="margin-left:10px;"/>
+<table id="js_stu_tb" border="1">
     <thead>
     <tr>
-        <th>Name</th>
-        <th>Age</th>
-        <th><input type="button" id="add" value="addRow "/></th>
+        <th class="stu_no">学号</th>
+        <th class="stu_name">姓名</th>
+        <th class="stu_age">年龄</th>
+        <th class="op">操作</th>
     </tr>
     </thead>
-    <tbody>
+    <tbody id="js_hide_tby">
+    <tr style="display:none;">
+        <td class="stu_no"></td>
+        <td class="stu_name"></td>
+        <td class="stu_age"></td>
+        <td class="op" align="center">
+            <input class="js_stusave_btn" type="button" value="保存"/>
+            <input class="js_stuedit_btn" type="button" value="修改" style="display:none;"/>
+            <input class="js_studel_btn" type="button" value="删除"/>
+        </td>
+    </tr>
+    <tbody/>
+    <tbody id="js_stuinfo_tby">
     <tr>
-        <td class="name">ff</td>
-        <td class="age">13</td>
-        <td><input type='button' class='add' value='delete ' /></td>
-        <td><input type='button' class='edit' value='modify ' /></td>
+        <td class="stu_no"> 001</td>
+        <td class="stu_name">张三</td>
+        <td class="stu_age">18</td>
+        <td class="op" align="center">
+            <input class="js_stusave_btn" type="button" value="保存" style="display:none;"/>
+            <input class="js_stuedit_btn" type="button" value="修改"/>
+            <input class="js_studel_btn" type="button" value="删除"/>
+        </td>
     </tr>
     </tbody>
 </table>

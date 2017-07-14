@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width"/>
+    <title>码上飘</title>
+    <script src="script/libs/jquery-2.2.0.min.js"></script>
+    <script>
+
+        $(function () {
+            var item = [
+                ["2012", "0.01", "23", "keyi"], ["2012", "105", "267", "no"], ["2013", "234", "65", "yes"], ["2014", "255", "67", "hh"]
+            ];
+            //var reg = /[\d\.]+\,([\d\.]+)/g;
+            //var arr = item.join(",").split(",");
+            //console.log(arr);
+            for (var i = 0; i < item.length; i++) {
+                var list=item[i];
+                //console.log((item[item.length-1]));
+                if(item[i][0] == item[i + 1][0]){
+                        arr = item[i].concat(item[i + 1]);
+                        console.log(arr);
+                    }
+                }
+                //if (item[i][0] == item[i + 1][0]) {
+//                    var values = item[i].concat(item[i + 1]);
+//                    console.log(values);
+//                    var arr = [];
+//                    for (var k = 0; k < values.length; k++) {
+//                        var items = values[k];
+//                        if ($.inArray(items, arr) == -1) {
+//                            arr.push(items);
+//                            console.log(arr);
+//                        }
+//
+//                    }
+
+
+
+
+               // }
+
+
+
+
+            $('.box .btnBind').on('click', function () {
+                $(this).val('取消').css("border", "none");
+            });
+
+        })
+    </script>
+</head>
+<body>
+<div class="box">
+    <input class="btnBind" type="button" value="绑定按钮"/><br>
+    <input class="btnBind" type="button" value="绑定按钮"/><br>
+    <input class="btnBind" type="button" value="绑定按钮"/><br>
+</div>
+</body>
+</html>
