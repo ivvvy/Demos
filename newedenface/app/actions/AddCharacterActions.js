@@ -23,7 +23,7 @@ class AddCharacterActions{
           })
           .fail((jqXhr)=>{
              this.actions.addCharacterFail(jqXhr.responseJSON.message);
-          })
+          });
     }
 }
 

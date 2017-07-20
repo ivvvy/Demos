@@ -15,7 +15,7 @@ class NavbarStore{
     }
 
     onFindCharacterFail(payload){
-        payload.searchFrom.classList.add('shake');
+        payload.searchForm.classList.add('shake');
         setTimeout(()=>{
             payload.searchForm.classList.remove('shake');
         },1000);
