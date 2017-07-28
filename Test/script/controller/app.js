@@ -14,7 +14,7 @@ define(['jquery','backbone'],function($,Backbone){
     var WorldView=Backbone.View.extend({
         el:$("body"),
         initialize:function(){
-            //构造函数,实例化一个World集合类，并且以字典方式传入AppView
+            //构造函数,实例化一个我orld集合类，并且以字典方式传入AppView
             this.worlds=new Worlds(null,{view:this})
         },
         events:{
