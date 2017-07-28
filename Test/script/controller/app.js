@@ -18,7 +18,8 @@ define(['jquery','backbone'],function($,Backbone){
             this.worlds=new Worlds(null,{view:this})
         },
         events:{
-            "click #check":"checkIn"  //事件绑定，绑定dom中id为check的元素
+            //事件绑定，绑定dom中id为check的元素
+            "click #check":"checkIn"
         },
 
         checkIn:function(){
