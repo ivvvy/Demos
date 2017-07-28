@@ -1,23 +1,26 @@
-/**
- * Created by xinyu.cai on 2017/5/5.
- */
 require.config({
     baseUrl: 'script/',
-    path: {
-        "angular": "libs/angular.min",
-        "angular-route": "libs/angular-route.min"
-    },
     shim:{
-        'angular':{
-            exports:'angular'
+        underscore:{
+            exports:'_'
         },
-        'angular-route':{
-            exports:'angular-route',
-            deps:['angular']
+        backbone:{
+            deps:[
+                'underscore',
+                'jquery'
+            ],
+            exports:'Backbone'
         }
+    },
+    paths: {
+        jquery: 'libs/jquery-2.2.0.min',
+        underscore: 'libs/underscore-min',
+        backbone:'libs/backbone-min'
     }
-});
-
-require(['angular','angular-route'],function(angular){
 
 });
+
+require(['jquery','backbone','controller/app'],function($,Backbone,AppView){
+    var appView=new AppView();
+});
+

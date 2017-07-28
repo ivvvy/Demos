@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script src="../script/libs/jquery-2.2.0.min.js"></script>
+<script src="../script/libs/backbone-min.js"></script>
+<script src="../script/libs/underscore-min.js"></script>
+<script>
+    (function($){
+        var Man=Backbone.Model.extend({
+            initialize:function(){
+                alert('Hey,you create me!');
+
+                //初始化时绑定监听
+                this.bind("change:name",function(){
+                   var name=this.get("name");
+                    alert("你改变了name属性为："+name);
+                });
+
+                this.bind("invalid",function(model,error){
+                   alert("error");
+                });
+            },
+            defaults:{
+                name:'Ivy',
+                age:'18'
+            },
+            validate:function(attributes){
+              if(attributes.name==''){
+                  return "name不能为空!";
+              }
+            },
+            aboutMe:function(){
+                return '我叫'+this.get('name')+',今年'+this.get('age')+'岁';
+            }
+        });
+        var man=new Man;
+        alert(man.aboutMe());
+    })(jQuery);
+</script>
+</body>
+</html>

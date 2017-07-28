@@ -44,7 +44,7 @@ class Character extends React.Component{
         return(
             <div className='container'>
                 <div className='profile-img'>
-                    <a className='magnific-popup' href={'https://image.eveonline.com/character'+this.state.characterId+''_1024.jpg}>
+                    <a className='magnific-popup' href={'https://image.eveonline.com/character'+this.state.characterId+'_1024.jpg'}>
                         <img src={'https://image.eveonline.com/Character/'+this.state.characterId+'_256.jpg'} />
                     </a>
                 </div>
