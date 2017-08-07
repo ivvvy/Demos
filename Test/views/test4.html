@@ -23,6 +23,9 @@
             margin-top: 20px
         }
 
+        .table>tbody>tr>td{
+            padding: 1em;
+        }
         .value-input {
             position: relative;
             display: block;
@@ -32,16 +35,15 @@
             color: #000;
             font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
             -webkit-appearance: none;
-            padding: 0.5em;
             outline: none
         }
     </style>
 </head>
 <body>
-<div style="padding:100px 100px 10px">
+<div style="padding:100px 100px 10px" id="container">
     <form class="bs-example bs-example-form" role="form">
         <div class="row">
-            <div class="col-lg-6" style="margin-bottom: 15px">
+            <div class="col-lg-6" style="margin-bottom: 15px" data-index="0">
                 <div class="input-group">
                     <input type="text" class="form-control" value=""/>
 
@@ -64,7 +66,7 @@
             </div>
             <br>
 
-            <div class="col-lg-6">
+            <div class="col-lg-6" data-index="1">
                 <div class="input-group">
                     <input type="text" class="form-control" value=""/>
 
@@ -98,15 +100,15 @@
 
                 <div class="modal-body">
                     <div class="options-btn">
-                        <button type="button" class="btn btn-primary">添加</button>
-                        <button type="button" class="btn btn-danger">删除</button>
+                        <button type="button" class="btn btn-primary" id="add">添加</button>
+                        <button type="button" class="btn btn-danger" id="delete">删除</button>
                     </div>
                     <div class="options-body">
                         <table class="table table-bordered">
                             <tbody>
-                            <tr data-index="0">
+                            <tr>
                                 <td>
-                                    <input type="text" class="value-input"/>
+                                    <!--<input type="text" class="value-input"/>-->
                                 </td>
                             </tr>
                             </tbody>
