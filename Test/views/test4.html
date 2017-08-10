@@ -5,8 +5,10 @@
     <title></title>
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/handsontable.full.min.css">
+    <!--<link rel="stylesheet" href="../css/bootstrap-editable.css">-->
     <script type="text/javascript" src="../script/libs/jquery-2.2.0.min.js"></script>
     <script type="text/javascript" src="../script/libs/bootstrap.min.js"></script>
+    <!--<script type="text/javascript" src="../script/libs/bootstrap-editable.js"></script>-->
     <script type="text/javascript" src="../script/libs/handsontable.full.min.js"></script>
     <script type="text/javascript" src="../script/controller/dropdown.js"></script>
     <style>
@@ -23,19 +25,24 @@
             margin-top: 20px
         }
 
-        .table>tbody>tr>td{
-            padding: 1em;
+        .table > tbody > tr > td {
+            height: 35px;
+            line-height: 35px;
+            width: 30%;
+            box-sizing: border-box;
+
         }
+
         .value-input {
             position: relative;
             display: block;
-            width: 100%;
             border: none;
             border-radius: 0;
             color: #000;
             font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
             -webkit-appearance: none;
-            outline: none
+            outline: none;
+            box-sizing: border-box;
         }
     </style>
 </head>
@@ -60,7 +67,7 @@
                             <li><a href="javascript:void(0)">行变量5</a></li>
                         </ul>
                     </div>
-                    <button type="button" class="btn btn-default score" data-toggle="modal" data-target="#myModal">切分表
+                    <button type="button" class="btn btn-default score" data-toggle="modal" data-target="#myModal1">切分表
                     </button>
                 </div>
             </div>
@@ -83,7 +90,7 @@
                             <li><a href="javascript:void(0)">列变量5</a></li>
                         </ul>
                     </div>
-                    <button type="button" class="btn btn-default score" data-toggle="modal" data-target="#myModal">切分表
+                    <button type="button" class="btn btn-default score" data-toggle="modal" data-target="#myModal2">切分表
                     </button>
                 </div>
             </div>
@@ -91,24 +98,74 @@
     </form>
 </div>
 <div id="example"></div>
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">行变量切分表</h4>
+                <h4 class="modal-title" id="myModalLabel1">行变量切分表</h4>
 
                 <div class="modal-body">
                     <div class="options-btn">
-                        <button type="button" class="btn btn-primary" id="add">添加</button>
-                        <button type="button" class="btn btn-danger" id="delete">删除</button>
+                        <button type="button" class="btn btn-primary add">添加</button>
+                        <button type="button" class="btn btn-danger delete">删除</button>
+                    </div>
+                    <div class="options-body">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>比较值1</th>
+                                <th>运算符</th>
+                                <th>比较值2</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="editVal"></td>
+                                <td>
+                                    <select>
+                                        <option value=""></option>
+                                        <option value="<"><</option>
+                                        <option value=">,<">>,<</option>
+                                        <option value=">=,<=">>=,<=</option>
+                                        <option value="<="><=</option>
+                                        <option value=">=">>=</option>
+                                    </select>
+                                </td>
+                                <td class="editVal"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary save" data-dismiss="modal" aria-hidden="true">保存
+                    </button>
+                    <button type="button" class="btn btn-default cancel" data-dismiss="modal" aria-hidden="true">取消
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel2">列变量切分表</h4>
+
+                <div class="modal-body">
+                    <div class="options-btn">
+                        <button type="button" class="btn btn-primary add">添加</button>
+                        <button type="button" class="btn btn-danger delete">删除</button>
                     </div>
                     <div class="options-body">
                         <table class="table table-bordered">
                             <tbody>
                             <tr>
-                                <td>
-                                    <!--<input type="text" class="value-input"/>-->
+                                <td data-type="text" class="editable-click editable-empty" data-value="">
+                                    <!-- <input type="text" class="value-input"/>-->
                                 </td>
                             </tr>
                             </tbody>
@@ -116,12 +173,21 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="save" data-dismiss="modal" aria-hidden="true">保存</button>
-                    <button type="button" class="btn btn-default" id="cancel" data-dismiss="modal" aria-hidden="true">取消</button>
+                    <button type="button" class="btn btn-primary save" data-dismiss="modal" aria-hidden="true">保存
+                    </button>
+                    <button type="button" class="btn btn-default cancel" data-dismiss="modal" aria-hidden="true">取消
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<!--<script>
+    $('.table').editable({
+        selector: 'td',
+        mode:'inline',
+        pk: 1
+    });
+</script>-->
 </body>
 </html>

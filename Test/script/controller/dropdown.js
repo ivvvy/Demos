@@ -1,5 +1,6 @@
 $(function(){
     var data="";
+
     $(".dropdown-menu li a").off().on("click",function(){
         var i=$(this).index();
         var text=$(this).eq(i).text();
@@ -10,17 +11,27 @@ $(function(){
     });
 
 
-    $("#add").off().on("click",function(){
+    $(".add").off().on("click",function(){
         var rows='<tr>'+
+                '<td class="editVal">'+
+                '</td>'+
                 '<td>'+
-               // '<input type="text" class="value-input" />'+
+                '<select>'+
+                '<option value=""></option>'+
+                '<option value=""><</option>'+
+                '<option value="">>,<</option>'+
+                '<option value="">>=,<=</option>'+
+                '<option value=""><=</option>'+
+                '<option value="">>=</option>'+
+                '</select>'+
+                '</td>'+
+                '<td class="editVal">'+
                 '</td>'+
                 '</tr>';
         $(".table>tbody").append(rows);
     });
 
     $(".score").off().on("click",function(){
-
         //if(($(this).parents(".col-lg-6").attr("data-index"))==0){
         //    rows=$(this).siblings("input").val();
         //    console.log(rows);
@@ -34,19 +45,22 @@ $(function(){
 
     });
 
-    $(".table").on("dblclick","td",function(){
-        //var i=$(this).index();
-        //var oldText = $(this).eq(i).text();
-        //var inputObj=$("<input type='text' class='value-input' value='" + oldText + "' />");
-        //var tdObj=$(".table>tbody>tr>td");
-        //tdObj.html(inputObj);
-        //
-        ////文本框失去焦点的时候变为文本
-        //inputObj.blur(function () {
-        //    var newText = $(this).eq(i).val();
-        //    tdObj.html(newText);
-        //});
+    $(".table").on("click",".editVal",function(e){
+        var that=this;
+        var content=$(that).text();
+        $(that).html('<input type="text" class="value-input" value="'+content+'" />');
+        $("input[class='value-input']").click(function(e){
+            e.stopPropagation();
+        });
+        $("input[class='value-input']").trigger('focus');
+        $("input[class='value-input']").blur(function(){
+            var newtxt=$(this).val();
+            $(that).html(newtxt);
+
+        })
     });
+
+
 
 
 
@@ -58,53 +72,58 @@ $(function(){
 
 
 
-    $("#save").off().on("click",function(e){
-        var target=e.target;
-        console.log(target);
+    $(".save").off().on("click",function(){
         var values=[],
-            inputs=$(".table>tbody>tr>td>input");
-        for(var i=0;i<inputs.length;i++){
-            //var items=inputs[i];
-            values.push(inputs.eq(i).val());
-            //console.log(values[0]);
+            trs=$(".table>tbody>tr"),
+            tds=$(".table>tbody>tr>td.editVal"),
+            operators=$(".table tbody tr td select option:selected").val();
 
+
+
+        for(var i=0;i<tds.length;i++){
+            values.push(tds.eq(i).text());
+            var v=tds.eq(i).find("option:selected").val();
+            console.log(v);
         }
 
-        var lists=values.sort(function(a,b){
-            return a-b;
-        });
+
+
+        //var lists=values.sort(function(a,b){
+        //    return a-b;
+        //});
         //console.log(lists);
 
-        var result = [];
-        for(var j=0;j<lists.length;j++){
-            if(j==0){
-                result.push(data+"<"+lists[0])
-
-            }else{
-                result.push(lists[j-1]+"<="+data+">"+lists[j]);
-                if(j==lists.length-1){
-                    result.push(data+">="+lists[lists.length-1]);
-                }
-            }
-
-        }
-
-
+        //var result = [];
+        //for(var j=0;j<lists.length;j++){
+        //    if(j==0){
+        //        result.push(data+"<"+lists[0])
+        //
+        //    }else{
+        //        result.push(lists[j-1]+"<="+data+">"+lists[j]);
+        //        if(j==lists.length-1){
+        //            result.push(data+">="+lists[lists.length-1]);
+        //        }
+        //    }
+        //
+        //}
 
 
-        var data1=[
-                ["",result]
-            ],
-            container1=document.getElementById('example'),
-            hot1;
-        hot1=new Handsontable(container1,{
-            data:data1,
-            rowHeaders:false,
-            colHeaders:false,
-            colWidths:150,
-            rowWidths:150,
 
-        });
+
+
+        //var data1=[
+        //        result
+        //    ],
+        //    container1=document.getElementById('example'),
+        //    hot1;
+        //hot1=new Handsontable(container1,{
+        //    data:data1,
+        //    rowHeaders:false,
+        //    colHeaders:false,
+        //    colWidths:150,
+        //    rowWidths:150
+        //
+        //});
     });
 
 
