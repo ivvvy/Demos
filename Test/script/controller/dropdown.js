@@ -43,6 +43,7 @@ $(function(){
 
 
 
+
     });
 
     $(".table").on("click",".editVal",function(e){
@@ -70,21 +71,24 @@ $(function(){
 
 
 
-
-
     $(".save").off().on("click",function(){
         var values=[],
-            trs=$(".table>tbody>tr"),
-            tds=$(".table>tbody>tr>td.editVal"),
-            operators=$(".table tbody tr td select option:selected").val();
+            tds=$(".table>tbody>tr>td.editVal");
 
+        var symbol=[];
+        $("select").each(function(){
+            var operators= $(this).children("option:selected").text();
+            symbol.push(operators);
+            console.log(symbol);
 
+        });
 
         for(var i=0;i<tds.length;i++){
             values.push(tds.eq(i).text());
-            var v=tds.eq(i).find("option:selected").val();
-            console.log(v);
+            //console.log(values);
         }
+
+
 
 
 
@@ -109,21 +113,44 @@ $(function(){
 
 
 
+        var rows=['','12<行变量1<25','25<行变量1<=35','36<行变量1<=45'];
+        var cols1=['列变量3>=4'];
+        var cols2=['5<列变量3<15'];
+
+        var data1=[
+                rows,
+                cols1,
+                cols2
+            ],
+            container1=document.getElementById('example'),
+            hot1;
+        hot1=new Handsontable(container1,{
+            data:data1,
+            rowHeaders:false,
+            colHeaders:false,
+            colWidths:150,
+            rowWidths:150,
+            contextMenu:true,
+            readOnly:true,
+
+            renderer: function (instance, td, row, col, prop, value, cellProperties) {
+                // 渲染为text类型，可选的有TimeRenderer、PasswordRenderer等不同的类型
+                Handsontable.renderers.TextRenderer.apply(this, arguments);
+                // 判断条件
+                console.log(value);
+                if (!value && col===2) {
+                    cellProperties.readOnly = false;
+                    td.style.backgroundColor = '#e0ecff';
+                }else if(!value && row===0){
+                    td.style.backgroundColor = '#F2F2F2';
+                }
+            },
 
 
-        //var data1=[
-        //        result
-        //    ],
-        //    container1=document.getElementById('example'),
-        //    hot1;
-        //hot1=new Handsontable(container1,{
-        //    data:data1,
-        //    rowHeaders:false,
-        //    colHeaders:false,
-        //    colWidths:150,
-        //    rowWidths:150
-        //
-        //});
+
+        });
+        hot1.alter('insert_row');
+
     });
 
 

@@ -73,7 +73,7 @@
             </div>
             <br>
 
-            <div class="col-lg-6" data-index="1">
+            <div class="col-lg-6" style="margin-bottom: 15px" data-index="1">
                 <div class="input-group">
                     <input type="text" class="form-control" value=""/>
 
@@ -94,6 +94,28 @@
                     </button>
                 </div>
             </div>
+            <br>
+
+            <div class="col-lg-6" data-index="2">
+                <div class="input-group">
+                    <input type="text" class="form-control" value=""/>
+
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"style="margin:0 0 0 10px">
+                            结果变量
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a href="javascript:void(0)">结果变量1</a></li>
+                            <li><a href="javascript:void(0)">结果变量2</a></li>
+                            <li><a href="javascript:void(0)">结果变量3</a></li>
+                            <li><a href="javascript:void(0)">结果变量4</a></li>
+                            <li><a href="javascript:void(0)">结果变量5</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </form>
 </div>
@@ -162,11 +184,27 @@
                     </div>
                     <div class="options-body">
                         <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>比较值1</th>
+                                <th>运算符</th>
+                                <th>比较值2</th>
+                            </tr>
+                            </thead>
                             <tbody>
                             <tr>
-                                <td data-type="text" class="editable-click editable-empty" data-value="">
-                                    <!-- <input type="text" class="value-input"/>-->
+                                <td class="editVal"></td>
+                                <td>
+                                    <select>
+                                        <option value=""></option>
+                                        <option value="<"><</option>
+                                        <option value=">,<">>,<</option>
+                                        <option value=">=,<=">>=,<=</option>
+                                        <option value="<="><=</option>
+                                        <option value=">=">>=</option>
+                                    </select>
                                 </td>
+                                <td class="editVal"></td>
                             </tr>
                             </tbody>
                         </table>
