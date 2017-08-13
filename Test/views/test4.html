@@ -16,6 +16,34 @@
             margin: -7px 10px 0 10px;
         }
 
+        .dropdown-submenu > .dropdown-menu {
+            top: 0;
+            left: 100%;
+            margin-top: -6px;
+            margin-left: -1px;
+            -webkit-border-radius: 0 6px 6px 6px;
+            -moz-border-radius: 0 6px 6px;
+            border-radius: 0 6px 6px 6px;
+        }
+
+        .dropdown-submenu:hover > .dropdown-menu {
+            display: block;
+        }
+
+        .dropdown-submenu > a:after {
+            display: block;
+            content: " ";
+            float: right;
+            width: 0;
+            height: 0;
+            border-color: transparent;
+            border-style: solid;
+            border-width: 5px 0 5px 5px;
+            border-left-color: #ccc;
+            margin-top: 5px;
+            margin-right: -10px;
+        }
+
         .score {
             margin-top: -31px;
             position: relative
@@ -33,6 +61,15 @@
 
         }
 
+        .select {
+            width: 38%;
+            height: 35px;
+            position: relative;
+            top: -12px;
+            left: 20px;
+            margin-right:5px
+        }
+
         .value-input {
             position: relative;
             display: block;
@@ -47,24 +84,46 @@
     </style>
 </head>
 <body>
-<div style="padding:100px 100px 10px" id="container">
+<div style="padding:100px 100px 150px" id="container">
     <form class="bs-example bs-example-form" role="form">
         <div class="row">
             <div class="col-lg-6" style="margin-bottom: 15px" data-index="0">
                 <div class="input-group">
                     <input type="text" class="form-control" value=""/>
-
+                    <input type="hidden" class="rowsVal" />
                     <div class="input-group-btn">
                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                             行变量
                             <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu">
-                            <li><a href="javascript:void(0)">行变量1</a></li>
-                            <li><a href="javascript:void(0)">行变量2</a></li>
-                            <li><a href="javascript:void(0)">行变量3</a></li>
-                            <li><a href="javascript:void(0)">行变量4</a></li>
-                            <li><a href="javascript:void(0)">行变量5</a></li>
+                            <li class="dropdown-submenu">
+                                <a href="javascript:void(0)" tabindex="-1" data-type="INPUT">输入变量</a>
+                                <ul class="dropdown-menu pull-right">
+                                    <li><a href="javascript:void(0)">输入变量1</a></li>
+                                    <li><a href="javascript:void(0)">输入变量2</a></li>
+                                    <li><a href="javascript:void(0)">输入变量3</a></li>
+                                    <li><a href="javascript:void(0)">输入变量4</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown-submenu">
+                                <a href="javascript:void(0)" tabindex="-1" data-type="OUTPUT">输出变量</a>
+                                <ul class="dropdown-menu pull-right">
+                                    <li><a href="javascript:void(0)">输出变量1</a></li>
+                                    <li><a href="javascript:void(0)">输出变量2</a></li>
+                                    <li><a href="javascript:void(0)">输出变量3</a></li>
+                                    <li><a href="javascript:void(0)">输出变量4</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown-submenu">
+                                <a href="javascript:void(0)" tabindex="-1" data-type="TEMP">中间变量</a>
+                                <ul class="dropdown-menu pull-right">
+                                    <li><a href="javascript:void(0)">中间变量1</a></li>
+                                    <li><a href="javascript:void(0)">中间变量2</a></li>
+                                    <li><a href="javascript:void(0)">中间变量3</a></li>
+                                    <li><a href="javascript:void(0)">中间变量4</a></li>
+                                </ul>
+                            </li>
                         </ul>
                     </div>
                     <button type="button" class="btn btn-default score" data-toggle="modal" data-target="#myModal1">切分表
@@ -76,18 +135,40 @@
             <div class="col-lg-6" style="margin-bottom: 15px" data-index="1">
                 <div class="input-group">
                     <input type="text" class="form-control" value=""/>
-
+                    <input type="hidden" class="colsVal" />
                     <div class="input-group-btn">
                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                             列变量
                             <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu pull-right">
-                            <li><a href="javascript:void(0)">列变量1</a></li>
-                            <li><a href="javascript:void(0)">列变量2</a></li>
-                            <li><a href="javascript:void(0)">列变量3</a></li>
-                            <li><a href="javascript:void(0)">列变量4</a></li>
-                            <li><a href="javascript:void(0)">列变量5</a></li>
+                            <li class="dropdown-submenu">
+                                <a href="javascript:void(0)" tabindex="-1" data-type="INPUT">输入变量</a>
+                                <ul class="dropdown-menu pull-right">
+                                    <li><a href="javascript:void(0)">输入变量1</a></li>
+                                    <li><a href="javascript:void(0)">输入变量2</a></li>
+                                    <li><a href="javascript:void(0)">输入变量3</a></li>
+                                    <li><a href="javascript:void(0)">输入变量4</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown-submenu">
+                                <a href="javascript:void(0)" tabindex="-1" data-type="OUTPUT">输出变量</a>
+                                <ul class="dropdown-menu pull-right">
+                                    <li><a href="javascript:void(0)">输出变量1</a></li>
+                                    <li><a href="javascript:void(0)">输出变量2</a></li>
+                                    <li><a href="javascript:void(0)">输出变量3</a></li>
+                                    <li><a href="javascript:void(0)">输出变量4</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown-submenu">
+                                <a href="javascript:void(0)" tabindex="-1" data-type="TEMP">中间变量</a>
+                                <ul class="dropdown-menu pull-right">
+                                    <li><a href="javascript:void(0)">中间变量1</a></li>
+                                    <li><a href="javascript:void(0)">中间变量2</a></li>
+                                    <li><a href="javascript:void(0)">中间变量3</a></li>
+                                    <li><a href="javascript:void(0)">中间变量4</a></li>
+                                </ul>
+                            </li>
                         </ul>
                     </div>
                     <button type="button" class="btn btn-default score" data-toggle="modal" data-target="#myModal2">切分表
@@ -98,29 +179,80 @@
 
             <div class="col-lg-6" data-index="2">
                 <div class="input-group">
-                    <input type="text" class="form-control" value=""/>
+                    <input type="text" class="form-control" value="" style="width: 72%"/>
 
-                    <div class="input-group-btn">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"style="margin:0 0 0 10px">
+                    <div class="input-group-btn" style="left: -143px">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                style="margin:0 0 0 10px">
                             结果变量
                             <span class="caret"></span>
                         </button>
-                        <ul class="dropdown-menu pull-right">
-                            <li><a href="javascript:void(0)">结果变量1</a></li>
-                            <li><a href="javascript:void(0)">结果变量2</a></li>
-                            <li><a href="javascript:void(0)">结果变量3</a></li>
-                            <li><a href="javascript:void(0)">结果变量4</a></li>
-                            <li><a href="javascript:void(0)">结果变量5</a></li>
+                        <ul class="dropdown-menu pull-right" role="menu">
+                            <li class="dropdown-submenu">
+                                <a href="javascript:void(0)" tabindex="-1" data-type="INPUT">输入变量</a>
+                                <ul class="dropdown-menu pull-right">
+                                    <li><a href="javascript:void(0)">输入变量1</a></li>
+                                    <li><a href="javascript:void(0)">输入变量2</a></li>
+                                    <li><a href="javascript:void(0)">输入变量3</a></li>
+                                    <li><a href="javascript:void(0)">输入变量4</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown-submenu">
+                                <a href="javascript:void(0)" tabindex="-1" data-type="OUTPUT">输出变量</a>
+                                <ul class="dropdown-menu pull-right">
+                                    <li><a href="javascript:void(0)">输出变量1</a></li>
+                                    <li><a href="javascript:void(0)">输出变量2</a></li>
+                                    <li><a href="javascript:void(0)">输出变量3</a></li>
+                                    <li><a href="javascript:void(0)">输出变量4</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown-submenu">
+                                <a href="javascript:void(0)" tabindex="-1" data-type="TEMP">中间变量</a>
+                                <ul class="dropdown-menu pull-right">
+                                    <li><a href="javascript:void(0)">中间变量1</a></li>
+                                    <li><a href="javascript:void(0)">中间变量2</a></li>
+                                    <li><a href="javascript:void(0)">中间变量3</a></li>
+                                    <li><a href="javascript:void(0)">中间变量4</a></li>
+                                </ul>
+                            </li>
                         </ul>
+                    </div>
+                    <div class="input-group" style="position: absolute;left: -20px;top:60px;width: 80%">
+                        <select class="select operatorResult">
+                            <option value=""></option>
+                            <option value="=">=</option>
+                            <option value="-=">-=</option>
+                            <option value="+=">+=</option>
+                        </select>
+                        <select class="select typeResult">
+                            <option value=""></option>
+                            <option value="var">变量</option>
+                            <option value="const">常量</option>
+                            <option value="fn">函数</option>
+                        </select>
+                        <div>
+                            <input type="text" class="form-control dropdown-toggle" style="left: 21px" value=""/>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="javascript:void(0)">变量1</a></li>
+                                <li><a href="javascript:void(0)">变量1</a></li>
+                                <li><a href="javascript:void(0)">变量1</a></li>
+                                <li><a href="javascript:void(0)">变量1</a></li>
+                            </ul>
+                        </div>
+
                     </div>
                 </div>
             </div>
-
+            <div class="col-lg-6" style="margin-top: 150px">
+                <button type="button" class="btn btn-primary compile">编译</button>
+            </div>
         </div>
+
     </form>
+
 </div>
 <div id="example"></div>
-<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -129,11 +261,11 @@
 
                 <div class="modal-body">
                     <div class="options-btn">
-                        <button type="button" class="btn btn-primary add">添加</button>
+                        <button type="button" class="btn btn-primary add rowAdd">添加</button>
                         <button type="button" class="btn btn-danger delete">删除</button>
                     </div>
                     <div class="options-body">
-                        <table class="table table-bordered">
+                        <table class="table table-bordered" id="rowTable">
                             <thead>
                             <tr>
                                 <th>比较值1</th>
@@ -150,6 +282,8 @@
                                         <option value="<"><</option>
                                         <option value=">,<">>,<</option>
                                         <option value=">=,<=">>=,<=</option>
+                                        <option value=">=,<=">>=,<</option>
+                                        <option value=">=,<=">>=,<=</option>
                                         <option value="<="><=</option>
                                         <option value=">=">>=</option>
                                     </select>
@@ -161,7 +295,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary save" data-dismiss="modal" aria-hidden="true">保存
+                    <button type="button" id="rowSave" class="btn btn-primary save" data-dismiss="modal" aria-hidden="true">保存
                     </button>
                     <button type="button" class="btn btn-default cancel" data-dismiss="modal" aria-hidden="true">取消
                     </button>
@@ -170,7 +304,7 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -179,11 +313,11 @@
 
                 <div class="modal-body">
                     <div class="options-btn">
-                        <button type="button" class="btn btn-primary add">添加</button>
+                        <button type="button" class="btn btn-primary add colAdd">添加</button>
                         <button type="button" class="btn btn-danger delete">删除</button>
                     </div>
                     <div class="options-body">
-                        <table class="table table-bordered">
+                        <table class="table table-bordered" id="colTable">
                             <thead>
                             <tr>
                                 <th>比较值1</th>
@@ -201,7 +335,7 @@
                                         <option value=">,<">>,<</option>
                                         <option value=">=,<=">>=,<=</option>
                                         <option value="<="><=</option>
-                                        <option value=">=">>=</option>
+                                        <option value="==">==</option>
                                     </select>
                                 </td>
                                 <td class="editVal"></td>
@@ -211,7 +345,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary save" data-dismiss="modal" aria-hidden="true">保存
+                    <button type="button"  id="colSave" class="btn btn-primary save" data-dismiss="modal" aria-hidden="true">保存
                     </button>
                     <button type="button" class="btn btn-default cancel" data-dismiss="modal" aria-hidden="true">取消
                     </button>

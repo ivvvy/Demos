@@ -3,8 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <title></title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/handsontable.full.min.css">
+    <!--<link rel="stylesheet" href="../css/bootstrap-editable.css">-->
+    <script type="text/javascript" src="../script/libs/jquery-2.2.0.min.js"></script>
+    <script type="text/javascript" src="../script/libs/bootstrap.min.js"></script>
+    <!--<script type="text/javascript" src="../script/libs/bootstrap-editable.js"></script>-->
+    <script type="text/javascript" src="../script/libs/handsontable.full.min.js"></script>
+    <script type="text/javascript" src="../script/controller/table.js"></script>
+    <style>
+        #table{width: 100%;}
+        .table1,.table2{
+            display: inline-block;
+        }
+    </style>
 </head>
 <body>
-<div id="hot"></div>
+<div style="padding:100px 100px 20px" id="container">
+    <form class="bs-example bs-example-form" role="form">
+        <div class="row">
+            <div class="col-lg-6" style="margin-bottom: 15px" data-index="0">
+                <button type="button" class="btn btn-primary" id="addConditionCol">添加条件列</button>
+                <button type="button" class="btn btn-info" id="addResultCol">添加结果列</button>
+                <button type="button" class="btn btn-danger" id="deleteCol">删除列</button>
+                <button type="button" class="btn btn-primary" id="addRow">添加行</button>
+                <button type="button" class="btn btn-danger" id="deleteRow">删除行</button>
+            </div>
+        </div>
+
+    </form>
+</div>
+<div class="table1">
+    <div id="example1"></div>
+
+
+</div>
+<div class="table2">
+    <div id="example2"></div>
+</div>
 </body>
 </html>
