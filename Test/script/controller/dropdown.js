@@ -95,13 +95,13 @@ $(function(){
         console.log("rows:"+rows);
         console.log("cols:"+cols);
         showTable(rows,cols);
-        changeBgColor();
+        //changeBgColor();
     });
     $("#colSave").off().on("click",function(){
         var rows = getTableArr(true);
         var cols = getTableArr(false);
         showTable(rows,cols);
-        changeBgColor();
+        //changeBgColor();
     });
 
 
@@ -279,6 +279,7 @@ $(function(){
             contextMenu:true,
             readOnly:true,
 
+
             renderer: function (instance, td, row, col, prop, value, cellProperties) {
                 // 渲染为text类型，可选的有TimeRenderer、PasswordRenderer等不同的类型
                 Handsontable.renderers.TextRenderer.apply(this, arguments);
@@ -292,6 +293,7 @@ $(function(){
             },
 
 
+
         })
 
         //hot1.addHook('beforeChange', function (changeData, source) {
@@ -302,6 +304,21 @@ $(function(){
         //    //row.style.backgroundColor="#e0ecff";
         //    console.log("改变"+change);
         //})
+
+
+        hot1.addHook('afterSelectionEnd', function(r, c, r2, c2){
+            // 清除所有扩展的样式
+            // 给选择范围的单元格添加样式
+            for(var i = r; i <= r2; i++){
+                for(var j = c; j <= c2; j++){
+                    hot1.setCellMeta(i, j, 'className', hot1.getCellMeta(i, j).className + ' selected-td');
+                }
+            }
+            // 重新渲染网格
+            hot1.render();
+        })
+
+
     }
     
     function createLine(comparator,value) {
@@ -360,23 +377,24 @@ $(function(){
     }
 
 
-    function changeBgColor(){
-        var rows = $("#example tr").length;
-        var cells = $("#example td").length/rows;
-        var trs=$("#example tbody tr:not(:first-child)");
-        console.log("列数=========="+cells+"行数="+rows);
-        for (var i =1;i<cells;i++){
-            for (var j =0;j<rows-1;j++){
-                trs.eq(j).find("td").eq(i).css("background-color","#e0ecff")
-            }
-        }
-
-    }
+    // function changeBgColor(){
+    //     var rows = $("#example tr").length;
+    //     var cells = $("#example td").length/rows;
+    //     var trs=$("#example tbody tr:not(:first-child)");
+    //     console.log("列数=========="+cells+"行数="+rows);
+    //     for (var i =1;i<cells;i++){
+    //         for (var j =0;j<rows-1;j++){
+    //             trs.eq(j).find("td").eq(i).css("background-color","#e0ecff")
+    //         }
+    //     }
+    //
+    // }
 
 
 
 
     $(".value-select li a").off().on("click",function(){
+
     });
 
 
@@ -384,9 +402,17 @@ $(function(){
 
     }
 
+    $(".typeArea").off().on('click',function () {
+        showInput();
+    });
 
-
-    
+    function showInput() {
+        if($(".typeResult option:selected").text()=="函数"){
+            $(".inputBox").css("display","block");
+        }else{
+            $(".inputBox").css("display","none");
+        }
+    }
     function getResult() {
         var result = [];
         var outComes = [];
@@ -396,6 +422,11 @@ $(function(){
         var resultParam=$(".resultVal").val(),
             resultParamType=$(".resultVal").attr("data-type");
         var operate=$(".operatorResult option:selected").text();
+        $(".value-select li a").off().on("click",function(){
+            var dataType=$(this).attr("data-type");
+            console.log(dataType);
+
+        });
         console.log("列数=========="+cells+"行数="+rows);
         for (var i =1;i<cells;i++){
             for (var j =0;j<rows-1;j++){

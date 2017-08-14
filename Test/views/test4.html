@@ -94,6 +94,7 @@
         .value-select{
             left: 26px;
         }
+        .handsontable .selected-td{background-color: rgb(224, 236, 255)}
     </style>
 </head>
 <body>
@@ -244,12 +245,11 @@
                             <option value="2">函数</option>
                         </select>
                         <div style="position: absolute">
-                            <input type="text" class="form-control" style="left: 21px;width:70%;position: relative;margin-bottom:10px" value=""/>
-                            <div>
+                            <input type="text" class="form-control typeArea" style="left: 21px;width:70%;position: relative;margin-bottom:10px" value=""/>
+                            <div class="inputBox" style="display: none">
                                 <input type="text" class="from-control dropdown-toggle inputArea" data-toggle="dropdown" value="" style="margin-left:28px" />
                                 <input type="text" class="from-control dropdown-toggle inputArea" data-toggle="dropdown" value="" />
                                 <input type="text" class="from-control dropdown-toggle inputArea" data-toggle="dropdown" value="" />
-                                <button type="button" class="btn btn-success">确定</button>
                                 <ul class="dropdown-menu value-select" role="menu">
                                     <li>
                                         <a href="javascript:void(0)" tabindex="-1" data-type="3" class="var">变量</a>
@@ -276,6 +276,7 @@
                                     </li>-->
                                 </ul>
                             </div>
+                            <button type="button" class="btn btn-success">确定</button>
                         </div>
                     </div>
                 </div>
