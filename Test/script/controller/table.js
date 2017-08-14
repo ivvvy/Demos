@@ -12,6 +12,14 @@ $(function () {
         colWidths:150,
         rowWidths:150,
         contextMenu:true,
+        /*columns:[
+            {type:'dropdown',
+                source:["v","vvv"]
+            },
+
+
+
+]*/
 
     });
     $("#addConditionCol").off().on("click",function () {
@@ -32,7 +40,7 @@ $(function () {
         colHeaders:false,
         colWidths:150,
         rowWidths:150,
-        contextMenu:true,
+        contextMenu:true
 
     })
 
@@ -43,6 +51,34 @@ $(function () {
     $("#addRow").off().on("click",function () {
         hot1.alter('insert_row');
         hot2.alter('insert_row');
+    });
+
+    $("#example1 tbody tr:first-child").off().on('dblclick',"td",function(){
+       // $(this).attr("data-toggle","dropdown");
+        $(".dropdown-menu").addClass("show");
+       /* var tds=$("#example1 tbody tr:first-child td");
+        for(var i=0;i<tds.length;i++){
+            var data=hot1.getCell(0,i);
+            console.log(data);
+        }*/
+
+    });
+
+    $(".dropdown-menu li a").off().on("click",function(){
+        var i=$(this).index();
+        var text=$(this).eq(i).text();
+        /*var tds=$("#example1 tbody tr:first-child td");
+        for(var i=0;i<tds.length;i++){
+            var data=hot1.getCell(0,i);
+            var a=data[0];
+            console.log(a);
+
+        }*/
+        $("#example1 tbody tr:first-child td").eq(i).text(text);
+        console.log($("#example1 tbody tr:first-child td").eq(i).text(text));
+        var dataType=$(this).attr("data-type");
+        $(".dropdown-menu").removeClass("show");
+
     });
 })
 

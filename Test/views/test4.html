@@ -62,7 +62,7 @@
         }
 
         .select {
-            width: 38%;
+            width: 40%;
             height: 35px;
             position: relative;
             top: -12px;
@@ -80,6 +80,19 @@
             -webkit-appearance: none;
             outline: none;
             box-sizing: border-box;
+        }
+        .result-value{
+            left: 142px;
+            position: absolute;
+        }
+        .inputArea{
+            margin: 0 0 10px 0;
+            width: 20%;
+            height: 34px;
+            line-height: 34px;
+        }
+        .value-select{
+            left: 26px;
         }
     </style>
 </head>
@@ -179,9 +192,9 @@
 
             <div class="col-lg-6" data-index="2">
                 <div class="input-group">
-                    <input type="text" class="form-control" value="" style="width: 72%"/>
-
-                    <div class="input-group-btn" style="left: -143px">
+                    <input type="text" class="form-control" value="" style="width: 72%;position: relative"/>
+                    <input type="hidden" class="resultVal" />
+                    <div class="input-group-btn result-value">
                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
                                 style="margin:0 0 0 10px">
                             结果变量
@@ -217,7 +230,7 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="input-group" style="position: absolute;left: -20px;top:60px;width: 80%">
+                    <div class="input-group" style="position: absolute;left: -20px;top:60px;width:100%">
                         <select class="select operatorResult">
                             <option value=""></option>
                             <option value="=">=</option>
@@ -226,25 +239,49 @@
                         </select>
                         <select class="select typeResult">
                             <option value=""></option>
-                            <option value="var">变量</option>
-                            <option value="const">常量</option>
-                            <option value="fn">函数</option>
+                            <option value="3">变量</option>
+                            <option value="1">常量</option>
+                            <option value="2">函数</option>
                         </select>
-                        <div>
-                            <input type="text" class="form-control dropdown-toggle" style="left: 21px" value=""/>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="javascript:void(0)">变量1</a></li>
-                                <li><a href="javascript:void(0)">变量1</a></li>
-                                <li><a href="javascript:void(0)">变量1</a></li>
-                                <li><a href="javascript:void(0)">变量1</a></li>
-                            </ul>
+                        <div style="position: absolute">
+                            <input type="text" class="form-control" style="left: 21px;width:70%;position: relative;margin-bottom:10px" value=""/>
+                            <div>
+                                <input type="text" class="from-control dropdown-toggle inputArea" data-toggle="dropdown" value="" style="margin-left:28px" />
+                                <input type="text" class="from-control dropdown-toggle inputArea" data-toggle="dropdown" value="" />
+                                <input type="text" class="from-control dropdown-toggle inputArea" data-toggle="dropdown" value="" />
+                                <button type="button" class="btn btn-success">确定</button>
+                                <ul class="dropdown-menu value-select" role="menu">
+                                    <li>
+                                        <a href="javascript:void(0)" tabindex="-1" data-type="3" class="var">变量</a>
+                                        <a href="javascript:void(0)" tabindex="-1" data-type="2" class="fn">函数</a>
+                                        <a href="javascript:void(0)" tabindex="-1" data-type="1" class="const">常量</a>
+                                        <!--<ul class="dropdown-menu pull-right submenu">
+                                            <li><a href="javascript:void(0)">变量1</a></li>
+                                            <li><a href="javascript:void(0)">变量2</a></li>
+                                            <li><a href="javascript:void(0)">变量3</a></li>
+                                            <li><a href="javascript:void(0)">变量4</a></li>
+                                        </ul>-->
+                                    </li>
+                                    <!--<li class="dropdown-menu">
+                                        <a href="javascript:void(0)" tabindex="-1" data-type="2" class="title">函数</a>
+                                        &lt;!&ndash;<ul class="dropdown-menu pull-right submenu">
+                                            <li><a href="javascript:void(0)">函数1</a></li>
+                                            <li><a href="javascript:void(0)">函数2</a></li>
+                                            <li><a href="javascript:void(0)">函数3</a></li>
+                                            <li><a href="javascript:void(0)">函数4</a></li>
+                                        </ul>&ndash;&gt;
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0)" tabindex="-1" data-type="1" class="title">常量</a>
+                                    </li>-->
+                                </ul>
+                            </div>
                         </div>
-
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6" style="margin-top: 150px">
-                <button type="button" class="btn btn-primary compile">编译</button>
+            <div class="col-lg-6" style="margin-top: 200px">
+                <button type="button" class="btn btn-primary compile">查看源代码</button>
             </div>
         </div>
 
@@ -354,12 +391,5 @@
         </div>
     </div>
 </div>
-<!--<script>
-    $('.table').editable({
-        selector: 'td',
-        mode:'inline',
-        pk: 1
-    });
-</script>-->
 </body>
 </html>

@@ -39,6 +39,8 @@ $(function(){
     });
 
 
+
+
     // function add() {
     //     var rows='<tr>'+
     //         '<td class="editVal">'+
@@ -78,6 +80,9 @@ $(function(){
 
 
 
+
+
+
     //$("#delete").off().on("click",function(){
     //    $(this).parents(".options-btn").siblings(".options-body").children(".table").children().children().remove();
     //});
@@ -90,13 +95,15 @@ $(function(){
         console.log("rows:"+rows);
         console.log("cols:"+cols);
         showTable(rows,cols);
+        changeBgColor();
     });
     $("#colSave").off().on("click",function(){
         var rows = getTableArr(true);
         var cols = getTableArr(false);
         showTable(rows,cols);
+        changeBgColor();
     });
-        //hot1.alter('insert_row');
+
 
     function getJson() {
         var rowDataArr = getData(true);
@@ -279,13 +286,22 @@ $(function(){
                 //console.log(value);
                 if (!value && col) {
                     cellProperties.readOnly = false;
-                    td.style.backgroundColor = '#e0ecff';
                 }else if(!value && row===0){
                     td.style.backgroundColor = '#F2F2F2';
                 }
-            }
+            },
+
 
         })
+
+        //hot1.addHook('beforeChange', function (changeData, source) {
+        //    // changeData 是一个数组，第一个元素(数组)，记录所有修改信息
+        //    if (!changeData) return;
+        //    var change = changeData[0],
+        //        row = change[0];
+        //    //row.style.backgroundColor="#e0ecff";
+        //    console.log("改变"+change);
+        //})
     }
     
     function createLine(comparator,value) {
@@ -343,6 +359,33 @@ $(function(){
         return result;
     }
 
+
+    function changeBgColor(){
+        var rows = $("#example tr").length;
+        var cells = $("#example td").length/rows;
+        var trs=$("#example tbody tr:not(:first-child)");
+        console.log("列数=========="+cells+"行数="+rows);
+        for (var i =1;i<cells;i++){
+            for (var j =0;j<rows-1;j++){
+                trs.eq(j).find("td").eq(i).css("background-color","#e0ecff")
+            }
+        }
+
+    }
+
+
+
+
+    $(".value-select li a").off().on("click",function(){
+    });
+
+
+    function getType(className){
+
+    }
+
+
+
     
     function getResult() {
         var result = [];
@@ -350,13 +393,16 @@ $(function(){
         var rows = $("#example tr").length;
         var cells = $("#example td").length/rows;
         var trs=$("#example tbody tr:not(:first-child)");
+        var resultParam=$(".resultVal").val(),
+            resultParamType=$(".resultVal").attr("data-type");
+        var operate=$(".operatorResult option:selected").text();
         console.log("列数=========="+cells+"行数="+rows);
         for (var i =1;i<cells;i++){
             for (var j =0;j<rows-1;j++){
                 var type = (j%2==0?1:2);//1:常量  2：函数  3：变量
                 switch (type) {
                     case 1://常量
-                        outComes.push(createConstOutCome("=","const",trs.eq(j).find("td").eq(i).text()));
+                        outComes.push(createConstOutCome(operate,"const",trs.eq(j).find("td").eq(i).text()));
                         break;
                     case 2://函数
                         var fnValue = trs.eq(j).find("td").eq(i).text();
@@ -371,10 +417,10 @@ $(function(){
                             }
 
                         }
-                        outComes.push(createFnOutcome("=","fn",fnName,parameters));
+                        outComes.push(createFnOutcome(operate,"fn",fnName,parameters));
                         break;
                     case 3://变量
-                        outComes.push(createConstOutCome("=","变量",trs.eq(j).find("td").eq(i).text()));
+                        outComes.push(createConstOutCome(operate,"var",trs.eq(j).find("td").eq(i).text()));
                         break;
 
                 }
@@ -382,7 +428,7 @@ $(function(){
             }
 
         }
-        result.push(createResult("结果变量名","OUTPUT,TEMP",outComes));
+        result.push(createResult(resultParam,resultParamType,outComes));
         return result;
 
     }

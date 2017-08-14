@@ -12,9 +12,19 @@
     <script type="text/javascript" src="../script/libs/handsontable.full.min.js"></script>
     <script type="text/javascript" src="../script/controller/table.js"></script>
     <style>
+        ul, li {
+            list-style: none;
+        }
+
         #table{width: 100%;}
         .table1,.table2{
             display: inline-block;
+            position: relative;
+        }
+        .show{
+            display: block;
+            top:auto;
+
         }
     </style>
 </head>
@@ -30,16 +40,73 @@
                 <button type="button" class="btn btn-danger" id="deleteRow">删除行</button>
             </div>
         </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <select class="select operatorResult">
+                    <option value="">选择关系</option>
+                    <option value="=">>=</option>
+                    <option value="-="><=</option>
+                    <option value="+=">==</option>
+                    <option value="+=">!=</option>
+                </select>
+                <div>
+                    <input type="text" class="from-control dropdown-toggle inputArea" data-toggle="dropdown" value="" />
+                    <ul class="dropdown-menu value-select" role="menu">
+                        <li class="dropdown-submenu">
+                            <a href="javascript:void(0)" tabindex="-1" data-type="3" class="title">变量</a>
+                            <ul class="dropdown-menu pull-right submenu">
+                                <li><a href="javascript:void(0)">变量1</a></li>
+                                <li><a href="javascript:void(0)">变量2</a></li>
+                                <li><a href="javascript:void(0)">变量3</a></li>
+                                <li><a href="javascript:void(0)">变量4</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown-submenu">
+                            <a href="javascript:void(0)" tabindex="-1" data-type="2" class="title">函数</a>
+                            <ul class="dropdown-menu pull-right submenu">
+                                <li><a href="javascript:void(0)">函数1</a></li>
+                                <li><a href="javascript:void(0)">函数2</a></li>
+                                <li><a href="javascript:void(0)">函数3</a></li>
+                                <li><a href="javascript:void(0)">函数4</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" tabindex="-1" data-type="1" class="title">常量</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <select class="select typeResult">
+                    <option value=""></option>
+                    <option value="3">变量</option>
+                    <option value="1">常量</option>
+                    <option value="2">函数</option>
+                </select>
+            </div>
+        </div>
 
     </form>
 </div>
 <div class="table1">
     <div id="example1"></div>
-
-
 </div>
 <div class="table2">
     <div id="example2"></div>
 </div>
+<div>
+    <ul class="dropdown-menu">
+        <li><a href="javascript:void(0)" data-type="INPUT">输入变量0</a></li>
+        <li><a href="javascript:void(0)" data-type="INPUT">输入变量1</a></li>
+        <li><a href="javascript:void(0)" data-type="INPUT">输入变量2</a></li>
+        <li><a href="javascript:void(0)" data-type="OUTPUT">输出变量0</a></li>
+        <li><a href="javascript:void(0)" data-type="OUTPUT">输出变量1</a></li>
+        <li><a href="javascript:void(0)" data-type="OUTPUT">输出变量2</a></li>
+        <li><a href="javascript:void(0)" data-type="TEMP">中间变量0</a></li>
+        <li><a href="javascript:void(0)" data-type="TEMP">中间变量1</a></li>
+        <li><a href="javascript:void(0)" data-type="TEMP">中间变量2</a></li>
+
+    </ul>
+</div>
+
 </body>
 </html>
