@@ -107,20 +107,20 @@ $(function(){
         for (var i =0;i<rowDataArr.length;i++){
             var item = rowDataArr[i];
             if (item[1].indexOf(",")>=0){
-                var leftLine = createLine(item[1].split(",")[0],item[0]);
-                var rightLine = createLine(item[1].split(",")[1],item[2]);
+                var leftLine = createLine(item[1].split(",")[0],item[0],true);
+                var rightLine = createLine(item[1].split(",")[1],item[2],false);
                 rowConditions.push(createCondition(leftLine,rightLine))
             }else if (item[1].indexOf(">")>=0){
-                var rightLine=createLine("","");
-                var leftLine = createLine(item[1].split(",")[0],item[0]);
+                var rightLine=createEmptyLine(false);
+                var leftLine = createLine(item[1].split(",")[0],item[0],true);
                 rowConditions.push(createCondition(leftLine,rightLine));
             }else if (item[1].indexOf("<")>=0){
-                var leftLine=createLine("","");
-                var rightLine = createLine(item[1].split(",")[0],item[2]);
+                var leftLine=createEmptyLine(true);
+                var rightLine = createLine(item[1].split(",")[0],item[2],false);
                 rowConditions.push(createCondition(leftLine,rightLine));
             }else {//in not in ==
-                var leftLine=createLine("","");
-                var rightLine = createLine(item[1].split(",")[0],item[2]);
+                var leftLine=createEmptyLine(true);
+                var rightLine = createLine(item[1].split(",")[0],item[2],false);
                 rowConditions.push(createCondition(leftLine,rightLine));
             }
         }
@@ -141,22 +141,25 @@ $(function(){
             var tds=trs.eq(i).find("td");
             for (var j =0;j<tds.length;j++){
                 if (tds.eq(j).hasClass("editVal")){
-                    arrItem.push(tds.eq(j).text());
+                    var valueAdapter = [];
+                    valueAdapter.push(tds.eq(j).text());
+                    valueAdapter.push(tds.eq(j).attr("data-type"));
+                    arrItem.push(valueAdapter);
                 } else {
                     arrItem.push(tds.eq(j).find("select option:selected").text());
                 }
             }
             if (arrItem[1].indexOf(",")<0){
                 if (arrItem[1].indexOf(">")>=0){
-                    arrItem[0]==""?swapValue(arrItem):"";
+                    arrItem[0][0]==""?swapValue(arrItem):"";
                 } else if (arrItem[1].indexOf("<")>=0){
-                    arrItem[0]==""?"":swapValue(arrItem);
+                    arrItem[0][0]==""?"":swapValue(arrItem);
                 }
             }
             arrAll.push(arrItem);
         }
         arrAll.sort(function compare(a,b) {//按第一个数字从小到大排序
-            return a[0]-b[0];
+            return a[0][0]-b[0][0];
         });
         console.log("getData"+arrAll);
         return arrAll;
@@ -178,8 +181,8 @@ $(function(){
         for(var i=0;i<arrAll.length;i++){
             var arrItem = arrAll[i],
                 operator = arrItem[1],
-                firstItem = arrItem[0],
-                secondItem = arrItem[2];
+                firstItem = arrItem[0][0],
+                secondItem = arrItem[2][0];
 
             //校验前后是否为空
             // if (operator.indexOf(",")<0){
@@ -295,10 +298,10 @@ $(function(){
             }else if(selectType=="函数"){
                 var inputs=$(".inputArea");
                 var fnName=$(".typeArea").val();
-                var value=[],types=[];
+                var value=[];
                 for(var k=0;k<inputs.length;k++){
                     value.push(inputs.eq(k).val());
-                    types.push(inputs.eq(k).attr("data-type"));
+                    //types.push(inputs.eq(k).attr("data-type"));
                     console.log("pppppp"+value);
                 }
                 value=fnName+"("+value+")";
@@ -319,7 +322,32 @@ $(function(){
                         hot1.setCellMeta(i, j, 'className', hot1.getCellMeta(i, j).className + ' selected-td');
                         $(".btn-success").off().on("click",function(){
                             hot1.setDataAtCell(i-1, j-1, getFnValue());
+                            var operatorResult=$(".operatorResult option:selected").text();
+                            var typeResult=$(".typeResult option:selected").val();
+                            var conditionsName=$(".typeArea").val();
+                            if(typeResult=="fn"){
+                                var inputs=$(".inputArea"),values=[],types=[];
+                                for(var h=0;h<inputs.length;h++){
+                                    values.push(inputs.eq(h).val());
+                                    types.push(inputs.eq(h).attr("data-type"));
+                                }
+                                // var paramsValue=values,
+                                //     paramsType=types;
+                                console.log(values+"|||"+types);
+                                var id=conditionsName;
+                                for (var a = 0;a<values.length;a++){
+                                    id+=values[a];
+                                }
+                                console.log("ccccc"+typeof (id));
+                                var name=id.replace(',','');
+                                console.log("dddddd"+id);
+                                var inputHidden='<input type="hidden" id="'+name+'" data-operators="'+operatorResult+'" data-typeResult="'+typeResult+'" data-conditionsName="'+conditionsName+'" data-paramsValue="'+values+'" data-paramsType="'+types+'"  />';
 
+                            }else{
+                                var inputHidden='<input type="hidden" id="'+conditionsName+'" data-operators="'+operatorResult+'" data-typeResult="'+typeResult+'" data-conditionsName="'+conditionsName+'" />';
+
+                            }
+                            $(".typeBox").append(inputHidden);
                         });
                     }
                 }
@@ -328,14 +356,38 @@ $(function(){
             // 重新渲染网格
             hot1.render();
         })
-
-
     }
-    
-    function createLine(comparator,value) {
+
+    function createLeft(type,value) {
+        var left = {};
+        left.type = type;
+        left.value = value;
+        return left;
+    }
+    function createRight(type,value) {
+        var right = {};
+        right.type = type;
+        right.value = value;
+        return right;
+    }
+    function createLine(comparator,value,isLeft) {
         var line = {};
         line.comparator = comparator;
-        line.value = value;
+        if (isLeft){
+            line.left = createLeft(value[1],value[0]);
+        } else {
+            line.right = createRight(value[1],value[0]);
+        }
+        return line;
+    }
+    function createEmptyLine(isLeft) {
+        var line = {};
+        line.comparator = "";
+        if (isLeft){
+            line.left = "";
+        } else {
+            line.right = "";
+        }
         return line;
     }
     function createCondition(leftLine,rightLine) {
@@ -387,6 +439,14 @@ $(function(){
         return result;
     }
 
+    function getFnParamsType() {
+        var types=[];
+        for(var h=0;h<inputs.length;h++){
+            types.push(inputs.eq(h).attr("data-type"));
+            console.log("参数"+types[h]);
+        }
+    }
+
     function getResult() {
         var result = [];
         var outComes = [];
@@ -395,30 +455,28 @@ $(function(){
         var trs=$("#example tbody tr:not(:first-child)");
         var resultParam=$(".resultVal").val(),
             resultParamType=$(".resultVal").attr("data-type");
-        var operate=$(".operatorResult option:selected").text();
-        $(".value-select li a").off().on("click",function(){
-            var dataType=$(this).attr("data-type");
-            console.log(dataType);
-
-        });
+        //var operate=$(".operatorResult option:selected").text();
+        // $(".value-select li a").off().on("click",function(){
+        //     var dataType=$(this).attr("data-type");
+        //     console.log(dataType);
+        //
+        // });
         console.log("列数=========="+cells+"行数="+rows);
         for (var i =1;i<cells;i++){
             for (var j =0;j<rows-1;j++){
-                var inputs=$(".inputArea");
-                var types=[];
-                for(var h=0;h<inputs.length;h++){
-                    types.push(inputs.eq(h).attr("data-type"));
-                    console.log("参数"+types[h]);
-                }
-                var type = j%2==0?1:2;//1:常量  2：函数  3：变量
+                //var inputs=$(".inputArea");
+                var tdValue = trs.eq(j).find("td").eq(i).text();
+                var tdValueReplace = tdValue.replaceAll("(","").replaceAll(")","").replaceAll(",","");
+                console.log("=========12345:"+tdValueReplace)
+                var operator=$("#" + tdValueReplace + "").attr("data-operators");
+                var type = $("#" + tdValueReplace + "").attr("data-typeResult");//1:常量  2：函数  3：变量
                 switch (type) {
                     case 1://常量
-                        outComes.push(createConstOutCome(operate,"const",trs.eq(j).find("td").eq(i).text()));
+                        outComes.push(createConstOutCome(operator,"const",tdValue));
                         break;
                     case 2://函数
-                        var fnValue = trs.eq(j).find("td").eq(i).text();
-                        var params = fnValue.split("(")[1].split(")")[0].split(",");
-                        var fnName = fnValue.split("(")[0];
+                        var params = $("#" + tdValueReplace + "").attr("data-paramsValue");
+                        var fnName = $("#" + tdValueReplace + "").attr("data-conditionsName");
                         var parameters = [];
                         for(var k =0;k<params.length;k++) {
                             if (!isNaN(params[k])) {
@@ -433,10 +491,10 @@ $(function(){
                             }
 
                         }
-                        outComes.push(createFnOutcome(operate,"fn",fnName,parameters));
+                        outComes.push(createFnOutcome(operator,"fn",fnName,parameters));
                         break;
                     case 3://变量
-                        outComes.push(createConstOutCome(operate,"var",trs.eq(j).find("td").eq(i).text()));
+                        outComes.push(createConstOutCome(operator,"var",tdValue));
                         break;
 
                 }

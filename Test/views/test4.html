@@ -243,16 +243,16 @@
                         </select>
                         <select class="select typeResult">
                             <option value=""></option>
-                            <option value="3">变量</option>
-                            <option value="1">常量</option>
-                            <option value="2">函数</option>
+                            <option value="var">变量</option>
+                            <option value="const">常量</option>
+                            <option value="fn">函数</option>
                         </select>
-                        <div style="position: absolute">
+                        <div style="position: absolute" class="typeBox">
                             <input type="text" class="form-control typeArea" style="left: 21px;width:70%;position: relative;margin-bottom:10px" value=""/>
                             <div class="inputBox" style="display: none">
-                                <input type="text" class="from-control dropdown-toggle inputArea" value="" data-type="3" style="margin-left:28px" />
-                                <input type="text" class="from-control dropdown-toggle inputArea" value="" data-type="1" />
-                                <input type="text" class="from-control dropdown-toggle inputArea" value="" data-type="1" />
+                                <input type="text" class="from-control dropdown-toggle inputArea" value="" data-type="var" style="margin-left:28px" />
+                                <input type="text" class="from-control dropdown-toggle inputArea" value="" data-type="const" />
+                                <input type="text" class="from-control dropdown-toggle inputArea" value="" data-type="const" />
                                 <ul class="dropdown-menu value-select" role="menu">
                                     <li>
                                         <a href="javascript:void(0)" tabindex="-1" data-type="3" class="var">变量</a>
@@ -316,7 +316,7 @@
                             </thead>
                             <tbody>
                             <tr>
-                                <td class="editVal"></td>
+                                <td class="editVal" data-type="var"></td>
                                 <td>
                                     <select>
                                         <option value=""></option>
@@ -329,7 +329,7 @@
                                         <option value=">=">>=</option>
                                     </select>
                                 </td>
-                                <td class="editVal"></td>
+                                <td class="editVal" data-type="var"></td>
                             </tr>
                             </tbody>
                         </table>
@@ -368,7 +368,7 @@
                             </thead>
                             <tbody>
                             <tr>
-                                <td class="editVal"></td>
+                                <td class="editVal" data-type="var"></td>
                                 <td>
                                     <select>
                                         <option value=""></option>
@@ -379,7 +379,7 @@
                                         <option value="==">==</option>
                                     </select>
                                 </td>
-                                <td class="editVal"></td>
+                                <td class="editVal" data-type="var"></td>
                             </tr>
                             </tbody>
                         </table>
