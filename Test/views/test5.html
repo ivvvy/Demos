@@ -18,14 +18,44 @@
 
         #table{width: 100%;}
         .table1,.table2{
-            display: inline-block;
+           /* display: inline-block;*/
             position: relative;
+            margin-top: 200px;
         }
         .show{
             display: block;
             top:auto;
 
         }
+
+        .dropdown-submenu > .dropdown-menu {
+            top: 0;
+            left: 100%;
+            margin-top: -6px;
+            margin-left: -1px;
+            -webkit-border-radius: 0 6px 6px 6px;
+            -moz-border-radius: 0 6px 6px;
+            border-radius: 0 6px 6px 6px;
+        }
+
+        .dropdown-submenu:hover > .dropdown-menu {
+            display: block;
+        }
+
+        .dropdown-submenu > a:after {
+            display: block;
+            content: " ";
+            float: right;
+            width: 0;
+            height: 0;
+            border-color: transparent;
+            border-style: solid;
+            border-width: 5px 0 5px 5px;
+            border-left-color: #ccc;
+            margin-top: 5px;
+            margin-right: -10px;
+        }
+
     </style>
 </head>
 <body>
@@ -42,46 +72,84 @@
         </div>
         <div class="row">
             <div class="col-lg-6">
-                <select class="select operatorResult">
-                    <option value="">选择关系</option>
-                    <option value="=">>=</option>
-                    <option value="-="><=</option>
-                    <option value="+=">==</option>
-                    <option value="+=">!=</option>
-                </select>
                 <div>
-                    <input type="text" class="from-control dropdown-toggle inputArea" data-toggle="dropdown" value="" />
-                    <ul class="dropdown-menu value-select" role="menu">
-                        <li class="dropdown-submenu">
-                            <a href="javascript:void(0)" tabindex="-1" data-type="3" class="title">变量</a>
-                            <ul class="dropdown-menu pull-right submenu">
-                                <li><a href="javascript:void(0)">变量1</a></li>
-                                <li><a href="javascript:void(0)">变量2</a></li>
-                                <li><a href="javascript:void(0)">变量3</a></li>
-                                <li><a href="javascript:void(0)">变量4</a></li>
-                            </ul>
-                        </li>
-                        <li class="dropdown-submenu">
-                            <a href="javascript:void(0)" tabindex="-1" data-type="2" class="title">函数</a>
-                            <ul class="dropdown-menu pull-right submenu">
-                                <li><a href="javascript:void(0)">函数1</a></li>
-                                <li><a href="javascript:void(0)">函数2</a></li>
-                                <li><a href="javascript:void(0)">函数3</a></li>
-                                <li><a href="javascript:void(0)">函数4</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)" tabindex="-1" data-type="1" class="title">常量</a>
-                        </li>
+                    <select class="select operatorResult">
+                        <option value="">选择关系</option>
+                        <option value="=">>=</option>
+                        <option value="-="><=</option>
+                        <option value="+=">==</option>
+                        <option value="+=">!=</option>
+                    </select>
+                    <select class="select typeResult" style="margin-top: 10px;margin-bottom: 10px">
+                        <option value=""></option>
+                        <option value="3">变量</option>
+                        <option value="1">常量</option>
+                        <option value="2">函数</option>
+                    </select>
+                    <input type="text" class="from-control dropdown-toggle inputArea" value="" />
+                    <ul class="dropdown-menu value-select varSelect">
+                        <li><a href="javascript:void(0)">变量1</a></li>
+                        <li><a href="javascript:void(0)">app</a></li>
+                        <li><a href="javascript:void(0)">变量2</a></li>
+                        <li><a href="javascript:void(0)">变量3</a></li>
+                        <li><a href="javascript:void(0)">变量4</a></li>
+
+
+                        <!-- <li class="dropdown-submenu">
+                             <a href="javascript:void(0)" tabindex="-1" data-type="2" class="title">函数</a>
+                             <ul class="dropdown-menu pull-right submenu">
+                                 <li><a href="javascript:void(0)">函数1</a></li>
+                                 <li><a href="javascript:void(0)">函数2</a></li>
+                                 <li><a href="javascript:void(0)">函数3</a></li>
+                                 <li><a href="javascript:void(0)">函数4</a></li>
+                             </ul>
+                         </li>
+                         <li>
+                             <a href="javascript:void(0)" tabindex="-1" data-type="1" class="title">常量</a>
+                         </li>-->
+                    </ul>
+                    <ul class="dropdown-menu value-select fnSelect">
+                        <li><a href="javascript:void(0)">krage</a></li>
+                        <li><a href="javascript:void(0)">函数1</a></li>
+                        <li><a href="javascript:void(0)">函数2</a></li>
+                        <li><a href="javascript:void(0)">函数3</a></li>
+                        <li><a href="javascript:void(0)">函数4</a></li>
                     </ul>
                 </div>
 
-                <select class="select typeResult">
-                    <option value=""></option>
-                    <option value="3">变量</option>
-                    <option value="1">常量</option>
-                    <option value="2">函数</option>
-                </select>
+                <div style="position: absolute">
+                    <!--<input type="text" class="form-control typeArea" style="width:30%;position: relative;margin-bottom:10px" value=""/>-->
+                    <div class="inputBox" style="display: none">
+                        <input type="text" class="from-control dropdown-toggle typeArea"  data-type="3" value="" />
+                        <input type="text" class="from-control dropdown-toggle typeArea"  data-type="1" value="" />
+                        <input type="text" class="from-control dropdown-toggle typeArea"  data-type="3" value="" />
+                        <!--<ul class="dropdown-menu params-select" role="menu">
+                            <li class="dropdown-submenu">
+                                <a href="javascript:void(0)" tabindex="-1" data-type="3" class="title">变量</a>
+                                <ul class="dropdown-menu pull-right submenu">
+                                    <li><a href="javascript:void(0)">变量1</a></li>
+                                    <li><a href="javascript:void(0)">变量2</a></li>
+                                    <li><a href="javascript:void(0)">变量3</a></li>
+                                    <li><a href="javascript:void(0)">变量4</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown-submenu">
+                                <a href="javascript:void(0)" tabindex="-1" data-type="2" class="title">函数</a>
+                                <ul class="dropdown-menu pull-right submenu">
+                                    <li><a href="javascript:void(0)">函数1</a></li>
+                                    <li><a href="javascript:void(0)">函数2</a></li>
+                                    <li><a href="javascript:void(0)">函数3</a></li>
+                                    <li><a href="javascript:void(0)">函数4</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)" tabindex="-1" data-type="1" class="title">常量</a>
+                            </li>
+                        </ul>-->
+                    </div>
+                    <button type="button" class="btn btn-success" style="position: absolute;top:80px">确定</button>
+                    <button type="button" class="btn btn-primary compile" style="position: absolute;top:80px;left:80px">查看源代码</button>
+                </div>
             </div>
         </div>
 
@@ -94,17 +162,34 @@
     <div id="example2"></div>
 </div>
 <div>
-    <ul class="dropdown-menu">
-        <li><a href="javascript:void(0)" data-type="INPUT">输入变量0</a></li>
-        <li><a href="javascript:void(0)" data-type="INPUT">输入变量1</a></li>
-        <li><a href="javascript:void(0)" data-type="INPUT">输入变量2</a></li>
-        <li><a href="javascript:void(0)" data-type="OUTPUT">输出变量0</a></li>
-        <li><a href="javascript:void(0)" data-type="OUTPUT">输出变量1</a></li>
-        <li><a href="javascript:void(0)" data-type="OUTPUT">输出变量2</a></li>
-        <li><a href="javascript:void(0)" data-type="TEMP">中间变量0</a></li>
-        <li><a href="javascript:void(0)" data-type="TEMP">中间变量1</a></li>
-        <li><a href="javascript:void(0)" data-type="TEMP">中间变量2</a></li>
-
+    <ul class="dropdown-menu tableMenu">
+        <li class="dropdown-submenu">
+            <a href="javascript:void(0)" tabindex="-1" data-type="INPUT">输入变量</a>
+            <ul class="dropdown-menu pull-right tableSubmenu">
+                <li><a href="javascript:void(0)">输入变量1</a></li>
+                <li><a href="javascript:void(0)">输入变量2</a></li>
+                <li><a href="javascript:void(0)">输入变量3</a></li>
+                <li><a href="javascript:void(0)">输入变量4</a></li>
+            </ul>
+        </li>
+        <li class="dropdown-submenu">
+            <a href="javascript:void(0)" tabindex="-1" data-type="OUTPUT">输出变量</a>
+            <ul class="dropdown-menu pull-right tableSubmenu">
+                <li><a href="javascript:void(0)">输出变量1</a></li>
+                <li><a href="javascript:void(0)">输出变量2</a></li>
+                <li><a href="javascript:void(0)">输出变量3</a></li>
+                <li><a href="javascript:void(0)">输出变量4</a></li>
+            </ul>
+        </li>
+        <li class="dropdown-submenu">
+            <a href="javascript:void(0)" tabindex="-1" data-type="TEMP">中间变量</a>
+            <ul class="dropdown-menu pull-right tableSubmenu">
+                <li><a href="javascript:void(0)">中间变量1</a></li>
+                <li><a href="javascript:void(0)">中间变量2</a></li>
+                <li><a href="javascript:void(0)">中间变量3</a></li>
+                <li><a href="javascript:void(0)">中间变量4</a></li>
+            </ul>
+        </li>
     </ul>
 </div>
 

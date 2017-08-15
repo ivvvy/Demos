@@ -15,7 +15,7 @@ $(function(){
     $(".add").off().on("click",function(){
         var isRow = $(this).hasClass("rowAdd");
         var rows='<tr>'+
-                '<td class="editVal">'+
+                '<td class="editVal" data-type="1">'+
                 '</td>'+
                 '<td>'+
                 '<select>'+
@@ -27,7 +27,7 @@ $(function(){
                 '<option value="">>=</option>'+
                 '</select>'+
                 '</td>'+
-                '<td class="editVal">'+
+                '<td class="editVal" data-type="1">'+
                 '</td>'+
                 '</tr>';
         if (isRow){
@@ -39,27 +39,6 @@ $(function(){
     });
 
 
-
-
-    // function add() {
-    //     var rows='<tr>'+
-    //         '<td class="editVal">'+
-    //         '</td>'+
-    //         '<td>'+
-    //         '<select>'+
-    //         '<option value=""></option>'+
-    //         '<option value=""><</option>'+
-    //         '<option value="">>,<</option>'+
-    //         '<option value="">>=,<=</option>'+
-    //         '<option value=""><=</option>'+
-    //         '<option value="">>=</option>'+
-    //         '</select>'+
-    //         '</td>'+
-    //         '<td class="editVal">'+
-    //         '</td>'+
-    //         '</tr>';
-    //     $(".table>tbody").append(rows);
-    // }
 
     $(".table").on("click",".editVal",function(e){
         var that=this;
@@ -75,12 +54,6 @@ $(function(){
 
         })
     });
-
-
-
-
-
-
 
 
     //$("#delete").off().on("click",function(){
@@ -110,7 +83,7 @@ $(function(){
         var colDataArr = getData(false);
         //----------------------------------------------
         var result = {
-            tableName:"决策表名",
+            tableName:"决策矩阵名",
             cols:[],
             rows:[],
             results:[]
@@ -277,7 +250,7 @@ $(function(){
             colWidths:150,
             rowWidths:150,
             contextMenu:true,
-            readOnly:true,
+
 
 
             renderer: function (instance, td, row, col, prop, value, cellProperties) {
@@ -287,33 +260,71 @@ $(function(){
                 //console.log(value);
                 if (!value && col) {
                     cellProperties.readOnly = false;
-                }else if(!value && row===0){
+                }else if(!value && col===0){
                     td.style.backgroundColor = '#F2F2F2';
+                }else if(value && row===0){
+                    td.style.backgroundColor = '#ffffff';
                 }
             },
 
+            cells: function (row, col, prop) {
+                var cellProperties = {};
+
+                if (row === 0) {
+                    cellProperties.readOnly = true;
+
+                }else if(col===0){
+                    cellProperties.readOnly = true;
+                }
+
+                return cellProperties;
+            }
 
 
-        })
 
-        //hot1.addHook('beforeChange', function (changeData, source) {
-        //    // changeData 是一个数组，第一个元素(数组)，记录所有修改信息
-        //    if (!changeData) return;
-        //    var change = changeData[0],
-        //        row = change[0];
-        //    //row.style.backgroundColor="#e0ecff";
-        //    console.log("改变"+change);
-        //})
 
+        });
+
+
+        function getFnValue(){
+           var selectType=$(".typeResult option:selected").text();
+            if(selectType=="变量"){
+                value=$(".typeArea").val();
+            }else if(selectType=="常量"){
+                value=$(".typeArea").val();
+            }else if(selectType=="函数"){
+                var inputs=$(".inputArea");
+                var fnName=$(".typeArea").val();
+                var value=[],types=[];
+                for(var k=0;k<inputs.length;k++){
+                    value.push(inputs.eq(k).val());
+                    types.push(inputs.eq(k).attr("data-type"));
+                    console.log("pppppp"+value);
+                }
+                value=fnName+"("+value+")";
+            }
+
+            return value;
+        }
 
         hot1.addHook('afterSelectionEnd', function(r, c, r2, c2){
-            // 清除所有扩展的样式
             // 给选择范围的单元格添加样式
             for(var i = r; i <= r2; i++){
                 for(var j = c; j <= c2; j++){
+                    console.log("|||"+r+"|||"+c+"|||"+r2+"|||"+c2);
                     hot1.setCellMeta(i, j, 'className', hot1.getCellMeta(i, j).className + ' selected-td');
+                    if(c===0){
+                        hot1.setCellMeta(i, j, 'className', hot1.getCellMeta(i, j).className + ' selected');
+                    }else if(c===c2){
+                        hot1.setCellMeta(i, j, 'className', hot1.getCellMeta(i, j).className + ' selected-td');
+                        $(".btn-success").off().on("click",function(){
+                            hot1.setDataAtCell(i-1, j-1, getFnValue());
+
+                        });
+                    }
                 }
             }
+
             // 重新渲染网格
             hot1.render();
         })
@@ -376,43 +387,6 @@ $(function(){
         return result;
     }
 
-
-    // function changeBgColor(){
-    //     var rows = $("#example tr").length;
-    //     var cells = $("#example td").length/rows;
-    //     var trs=$("#example tbody tr:not(:first-child)");
-    //     console.log("列数=========="+cells+"行数="+rows);
-    //     for (var i =1;i<cells;i++){
-    //         for (var j =0;j<rows-1;j++){
-    //             trs.eq(j).find("td").eq(i).css("background-color","#e0ecff")
-    //         }
-    //     }
-    //
-    // }
-
-
-
-
-    $(".value-select li a").off().on("click",function(){
-
-    });
-
-
-    function getType(className){
-
-    }
-
-    $(".typeArea").off().on('click',function () {
-        showInput();
-    });
-
-    function showInput() {
-        if($(".typeResult option:selected").text()=="函数"){
-            $(".inputBox").css("display","block");
-        }else{
-            $(".inputBox").css("display","none");
-        }
-    }
     function getResult() {
         var result = [];
         var outComes = [];
@@ -430,7 +404,13 @@ $(function(){
         console.log("列数=========="+cells+"行数="+rows);
         for (var i =1;i<cells;i++){
             for (var j =0;j<rows-1;j++){
-                var type = (j%2==0?1:2);//1:常量  2：函数  3：变量
+                var inputs=$(".inputArea");
+                var types=[];
+                for(var h=0;h<inputs.length;h++){
+                    types.push(inputs.eq(h).attr("data-type"));
+                    console.log("参数"+types[h]);
+                }
+                var type = j%2==0?1:2;//1:常量  2：函数  3：变量
                 switch (type) {
                     case 1://常量
                         outComes.push(createConstOutCome(operate,"const",trs.eq(j).find("td").eq(i).text()));
@@ -442,7 +422,12 @@ $(function(){
                         var parameters = [];
                         for(var k =0;k<params.length;k++) {
                             if (!isNaN(params[k])) {
-                                parameters.push(createParameter("const", params[k]));
+                                if(params[k].match(/^[\u4e00-\u9fa5]+$/)){
+                                    parameters.push(createParameter("const", "\\"+params[k]+"\\"));
+                                }else{
+                                    parameters.push(createParameter("const", params[k]));
+                                }
+
                             }else {
                                 parameters.push(createParameterWithType("var",params[k],"INPUT"));
                             }
@@ -464,8 +449,20 @@ $(function(){
 
     }
 
-    
-    
+
+    $(".typeArea").off().on('click',function () {
+        showInput();
+    });
+
+    function showInput() {
+        if($(".typeResult option:selected").text()=="函数"){
+            $(".inputBox").css("display","block");
+        }else{
+            $(".inputBox").css("display","none");
+        }
+    }
+
+
     $(".compile").off().on('click',function () {
         getJson();
     })
