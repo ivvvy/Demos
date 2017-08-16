@@ -315,13 +315,10 @@ $(function(){
             for(var i = r; i <= r2; i++){
                 for(var j = c; j <= c2; j++){
                     console.log("|||"+r+"|||"+c+"|||"+r2+"|||"+c2);
-
-                    //hot3.setCellMeta(i, j, 'className', hot3.getCellMeta(i, j).className + ' selected-td');
                     if(c===0){
                         hot3.setCellMeta(i, j, 'className', hot3.getCellMeta(i, j).className + ' selected');
                     }else if(c===c2){
                         hot3.setCellMeta(i, j, 'className', hot3.getCellMeta(i, j).className + ' selected-td');
-                        hot3.setCellMeta(i, j, 'className', hot3.getCellMeta(i, j).className + ' only');
                         $(".btn-success").off().on("click",function(){
                             hot3.setDataAtCell(i-1, j-1, getFnValue());
 
@@ -352,12 +349,15 @@ $(function(){
                                 */
                                /* var inputHidden='<input type="hidden" id="'+name+'" data-operators="'+operatorResult+'" data-typeResult="'+typeResult+'" data-conditionsName="'+conditionsName+'" data-paramsValue="'+values+'" data-paramsType="'+types+'"  />';*/
 
+
                             }else{
                                 only="only_"+operatorResult+"_"+typeResult+"_"+conditionsName;
                                 console.log("dddddd:"+only);
                                 /*var inputHidden='<input type="hidden" id="'+conditionsName+'" data-operators="'+operatorResult+'" data-typeResult="'+typeResult+'" data-conditionsName="'+conditionsName+'" />';*/
 
                             }
+                            hot3.setCellMeta(i-1, j-1, 'className', hot3.getCellMeta(i-1,j-1).className+' '+only);
+                            hot3.render();
                            /* $(".typeBox").append(inputHidden);*/
                         });
                     }
@@ -478,8 +478,9 @@ $(function(){
             for (var j =0;j<rows-1;j++){
                 //var inputs=$(".inputArea");
                 var tdValue = trs.eq(j).find("td").eq(i).text();
-                var tdValueReplace = tdValue.replaceAll("(","").replaceAll(")","").replaceAll(",","");
-                console.log("=========12345:"+tdValueReplace)
+                var classNameValue = trs.eq(j).find("td").eq(i).attr('class');
+                var classNameValueArr = classNameValue.split("only_");
+                console.log("xixixixixixiix===="+classNameValueArr);
                 var operator=$("#" + tdValueReplace + "").attr("data-operators");
                 var type = $("#" + tdValueReplace + "").attr("data-typeResult");//1:常量  2：函数  3：变量
                 switch (type) {

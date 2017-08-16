@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../script/libs/jquery-2.2.0.min.js"></script>
+</head>
+<body>
+<div class="box">kkk</div>
+<script>
+    $(".box").on('click',function () {
+        var param="sum(a,krange(app,600,600),b,c)";
+        while (param.indexOf("(")>=0){
+            var firstKuoHao = param.indexOf("(");
+            var lastKuoHao = param.lastIndexOf(")");
+            console.log("firstIndex:"+firstKuoHao+"|lastIndex"+lastKuoHao)
+            var fnName = param.substring(0,firstKuoHao);
+            var fnParam = param.substring(firstKuoHao+1,lastKuoHao);
+            var paramValue ;
+            if (fnParam.indexOf("(")>=0){//里面还有函数
+
+            } else {//里面没有函数
+                paramValue = fnParam.split(",");
+                console.log("参数："+paramValue)
+            }
+            console.log("fnName:"+fnName+"|fnParam:"+fnParam);
+            param = fnParam;
+        }
+    })
+</script>
+</body>
+</html>
