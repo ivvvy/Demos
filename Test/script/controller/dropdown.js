@@ -15,7 +15,7 @@ $(function(){
     $(".add").off().on("click",function(){
         var isRow = $(this).hasClass("rowAdd");
         var rows='<tr>'+
-                '<td class="editVal" data-type="var">'+
+                '<td class="editVal" data-type="const">'+
                 '</td>'+
                 '<td>'+
                 '<select>'+
@@ -27,7 +27,7 @@ $(function(){
                 '<option value="">>=</option>'+
                 '</select>'+
                 '</td>'+
-                '<td class="editVal" data-type="var">'+
+                '<td class="editVal" data-type="const">'+
                 '</td>'+
                 '</tr>';
         if (isRow){
@@ -83,7 +83,7 @@ $(function(){
         var colDataArr = getData(false);
         //----------------------------------------------
         var result = {
-            tableName:"决策矩阵名",
+            tableName:"matrix_1",
             cols:[],
             rows:[],
             results:[]
@@ -253,6 +253,7 @@ $(function(){
             colWidths:150,
             rowWidths:150,
             contextMenu:true,
+            readOnly:true,
 
 
 
@@ -261,27 +262,27 @@ $(function(){
                 Handsontable.renderers.TextRenderer.apply(this, arguments);
                 // 判断条件
                 //console.log(value);
-                if (!value && col) {
+                /*if (!value && col) {
                     cellProperties.readOnly = false;
-                }else if(!value && col===0){
+                }else */if(!value && col===0){
                     td.style.backgroundColor = '#F2F2F2';
                 }else if(value && row===0){
                     td.style.backgroundColor = '#ffffff';
                 }
             },
 
-            cells: function (row, col, prop) {
-                var cellProperties = {};
-
-                if (row === 0) {
-                    cellProperties.readOnly = true;
-
-                }else if(col===0){
-                    cellProperties.readOnly = true;
-                }
-
-                return cellProperties;
-            }
+            //cells: function (row, col, prop) {
+            //    var cellProperties = {};
+            //
+            //    if (row === 0) {
+            //        cellProperties.readOnly = true;
+            //
+            //    }else if(col===0){
+            //        cellProperties.readOnly = true;
+            //    }
+            //
+            //    return cellProperties;
+            //}
 
 
 
@@ -301,8 +302,6 @@ $(function(){
                 var value=[];
                 for(var k=0;k<inputs.length;k++){
                     value.push(inputs.eq(k).val());
-                    //types.push(inputs.eq(k).attr("data-type"));
-                    console.log("pppppp"+value);
                 }
                 value=fnName+"("+value+")";
             }
@@ -321,7 +320,6 @@ $(function(){
                         hot3.setCellMeta(i, j, 'className', hot3.getCellMeta(i, j).className + ' selected-td');
                         $(".btn-success").off().on("click",function(){
                             hot3.setDataAtCell(i-1, j-1, getFnValue());
-
                             var operatorResult=$(".operatorResult option:selected").text();
                             var typeResult=$(".typeResult option:selected").val();
                             var conditionsName=$(".typeArea").val();
@@ -338,27 +336,16 @@ $(function(){
                                     id+=+values[a];
 
                                 }*/
-                                id=(conditionsName+"-"+values).toString().replace(/,/g,"-");
-                                type=types.toString().replace(/,/g,"_");
+                                id=(conditionsName+"_"+values).toString().replace(/,/g,"-");
+                                type=types.toString().replace(/,/g,"-");
 
-                                only="only_"+operatorResult+"_"+typeResult+"_"+id+"-"+type;
-                                //hot3.setCellMeta(i, j, 'className', hot3.getCellMeta(i, j).className + ' only_');
-                                console.log("dddddd:"+only);
-                                //hot3.setCellMeta(i, j, 'className', hot3.getCellMeta(i, j).className + ' name');
-                                /*console.log("ccccc"+typeof (id));
-                                */
-                               /* var inputHidden='<input type="hidden" id="'+name+'" data-operators="'+operatorResult+'" data-typeResult="'+typeResult+'" data-conditionsName="'+conditionsName+'" data-paramsValue="'+values+'" data-paramsType="'+types+'"  />';*/
-
-
+                                only="only_"+operatorResult+"_"+typeResult+"_"+id+"_"+type;
                             }else{
                                 only="only_"+operatorResult+"_"+typeResult+"_"+conditionsName;
-                                console.log("dddddd:"+only);
-                                /*var inputHidden='<input type="hidden" id="'+conditionsName+'" data-operators="'+operatorResult+'" data-typeResult="'+typeResult+'" data-conditionsName="'+conditionsName+'" />';*/
-
                             }
                             hot3.setCellMeta(i-1, j-1, 'className', hot3.getCellMeta(i-1,j-1).className+' '+only);
                             hot3.render();
-                           /* $(".typeBox").append(inputHidden);*/
+                            //hot3.removeCellMeta(i-1, j-1, 'className', hot3.getCellMeta(i-1,j-1).className+' '+only);
                         });
                     }
                 }
@@ -480,16 +467,25 @@ $(function(){
                 var tdValue = trs.eq(j).find("td").eq(i).text();
                 var classNameValue = trs.eq(j).find("td").eq(i).attr('class');
                 var classNameValueArr = classNameValue.split("only_");
-                console.log("xixixixixixiix===="+classNameValueArr);
-                var operator=$("#" + tdValueReplace + "").attr("data-operators");
-                var type = $("#" + tdValueReplace + "").attr("data-typeResult");//1:常量  2：函数  3：变量
+                var DataArr=classNameValueArr.toString().split(",")[1];
+                var allData=DataArr.toString().split("_");
+                console.log("===="+allData);
+                var operator=allData[0],type=allData[1],fnName=allData[2];
+                //1:常量  2：函数  3：变量
+                console.log("操作符："+operator+"类型："+type+"函数名："+fnName);
                 switch (type) {
-                    case 1://常量
+                    case "const"://常量
                         outComes.push(createConstOutCome(operator,"const",tdValue));
                         break;
-                    case 2://函数
-                        var params = $("#" + tdValueReplace + "").attr("data-paramsValue");
-                        var fnName = $("#" + tdValueReplace + "").attr("data-conditionsName");
+                    case "fn"://函数
+                        var fnData=allData[3],fnTypes=allData[4];
+                        console.log("函数参数："+fnData+"函数参数类型："+fnTypes);
+                        var params=fnData.split("-");
+                        //var fnTypesArr=fnTypes.split("-");
+                        //for(var a=0;a<fnTypesArr.length;a++){
+                        //    var types=fnTypesArr[a];
+                        //    console.log("我是参数类型："+types)
+                        //}
                         var parameters = [];
                         for(var k =0;k<params.length;k++) {
                             if (!isNaN(params[k])) {
@@ -506,7 +502,7 @@ $(function(){
                         }
                         outComes.push(createFnOutcome(operator,"fn",fnName,parameters));
                         break;
-                    case 3://变量
+                    case "var"://变量
                         //8.16
                         outComes.push(createVariableOutCome(operator,"var",tdValue));
                         break;

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script type="text/javascript" src="../script/libs/jquery-2.2.0.min.js"></script>
+</head>
+<body>
+<div class="box">kkk</div>
+<script>
+    $(".box").on('click',function () {
+        var classNameValue="only_+=_fn_krange_app-100-200_var-const-const";
+        var classNameValueArr = classNameValue.split("only_")[1];
+        var allData=classNameValueArr.toString().split("_");
+        var operator=allData[0],type=allData[1],fnName=allData[2],fnData=allData[3],fnTypes=allData[4];
+        console.log("操作符："+operator+"类型："+type+"函数名："+fnName+"函数参数："+fnData+"函数参数类型："+fnTypes);
+        var fnDataArr=fnData.split("-");
+        var fnTypesArr=fnTypes.split("-");
+        for(var k=0;k<fnDataArr.length;k++){
+            var params=fnDataArr[k];
+            console.log("我是参数："+params)
+        }
+        for(var a=0;a<fnTypesArr.length;a++){
+            var types=fnTypesArr[a];
+            console.log("我是参数类型："+types)
+        }
+    })
+</script>
+</body>
+</html>

@@ -12,20 +12,13 @@ $(function () {
         colWidths:150,
         rowWidths:150,
         contextMenu:true,
-        handsontable: {
-            getValue: function () {
-                var selection = this.getSelected();
-
-                // Get always manufacture name of clicked row
-                return this.getSourceDataAtRow(selection[0]).name;
-            },
-        }
+        readOnly:true,
 
     });
 
 
     $("#addConditionCol").off().on("click",function () {
-        hot1.alter('insert_col');
+        hot1.alter('insert_col','','','abc');
     });
 
 
@@ -42,7 +35,8 @@ $(function () {
         colHeaders:false,
         colWidths:150,
         rowWidths:150,
-        contextMenu:true
+        contextMenu:true,
+        readOnly:true,
 
     });
 
@@ -121,18 +115,39 @@ $(function () {
                     $(".tableSubmenu li a").off().on("click",function(){
                         var index=$(this).index();
                         console.log(i);
+                        var only="";
                         var text=$(this).eq(index).text();
                         var dataType=$(this).parents(".tableSubmenu").siblings("a").attr("data-type");
-                        hot1.setDataAtCell(i-1, j-1, text);
                         $(".tableMenu").removeClass("show");
-
+                        only="only_"+dataType;
+                        hot1.setDataAtCell(i-1, j-1, text);
+                        hot1.setCellMeta(i-1, j-1, 'className', hot1.getCellMeta(i-1,j-1).className+' '+only);
+                        hot1.render();
                     });
                 }else if(r===r2){
 
                     $(".btn-success").off().on("click",function(){
                         hot1.setDataAtCell(i-1, j-1, getFnValue());
-                        //hot1.setCellMeta(i, j, 'className', hot1.getCellMeta(i, j).className + ' selected-td');
-                        ///console.log(hot1.getSourceDataAtCol(c));
+                        var operatorResult=$(".operatorResult option:selected").text();
+                        var typeResult=$(".typeResult option:selected").val();
+                        var conditionsName=$(".inputArea").val();
+                        var only="";
+                        if(typeResult=="fn"){
+                            var inputs=$(".typeArea"),values=[],types=[],id="",type="";
+                            for(var h=0;h<inputs.length;h++){
+                                values.push(inputs.eq(h).val());
+                                types.push(inputs.eq(h).attr("data-type"));
+                            }
+                            console.log(values+"|||"+types);
+                            id=(conditionsName+"_"+values).toString().replace(/,/g,"-");
+                            type=types.toString().replace(/,/g,"-");
+
+                            only="only_"+operatorResult+"_"+typeResult+"_"+id+"_"+type;
+                        }else{
+                            only="only_"+operatorResult+"_"+typeResult+"_"+conditionsName;
+                        }
+                        hot1.setCellMeta(i-1, j-1, 'className', hot1.getCellMeta(i-1,j-1).className+' '+only);
+                        hot1.render();
 
                     });
                 }
@@ -149,7 +164,6 @@ $(function () {
         for(var i = r; i <= r2; i++){
             for(var j = c; j <= c2; j++){
                 console.log("|||"+r+"|||"+c+"|||"+r2+"|||"+c2);
-                //hot1.setCellMeta(i, j, 'className', hot1.getCellMeta(i, j).className + ' selected-td');
                 if(r===0){
                     $(".tableSubmenu li a").off().on("click",function(){
                         var index=$(this).index();
@@ -214,16 +228,16 @@ $(function () {
     });
 
 
-        $(".params-select a").off().on("click",function(){
-            var hasSubmenu=$(this).parents().hasClass("dropdown-submenu");
-            if(hasSubmenu){
-                var dataType=$(this).parents(".dropdown-menu").siblings("a").attr("data-type");
-                console.log("类型2:"+dataType);
-            }else{
-                var dataType=1;
-                console.log("类型1:"+dataType);
-            }
-        });
+        //$(".params-select a").off().on("click",function(){
+        //    var hasSubmenu=$(this).parents().hasClass("dropdown-submenu");
+        //    if(hasSubmenu){
+        //        var dataType=$(this).parents(".dropdown-menu").siblings("a").attr("data-type");
+        //        console.log("类型2:"+dataType);
+        //    }else{
+        //        var dataType=1;
+        //        console.log("类型1:"+dataType);
+        //    }
+        //});
 
 
 
@@ -356,6 +370,11 @@ $(function () {
             for(var j=0;j<rows;j++){
                 var tdValue=trs.eq(j).find("td").eq(i).text();
                 console.log("第"+j+"行的第"+i+"列的值为"+tdValue);
+                var classNameValue=trs.eq(j).find("td").eq(i).attr('class');
+                var classNameValueArr=classNameValue.split("only_");
+                var DataArr=classNameValueArr.toString().split(",")[1];
+                console.log("===="+DataArr);
+
             }
         }
     }
