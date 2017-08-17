@@ -234,7 +234,7 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="input-group" style="position: absolute;left: -20px;top:60px;width:100%">
+                    <div class="input-group hiddenArea" style="position: absolute;left: -20px;top:60px;width:100%;display: none">
                         <select class="select operatorResult">
                             <option value=""></option>
                             <option value="=">=</option>
@@ -293,6 +293,15 @@
 
 </div>
 <div id="example"></div>
+<div class="elseResult" style="display: none">
+    <table class="table table-bordered">
+        <tbody>
+            <tr>
+                <td>ELSE</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -320,19 +329,16 @@
                                 <td>
                                     <select>
                                         <option value=""></option>
-                                        <option value="in">in</option>
-                                        <option value="not in">not in</option>
-                                        <option value="=">=</option>
-                                        <option value=">">></option>
-                                        <option value=">=">>=</option>
-                                        <option value="<"><</option>
-                                        <option value="<="><=</option>
-                                        <option value="≠">≠</option>
-                                        <option value=">,<">>,<</option>
-                                        <option value=">=,<">>=,<</option>
-                                        <option value=">,=<">>,=<</option>
-                                        <option value=">=,=<">>=,=<</option>
-                                        <option value="ELSE">ELSE</option>
+                                        <option value="=">=x</option>
+                                        <option value=">">x></option>
+                                        <option value=">=">x>=</option>
+                                        <option value="<">&ltx</option>
+                                        <option value="<="><=x</option>
+                                        <option value="≠">≠x</option>
+                                        <option value=">,<">>x<</option>
+                                        <option value=">=,<">>=x<</option>
+                                        <option value=">,=<">>x=<</option>
+                                        <option value=">=,=<">>=x=<</option>
 
                                     </select>
                                 </td>
@@ -379,19 +385,16 @@
                                 <td>
                                     <select>
                                         <option value=""></option>
-                                        <option value="in">in</option>
-                                        <option value="not in">not in</option>
-                                        <option value="=">=</option>
-                                        <option value=">">></option>
-                                        <option value=">=">>=</option>
-                                        <option value="<"><</option>
-                                        <option value="<="><=</option>
-                                        <option value="≠">≠</option>
-                                        <option value=">,<">>,<</option>
-                                        <option value=">=,<">>=,<</option>
-                                        <option value=">,=<">>,=<</option>
-                                        <option value=">=,=<">>=,=<</option>
-                                        <option value="ELSE">ELSE</option>
+                                        <option value="=">=x</option>
+                                        <option value=">">x></option>
+                                        <option value=">=">x>=</option>
+                                        <option value="<">&ltx</option>
+                                        <option value="<="><=x</option>
+                                        <option value="≠">≠x</option>
+                                        <option value=">,<">>x<</option>
+                                        <option value=">=,<">>=x<</option>
+                                        <option value=">,=<">>x=<</option>
+                                        <option value=">=,=<">>=x=<</option>
                                     </select>
                                 </td>
                                 <td class="editVal" data-type="const"></td>

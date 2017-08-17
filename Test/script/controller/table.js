@@ -285,12 +285,6 @@ $(function () {
 
     function createEmptyLine(isLeft) {
         var line = {};
-        line.comparator = "";
-        if (isLeft){
-            line.left = "";
-        } else {
-            line.right = "";
-        }
         return line;
     }
 
@@ -374,6 +368,7 @@ $(function () {
                 var classNameValueArr=classNameValue.split("only_");
                 var DataArr=classNameValueArr.toString().split(",")[1];
                 console.log("===="+DataArr);
+
 
             }
         }
