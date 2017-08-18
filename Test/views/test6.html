@@ -4,27 +4,79 @@
     <meta charset="UTF-8">
     <title></title>
     <script type="text/javascript" src="../script/libs/jquery-2.2.0.min.js"></script>
+    <style>
+        .table{
+            margin-top: 20px;
+        }
+        .table table{
+            width: 50%;
+            border: 1px solid #000;
+        }
+        .table table td{
+            width: 20%;
+            box-sizing: border-box;
+            border-right: 1px solid #000;
+        }
+        .table table td:last-child{
+            border: none;
+        }
+    </style>
 </head>
 <body>
-<div class="box">kkk</div>
+<div class="box" style="display: none">
+    <select>
+        <option value="">1</option>
+        <option value="">2</option>
+        <option value="">3</option>
+        <option value="">4</option>
+        <option value="">5</option>
+    </select>
+    <select>
+        <option value="">6</option>
+        <option value="">7</option>
+        <option value="">8</option>
+        <option value="">9</option>
+        <option value="">10</option>
+    </select>
+    <input type="text" />
+</div>
+<div class="table">
+    <table>
+        <tbody>
+            <tr>
+                <td>else</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 <script>
-    $(".box").on('click',function () {
-        var classNameValue="only_+=_fn_krange_app-100-200_var-const-const";
-        var classNameValueArr = classNameValue.split("only_")[1];
-        var allData=classNameValueArr.toString().split("_");
-        var operator=allData[0],type=allData[1],fnName=allData[2],fnData=allData[3],fnTypes=allData[4];
-        console.log("操作符："+operator+"类型："+type+"函数名："+fnName+"函数参数："+fnData+"函数参数类型："+fnTypes);
-        var fnDataArr=fnData.split("-");
-        var fnTypesArr=fnTypes.split("-");
-        for(var k=0;k<fnDataArr.length;k++){
-            var params=fnDataArr[k];
-            console.log("我是参数："+params)
-        }
-        for(var a=0;a<fnTypesArr.length;a++){
-            var types=fnTypesArr[a];
-            console.log("我是参数类型："+types)
-        }
-    })
+//    $(".box").on('click',function () {
+//        var classNameValue="only_+=_fn_krange_app-100-200_var-const-const";
+//        var classNameValueArr = classNameValue.split("only_")[1];
+//        var allData=classNameValueArr.toString().split("_");
+//        var operator=allData[0],type=allData[1],fnName=allData[2],fnData=allData[3],fnTypes=allData[4];
+//        console.log("操作符："+operator+"类型："+type+"函数名："+fnName+"函数参数："+fnData+"函数参数类型："+fnTypes);
+//        var fnDataArr=fnData.split("-");
+//        var fnTypesArr=fnTypes.split("-");
+//        for(var k=0;k<fnDataArr.length;k++){
+//            var params=fnDataArr[k];
+//            console.log("我是参数："+params)
+//        }
+//        for(var a=0;a<fnTypesArr.length;a++){
+//            var types=fnTypesArr[a];
+//            console.log("我是参数类型："+types)
+//        }
+//    })
+    $(".table table tbody tr td").off().on('click',function(e){
+        var target= e.target;
+        console.log(":"+target);
+
+        $(".box").css("display","block");
+    });
+
 </script>
 </body>
 </html>

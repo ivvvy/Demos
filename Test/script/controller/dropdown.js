@@ -104,6 +104,7 @@ $(function(){
         result.cols= createRowOrCol(colName,colType,colConditions);
         result.rows= createRowOrCol(rowName,rowType,rowConditions);
         result.results = getResult();
+        result.elseResults=[];
         console.log("json========================"+JSON.stringify(result));
         //-----------------------------------------------
     }
@@ -185,7 +186,6 @@ $(function(){
 
     function getTableArr(isRow) {
         var arrAll = getData(isRow);
-        console.log(isRow+"==="+arrAll.length+"wanghuiwu"+arrAll)
         var colsArr = [];
         if (!isRow){
             colsArr.push("");
@@ -234,13 +234,9 @@ $(function(){
                 var rowData = $('.colsVal').val();
             }
             if(operator.indexOf(",")>0){
-                console.log("==123===firstitem="+firstItem+"==operatpr="+operator+"==rowdata="+rowData+"second="+secondItem)
                 colsArr.push(firstItem+operator.split(",")[0].replace(">","<")+rowData+operator.split(",")[1]+secondItem);
-                console.log("==234==="+colsArr);
             }else{
-                console.log("==234==="+firstItem+"second="+secondItem+"===opr"+operator);
                 var value = firstItem==""?secondItem:firstItem;
-                console.log("==123===value="+value)
                 colsArr.push(rowData+operator+value);
             }
         }
@@ -262,8 +258,8 @@ $(function(){
             data:data1,
             rowHeaders:false,
             colHeaders:false,
-            colWidths:150,
-            rowWidths:150,
+            colWidths:220,
+            rowWidths:220,
             contextMenu:true,
             readOnly:true,
 
@@ -453,6 +449,14 @@ $(function(){
         return result;
     }
 
+    function creatElseResult(name,paramType,outcomes){
+        var result = {};
+        result.name = name;
+        result.paramType = paramType;
+        result.outcomes = outcomes;
+        return result;
+    }
+
     function getResult() {
         var result = [];
         var outComes = [];
@@ -461,12 +465,6 @@ $(function(){
         var trs=$("#example tbody tr:not(:first-child)");
         var resultParam=$(".resultVal").val(),
             resultParamType=$(".resultVal").attr("data-type");
-        //var operate=$(".operatorResult option:selected").text();
-        // $(".value-select li a").off().on("click",function(){
-        //     var dataType=$(this).attr("data-type");
-        //     console.log(dataType);
-        //
-        // });
         console.log("列数=========="+cells+"行数="+rows);
         for (var i =1;i<cells;i++){
             for (var j =0;j<rows-1;j++){
@@ -483,7 +481,7 @@ $(function(){
                 switch (type) {
                     case "const"://常量
                         if(isNaN(tdValue)) {
-                            outComes.push(createConstOutCome(operator,"const", tdValue));
+                            outComes.push(createConstOutCome(operator,"const",'\"'+tdValue+'\"'));
                         }else{
                             outComes.push(createConstOutCome(operator,"const",tdValue));
                         }
@@ -504,8 +502,7 @@ $(function(){
                             }else {
                                 console.log("xxx:"+params[k].match(/^[\u4e00-\u9fa5]+$/));
                                 if(params[k].match(/^[\u4e00-\u9fa5]+$/)){
-
-                                    parameters.push(createParameter("const", params[k]));
+                                    parameters.push(createParameter("const", '\"'+params[k]+'\"'));
                                 }else{
                                     parameters.push(createParameterWithType("var",params[k],"INPUT"));
                                 }
@@ -530,9 +527,11 @@ $(function(){
     }
 
 
-    $(".typeArea").off().on('click',function () {
-        showInput();
-    });
+    function getElseResult(){
+        var elseParam=$(".resultVal").val(),
+            elseParamType=$(".resultVal").attr("data-type");
+
+    }
 
     function showInput() {
         if($(".typeResult option:selected").text()=="函数"){
@@ -543,6 +542,32 @@ $(function(){
     }
 
 
+    $(".typeArea").off().on('click',function () {
+        showInput();
+    });
+
+
+    $(".addElse").off().on('click',function(){
+        var rows=
+            '<td class="elseTd">'+
+            '</td>';
+            $(".elseTable>tbody>tr").append(rows);
+    });
+
+
+
+    $(".elseTable tbody tr").off().on('click','.elseTd',function(e){
+        var i=$(this).index();
+        console.log("我是:"+i);
+        $(".hiddenArea").css("display","block");
+
+
+    });
+
+
+
+
+
     $(".compile").off().on('click',function () {
         getJson();
     })
@@ -550,3 +575,4 @@ $(function(){
 
 
 });
+
