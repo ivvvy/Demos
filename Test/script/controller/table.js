@@ -1,152 +1,149 @@
 $(function () {
-    var data=[
-        ['请选择变量'],
-        ['请输入条件']
+    var data = [
+        ['请选择变量', '请选择变量'],
+        ['请输入条件', '请输入结果']
     ];
-    var container1=document.getElementById('example1'),
+    var container1 = document.getElementById('example1'),
         hot1;
-    hot1=new Handsontable(container1,{
-        data:data,
-        rowHeaders:false,
-        colHeaders:false,
-        colWidths:150,
-        rowWidths:150,
-        contextMenu:true,
-        readOnly:true,
+    hot1 = new Handsontable(container1, {
+        data: data,
+        rowHeaders: false,
+        colHeaders: false,
+        colWidths: 150,
+        rowWidths: 150,
+        contextMenu: {
+            items: {
+                "row_above": {name: "当前行上方"},
+                "row_below": {name: "当前行下方"},
+                "remove_row": {name: "删除行"},
+                "remove_col": {name: "删除列"},
+            }
+        },
+        readOnly: true,
+        autoColumnSize: true,
 
     });
 
 
-    $("#addConditionCol").off().on("click",function () {
-        hot1.alter('insert_col','','','abc');
+    hot1.updateSettings({
+        cells: function (row, col, prop) {
+            var cellProperties = {};
+            if (hot1.getData()[row][prop] === '请输入结果') {
+                cellProperties.className = "index";
+            }else{
+               cellProperties.className = "";
+            }
+
+            return cellProperties;
+        }
     });
 
 
-
-    var data1=[
-        ['请选择变量'],
-        ['请输入结果']
-    ];
-    var container2=document.getElementById('example2'),
-        hot2;
-    hot2=new Handsontable(container2,{
-        data:data1,
-        rowHeaders:false,
-        colHeaders:false,
-        colWidths:150,
-        rowWidths:150,
-        contextMenu:true,
-        readOnly:true,
-
+    $("#addConditionCol").off().on("click", function () {
+        var index = $(".index").index();
+        hot1.alter('insert_col', index);
+        //console.log("索引："+index);
     });
 
-    $("#addResultCol").off().on("click",function () {
-        hot2.alter('insert_col');
-    });
-
-    $("#addRow").off().on("click",function () {
-        hot1.alter('insert_row');
-        hot2.alter('insert_row');
+    $("#addResultCol").off().on("click", function () {
+        hot1.alter('insert_col');
     });
 
 
-
-    function dropDown(){
-        if($(".typeResult option:selected").text()=="常量"){
-            $(".inputBox").css("display","none");
-        }else if($(".typeResult option:selected").text()=="函数"){
+    function dropDown() {
+        if ($(".typeResult option:selected").text() == "常量") {
+            $(".inputBox").css("display", "none");
+        } else if ($(".typeResult option:selected").text() == "函数") {
             //$(".inputArea").attr("data-toggle","dropdown");
-            $(".fnSelect").css("display","block");
-            $(".inputBox").css("display","block");
-        }else if($(".typeResult option:selected").text()=="变量"){
+            $(".fnSelect").css("display", "block");
+            $(".inputBox").css("display", "block");
+        } else if ($(".typeResult option:selected").text() == "变量") {
             //$(".inputArea").attr("data-toggle","dropdown");
-            $(".varSelect").css("display","block");
-            $(".inputBox").css("display","none");
-        }else{
-            $(".varSelect").css("display","none");
-            $(".fnSelect").css("display","none");
-            $(".inputBox").css("display","none");
+            $(".varSelect").css("display", "block");
+            $(".inputBox").css("display", "none");
+        } else {
+            $(".varSelect").css("display", "none");
+            $(".fnSelect").css("display", "none");
+            $(".inputBox").css("display", "none");
         }
     }
 
 
-    function getFnValue(){
-        var selectType=$(".typeResult option:selected").text();
-        if(selectType=="变量"){
-            value=$(".inputArea").val();
-        }else if(selectType=="常量"){
-            value=$(".inputArea").val();
-        }else if(selectType=="函数"){
-            var inputs=$(".typeArea");
-            var fnName=$(".inputArea").val();
-            var value=[],types=[];
-            for(var k=0;k<inputs.length;k++){
+    function getFnValue() {
+        var selectType = $(".typeResult option:selected").text();
+        if (selectType == "变量") {
+            value = $(".inputArea").val();
+        } else if (selectType == "常量") {
+            value = $(".inputArea").val();
+        } else if (selectType == "函数") {
+            var inputs = $(".typeArea");
+            var fnName = $(".inputArea").val();
+            var value = [], types = [];
+            for (var k = 0; k < inputs.length; k++) {
                 value.push(inputs.eq(k).val());
                 types.push(inputs.eq(k).attr("data-type"));
-                console.log("pppppp"+value);
+                console.log("pppppp" + value);
             }
-            value=fnName+"("+value+")";
+            value = fnName + "(" + value + ")";
         }
 
         return value;
     }
 
-    function getTypeAndOperator(){
-        var type="",operators="";
-        operators=$(".operatorResult option:selected").text();
-        if($(".typeResult option:selected").text()=="函数"){
-            type=2;
-        }else if($(".typeResult option:selected").text()=="变量"){
-            type=3;
-        }else{
-            type=1;
+    function getTypeAndOperator() {
+        var type = "", operators = "";
+        operators = $(".operatorResult option:selected").text();
+        if ($(".typeResult option:selected").text() == "函数") {
+            type = 2;
+        } else if ($(".typeResult option:selected").text() == "变量") {
+            type = 3;
+        } else {
+            type = 1;
         }
-        console.log("|||"+type+"|||"+operators);
+        console.log("|||" + type + "|||" + operators);
     }
 
 
-
-    hot1.addHook('afterSelectionEnd', function(r, c, r2, c2){
+    hot1.addHook('afterSelectionEnd', function (r, c, r2, c2) {
         // 给选择范围的单元格添加样式
-        for(var i = r; i <= r2; i++){
-            for(var j = c; j <= c2; j++){
-                console.log("|||"+r+"|||"+c+"|||"+r2+"|||"+c2);
-                if(r===0){
-                    $(".tableSubmenu li a").off().on("click",function(){
-                        var index=$(this).index();
+        for (var i = r; i <= r2; i++) {
+            for (var j = c; j <= c2; j++) {
+                console.log("|||" + r + "|||" + c + "|||" + r2 + "|||" + c2);
+                if (r === 0) {
+                    $(".tableSubmenu li a").off().on("click", function () {
+                        var index = $(this).index();
                         console.log(i);
-                        var only="";
-                        var text=$(this).eq(index).text();
-                        var dataType=$(this).parents(".tableSubmenu").siblings("a").attr("data-type");
+                        var only = "";
+                        var text = $(this).eq(index).text();
+                        var dataType = $(this).parents(".tableSubmenu").siblings("a").attr("data-type");
                         $(".tableMenu").removeClass("show");
-                        only="only_"+dataType;
-                        hot1.setDataAtCell(i-1, j-1, text);
-                        hot1.setCellMeta(i-1, j-1, 'className', hot1.getCellMeta(i-1,j-1).className+' '+only);
+                        only = "only__" + dataType+"__conditions";
+                        hot1.setDataAtCell(i - 1, j - 1, text);
+                        hot1.setCellMeta(i - 1, j - 1, 'className', hot1.getCellMeta(i - 1, j - 1).className + ' ' + only);
                         hot1.render();
                     });
-                }else if(r===r2){
-
-                    $(".btn-success").off().on("click",function(){
-                        hot1.setDataAtCell(i-1, j-1, getFnValue());
-                        var operatorResult=$(".operatorResult option:selected").text();
-                        var typeResult=$(".typeResult option:selected").val();
-                        var conditionsName=$(".inputArea").val();
-                        var only="";
-                        if(typeResult=="fn"){
-                            var inputs=$(".typeArea"),values=[],types=[],id="",type="";
-                            for(var h=0;h<inputs.length;h++){
+                } else if (r === r2) {
+                    $(".btn-success").off().on("click", function () {
+                        hot1.setDataAtCell(i - 1, j - 1, getFnValue());
+                        var operatorResult = $(".operatorResult option:selected").text();
+                        var typeResult = $(".typeResult option:selected").val();
+                        var conditionsName = $(".inputArea").val();
+                        var only = "";
+                        if (typeResult == "fn") {
+                            var inputs = $(".typeArea"), values = [], types = [], id = "", type = "";
+                            for (var h = 0; h < inputs.length; h++) {
                                 values.push(inputs.eq(h).val());
                                 types.push(inputs.eq(h).attr("data-type"));
                             }
-                            console.log(values+"|||"+types);
-                            id=(conditionsName+"_"+values).toString().replace(/,/g,"-");
-                            type=types.toString().replace(/,/g,"-");
+                            console.log(values + "|||" + types);
+                            id = (conditionsName + "__" + values).toString().replace(/,/g, "-");
+                            type = types.toString().replace(/,/g, "-");
 
-                            only="only_"+operatorResult+"_"+typeResult+"_"+id+"_"+type;
-                        }else{
-                            only="only_"+operatorResult+"_"+typeResult+"_"+conditionsName;
+                            only = "only__" + operatorResult + "__" + typeResult + "__" + id + "__" + type;
+                        } else {
+                            only = "only__" + operatorResult + "__" + typeResult + "__" + conditionsName;
                         }
-                        hot1.setCellMeta(i-1, j-1, 'className', hot1.getCellMeta(i-1,j-1).className+' '+only);
+                        hot1.setCellMeta(i - 1, j - 1, 'className', hot1.getCellMeta(i - 1, j - 1).className + ' ' + only);
                         hot1.render();
 
                     });
@@ -159,168 +156,185 @@ $(function () {
         hot1.render();
     });
 
-    hot2.addHook('afterSelectionEnd', function(r, c, r2, c2){
-        // 给选择范围的单元格添加样式
-        for(var i = r; i <= r2; i++){
-            for(var j = c; j <= c2; j++){
-                console.log("|||"+r+"|||"+c+"|||"+r2+"|||"+c2);
-                if(r===0){
-                    $(".tableSubmenu li a").off().on("click",function(){
-                        var index=$(this).index();
-                        var text=$(this).eq(index).text();
-                        hot2.setDataAtCell(i-1, j-1, text);
-                        $(".tableMenu").removeClass("show");
-
-                    });
-                }else if(r===r2){
-                    $(".btn-success").off().on("click",function(){
-                        hot2.setDataAtCell(i-1, j-1, getFnValue());
-
-                    });
-                }
-
-            }
-        }
-
-        // 重新渲染网格
-        hot2.render();
-    });
-
-
+    // hot2.addHook('afterSelectionEnd', function(r, c, r2, c2){
+    //     // 给选择范围的单元格添加样式
+    //     for(var i = r; i <= r2; i++){
+    //         for(var j = c; j <= c2; j++){
+    //             console.log("|||"+r+"|||"+c+"|||"+r2+"|||"+c2);
+    //             if(r===0){
+    //                 $(".tableSubmenu li a").off().on("click",function(){
+    //                     var index=$(this).index();
+    //                     var text=$(this).eq(index).text();
+    //                     hot2.setDataAtCell(i-1, j-1, text);
+    //                     $(".tableMenu").removeClass("show");
+    //
+    //                 });
+    //             }else if(r===r2){
+    //                 $(".btn-success").off().on("click",function(){
+    //                     hot2.setDataAtCell(i-1, j-1, getFnValue());
+    //
+    //                 });
+    //             }
+    //
+    //         }
+    //     }
+    //
+    //     // 重新渲染网格
+    //     hot2.render();
+    // });
 
 
-
-    $("#example1 tbody tr:first-child").off().on('dblclick',"td",function(){
+    $("#example1 tbody tr:first-child").off().on('dblclick', "td", function () {
         $(".tableMenu").addClass("show");
     });
 
-    $("#example2 tbody tr:first-child").off().on('dblclick',"td",function(){
+    $("#example2 tbody tr:first-child").off().on('dblclick', "td", function () {
         $(".tableMenu").addClass("show");
     });
 
 
-    $(".value-select a").off().on("click",function(){
-        var i=$(this).index();
-        var text=$(this).eq(i).text();
-        if($(".typeResult option:selected").text()=="函数"){
+    $(".value-select a").off().on("click", function () {
+        var i = $(this).index();
+        var text = $(this).eq(i).text();
+        if ($(".typeResult option:selected").text() == "函数") {
             //$(".inputArea").attr("data-toggle","dropdown");
-            $(".fnSelect").css("display","none");
+            $(".fnSelect").css("display", "none");
             $(this).parents(".value-select").siblings(".inputArea").val(text);
             getTypeAndOperator();
-        }else{
+        } else {
             //$(".inputArea").attr("data-toggle","dropdown");
-            $(".varSelect").css("display","none");
+            $(".varSelect").css("display", "none");
             $(this).parents(".value-select").siblings(".inputArea").val(text);
         }
-        /*var hasSubmenu=$(this).parents().hasClass("dropdown-submenu");
-        if(hasSubmenu){
-            var i=$(this).index();
-            var text=$(this).eq(i).text();
-            var dataType=$(this).parents(".dropdown-menu").siblings("a").attr("data-type");
-            $(this).parents(".value-select").siblings(".inputArea").val(text);
-            $(".inputArea").attr("data-type",dataType);
-            console.log("类型2:"+dataType);
-        }else{
-            var dataType=1;
-            $(".inputArea").attr("data-type",dataType);
-            console.log("类型1:"+dataType);
-        }*/
+
     });
 
 
-        //$(".params-select a").off().on("click",function(){
-        //    var hasSubmenu=$(this).parents().hasClass("dropdown-submenu");
-        //    if(hasSubmenu){
-        //        var dataType=$(this).parents(".dropdown-menu").siblings("a").attr("data-type");
-        //        console.log("类型2:"+dataType);
-        //    }else{
-        //        var dataType=1;
-        //        console.log("类型1:"+dataType);
-        //    }
-        //});
-
-
-
-    $(".inputArea").off().on('click',function () {
+    $(".inputArea").off().on('click', function () {
         dropDown();
     });
 
 
-    function getJson(){
-        var result={
-            tableName:"决策矩阵名",
-            cols:[],
-            rows:[],
-            results:[]
+    function getJson() {
+        var result = {
+            tableName: "TABLE_1",
+            cols: [],
+            rows: [],
+            results: []
         };
-        var colConditions=[];
+        var colConditions = [];
+        // result.results =
+        getColData(result);
+        console.log("json========================"+JSON.stringify(result));
 
     }
 
 
-    function createLeft(type,value){
-        var left={};
-        left.type=type;
-        left.value=value;
+    function createLeft(type, value) {
+        var left = {};
+        left.type = type;
+        left.value = value;
         return left;
     }
 
-    function createRight(type,value){
-        var right={};
-        right.type=type;
-        right.value=value;
+    function createRight(type, value) {
+        var right = {};
+        right.type = type;
+        right.value = value;
+        return right;
+    }
+
+    function createRightWithName(type, name,parameters) {
+        var right = {};
+        right.type = type;
+        right.name = name;
+        right.parameters = parameters;
+        return right;
+    }
+
+    function createRightWithValue(type, name) {
+        var right = {};
+        right.type = type;
+        right.name = name;
+        return right;
     }
 
 
-    function createLine(comparator,value,isLeft){
-        var line={};
-        line.comparator=comparator;
-        if(isLeft){
-            line.left=createLeft(value[1],value[0]);
-        }else{
-            line.right=createRight(value[1],value[0]);
+    function createLine(comparator, type, value, isLeft) {
+        var line = {};
+        line.comparator = comparator;
+        if (isLeft) {
+            line.left = createLeft(type, value);
+        } else {
+            line.right = createRight(type, value);
         }
         return line;
     }
 
-    function createEmptyLine(isLeft) {
+    function createEmptyLine() {
         var line = {};
         return line;
     }
+    
 
-    function createConditon(leftLine,rightLine){
-        var condition={};
-        condition.leftLine=leftLine;
-        condition.rightLine=rightLine;
+
+    function createParamLine(comparator,type,name,parameters,isLeft) {
+        var line = {};
+        line.comparator = comparator;
+        if (isLeft) {
+            line.left = createEmptyLine();
+        } else {
+            line.right = createRightWithName(type, name,parameters);
+        }
+        return line;
+    }
+
+    function createVarLine(comparator,type,name,isLeft) {
+        var line = {};
+        line.comparator = comparator;
+        if (isLeft) {
+            line.left = createEmptyLine();
+        } else {
+            line.right = createRightWithValue(type, name);
+        }
+        return line;
+    }
+
+
+
+    function createCondition(leftLine, rightLine) {
+        var condition = {};
+        condition.leftLine = leftLine;
+        condition.rightLine = rightLine;
         return condition
     }
 
-    function createCol(name,paramType,conditions){
-        var result={};
-        result.name=name;
-        result.paramType=paramType;
-        result.conditions=conditions;
+    function createCol(name, paramType, conditions) {
+        var result = {};
+        result.name = name;
+        result.paramType = paramType;
+        result.conditions = conditions;
         return result;
     }
 
     //结果中的函数或者变量
-    function createParameterWithType(type,name,paramType) {
-        var result={};
-        result.type=type;
-        result.name=name;
-        result.paramType=paramType;
+    function createParameterWithType(type, name, paramType) {
+        var result = {};
+        result.type = type;
+        result.name = name;
+        result.paramType = paramType;
         return result;
     }
 
     //常量
-    function createParameter(type,value) {
-        var result={};
-        result.type=type;
-        result.value=value;
+    function createParameter(type, value) {
+        var result = {};
+        result.type = type;
+        result.value = value;
         return result;
     }
 
-    function createFnOutcome(operator,type,name,parameters) {
+    function createFnOutcome(operator, type, name, parameters) {
         var result = {};
         result.operator = operator;
         result.type = type;
@@ -329,7 +343,7 @@ $(function () {
         return result;
     }
 
-    function createConstOutCome(operator,type,value) {
+    function createConstOutCome(operator, type, value) {
         var result = {};
         result.operator = operator;
         result.type = type;
@@ -337,7 +351,7 @@ $(function () {
         return result;
     }
 
-    function createVariableOutCome(operator,type,name){
+    function createVariableOutCome(operator, type, name) {
         var result = {};
         result.operator = operator;
         result.type = type;
@@ -345,8 +359,8 @@ $(function () {
         return result;
     }
 
-    function createResult(name,paramType,outcomes){
-        var result={};
+    function createResults(name, paramType, outcomes) {
+        var result = {};
         result.name = name;
         result.paramType = paramType;
         result.outcomes = outcomes;
@@ -354,34 +368,150 @@ $(function () {
     }
 
 
+    function getColData(result) {
+        var rows = $("#example1 tr").length;
+        var cells = $("#example1 td").length / rows;
+        var trs = $("#example1 tbody tr");
+        var results = [],outComes = [],cols=[];
+        console.log("列数==========" + cells + "行数=" + rows);
+        for (var i = 0; i < cells; i++) {
+            var index = $(".index").index();
+            if(i!==index){
+                for(var k=0;k<rows;k++){
+                    var conditions=[];
+                    var tdValue = trs.eq(k).find("td").eq(i).text();
+                    console.log("第" + k + "行的第" + i + "列的值为" + tdValue);
+                    var className = trs.eq(k).find("td").eq(i).attr('class'),
+                        classNameValue=className.replace("htDimmed","");
+                    console.log("className:"+classNameValue);
+                    var firstLine,lastLine,resultParamType,resultParam;
+                    if(classNameValue.indexOf("conditions")<0){
+                        var classNameValueArr = classNameValue.split("only__");
+                        var DataArr=classNameValueArr.toString().split(",")[1];
+                        var allData=DataArr.toString().split("__");
+                        console.log("====" + allData+"|||"+typeof allData);
+                        var operator = allData[0], type = allData[1], fnName = allData[2];
+                        console.log("操作符：" + operator + "类型：" + type + "函数名：" + fnName);
+                        switch (type) {
+                            case "const"://常量
+                                if(isNaN(tdValue)) {
+                                    conditions.push(createCondition(createEmptyLine(),createLine(operator,type,fnName,false)));
+                                }else{
+                                    conditions.push(createCondition(createEmptyLine(),createLine(operator,type,fnName,false)));
+                                }
+                                break;
+                            case "fn"://函数
+                                var fnData=allData[3],fnTypes=allData[4];
+                                console.log("函数参数："+fnData+"函数参数类型："+fnTypes);
+                                var params=fnData.split("-");
+                                var parameters = [];
+                                for(var r =0;r<params.length;r++) {
+                                    if (!isNaN(params[r])) {
+                                        parameters.push(createParameter("const", params[r]));
+                                    }else {
+                                        if(/.*[\u4e00-\u9fa5]+.*$/.test(params[r])){
+                                            parameters.push(createParameter("const", '\"'+params[r]+'\"'));
+                                        }else{
+                                            parameters.push(createParameterWithType("var",params[r],"INPUT"));
+                                        }
+                                    }
 
-    function getColData(){
-        var rows=$("#example1 tr").length;
-        var cells=$("#example1 td").length/rows;
-        var trs=$("#example1 tbody tr");
-        console.log("列数=========="+cells+"行数="+rows);
-        for(var i=0;i<cells;i++){
-            for(var j=0;j<rows;j++){
-                var tdValue=trs.eq(j).find("td").eq(i).text();
-                console.log("第"+j+"行的第"+i+"列的值为"+tdValue);
-                var classNameValue=trs.eq(j).find("td").eq(i).attr('class');
-                var classNameValueArr=classNameValue.split("only_");
-                var DataArr=classNameValueArr.toString().split(",")[1];
-                console.log("===="+DataArr);
+                                }
+                                conditions.push(createEmptyLine(),createParamLine(operator,parameters,false));
+                                break;
+                            case "var"://变量
+                                //8.16
+                                conditions.push(createEmptyLine(),createVarLine(operator,type,fnName,false));
+                                break;
 
+                        }
+                        cols.push(createCol(resultParam,resultParamType,conditions))
+                    }else{
+                        firstLine=classNameValue.indexOf("__"),
+                        lastLine=classNameValue.lastIndexOf("__"),
+                        resultParam=tdValue,
+                        resultParamType=classNameValue.substring(firstLine+2,lastLine);
+                        console.log("条件变量类型："+resultParamType);
+                    }
+
+                }
+                //console.log("我是结果")
+            }else{
+                for (var j = 0; j < rows; j++) {
+                    var tdValue = trs.eq(j).find("td").eq(i).text();
+                    console.log("第" + j + "行的第" + i + "列的值为" + tdValue);
+                    var className = trs.eq(j).find("td").eq(i).attr('class'),
+                        classNameValue=className.replace("htDimmed","");
+                    console.log("className:"+classNameValue);
+                    if(classNameValue.indexOf("conditions")<0){
+                        var classNameValueArr = classNameValue.split("only__");
+                        var DataArr=classNameValueArr.toString().split(",")[1];
+                        var allData=DataArr.toString().split("__");
+                        console.log("====" + allData+"|||"+typeof allData);
+                        var operator = allData[0], type = allData[1], fnName = allData[2];
+                        console.log("操作符：" + operator + "类型：" + type + "函数名：" + fnName);
+                        var operator=allData[0],type=allData[1],fnName=allData[2];
+                        switch (type) {
+                            case "const"://常量
+                                if(isNaN(tdValue)) {
+                                    outComes.push(createConstOutCome(operator,"const",'\"'+tdValue+'\"'));
+                                }else{
+                                    outComes.push(createConstOutCome(operator,"const",tdValue));
+                                }
+                                break;
+                            case "fn"://函数
+                                var fnData=allData[3],fnTypes=allData[4];
+                                console.log("函数参数："+fnData+"函数参数类型："+fnTypes);
+                                var params=fnData.split("-");
+                                //var fnTypesArr=fnTypes.split("-");
+                                //for(var a=0;a<fnTypesArr.length;a++){
+                                //    var types=fnTypesArr[a];
+                                //    console.log("我是参数类型："+types)
+                                //}
+                                var parameters = [];
+                                for(var h =0;h<params.length;h++) {
+                                    if (!isNaN(params[h])) {
+                                        parameters.push(createParameter("const", params[h]));
+                                    }else {
+                                        if(/.*[\u4e00-\u9fa5]+.*$/.test(params[k])){
+                                            parameters.push(createParameter("const", '\"'+params[h]+'\"'));
+                                        }else{
+                                            parameters.push(createParameterWithType("var",params[h],"INPUT"));
+                                        }
+                                    }
+
+                                }
+                                outComes.push(createFnOutcome(operator,"fn",fnName,parameters));
+                                break;
+                            case "var"://变量
+                                //8.16
+                                outComes.push(createVariableOutCome(operator,"var",tdValue));
+                                break;
+
+                        }
+                        results.push(createResults(resultParam,resultParamType,outComes));
+
+                    }else{
+                        firstLine=classNameValue.indexOf("__"),
+                        lastLine=classNameValue.lastIndexOf("__"),
+                        resultParamType=classNameValue.substring(firstLine+2,lastLine),
+                        resultParam=tdValue;
+                        console.log("条件变量类型："+resultParamType);
+                    }
+                    // return result;
+                }
 
             }
         }
+        result.cols=cols;
+        result.results=results;
+
     }
 
 
-
-    $(".compile").off().on('click',function () {
-        getColData();
+    $(".compile").off().on('click', function () {
+        getJson();
     })
-
-
-
 
 
 });

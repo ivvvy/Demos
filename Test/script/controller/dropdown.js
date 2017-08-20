@@ -318,6 +318,16 @@ $(function(){
         }
 
         hot3.addHook('afterSelectionEnd', function(r, c, r2, c2){
+            for(var i = 0; i < hot3.countRows(); i++){
+                for(var j = 0; j < hot3.countCols(); j++){
+                    // 在这里只需移除扩展样式selected-td就行，保留表格原有样式
+                    var className = hot3.getCellMeta(i, j).className;
+                    if(className && className.lastIndexOf('selected-td') > 0){
+                        var index = className.indexOf('selected-td');
+                        hot3.setCellMeta(i, j, 'className', className.substring(0, index) + className.substring(index+1, className.length));
+                    }
+                }
+            }
             // 给选择范围的单元格添加样式
             for(var i = r; i <= r2; i++){
                 for(var j = c; j <= c2; j++){
@@ -345,12 +355,12 @@ $(function(){
                                     id+=+values[a];
 
                                 }*/
-                                id=(conditionsName+"_"+values).toString().replace(/,/g,"-");
+                                id=(conditionsName+"__"+values).toString().replace(/,/g,"-");
                                 type=types.toString().replace(/,/g,"-");
 
-                                only="only_"+operatorResult+"_"+typeResult+"_"+id+"_"+type;
+                                only="only__"+operatorResult+"__"+typeResult+"__"+id+"__"+type;
                             }else{
-                                only="only_"+operatorResult+"_"+typeResult+"_"+conditionsName;
+                                only="only__"+operatorResult+"__"+typeResult+"__"+conditionsName;
                             }
                             hot3.setCellMeta(i-1, j-1, 'className', hot3.getCellMeta(i-1,j-1).className+' '+only);
                             hot3.render();
@@ -471,9 +481,9 @@ $(function(){
                 //var inputs=$(".inputArea");
                 var tdValue = trs.eq(j).find("td").eq(i).text();
                 var classNameValue = trs.eq(j).find("td").eq(i).attr('class');
-                var classNameValueArr = classNameValue.split("only_");
+                var classNameValueArr = classNameValue.split("only__");
                 var DataArr=classNameValueArr.toString().split(",")[1];
-                var allData=DataArr.toString().split("_");
+                var allData=DataArr.toString().split("__");
                 console.log("===="+allData);
                 var operator=allData[0],type=allData[1],fnName=allData[2];
                 //1:常量  2：函数  3：变量
@@ -501,7 +511,7 @@ $(function(){
                                 parameters.push(createParameter("const", params[k]));
                             }else {
                                 console.log("xxx:"+params[k].match(/^[\u4e00-\u9fa5]+$/));
-                                if(params[k].match(/^[\u4e00-\u9fa5]+$/)){
+                                if(/.*[\u4e00-\u9fa5]+.*$/.test(params[k])){
                                     parameters.push(createParameter("const", '\"'+params[k]+'\"'));
                                 }else{
                                     parameters.push(createParameterWithType("var",params[k],"INPUT"));
