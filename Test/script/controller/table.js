@@ -52,11 +52,9 @@ $(function () {
         if ($(".typeResult option:selected").text() == "常量") {
             $(".inputBox").css("display", "none");
         } else if ($(".typeResult option:selected").text() == "函数") {
-            //$(".inputArea").attr("data-toggle","dropdown");
             $(".fnSelect").css("display", "block");
             $(".inputBox").css("display", "block");
         } else if ($(".typeResult option:selected").text() == "变量") {
-            //$(".inputArea").attr("data-toggle","dropdown");
             $(".varSelect").css("display", "block");
             $(".inputBox").css("display", "none");
         } else {
@@ -80,7 +78,6 @@ $(function () {
             for (var k = 0; k < inputs.length; k++) {
                 value.push(inputs.eq(k).val());
                 types.push(inputs.eq(k).attr("data-type"));
-                console.log("pppppp" + value);
             }
             value = fnName + "(" + value + ")";
         }
@@ -165,12 +162,10 @@ $(function () {
         var i = $(this).index();
         var text = $(this).eq(i).text();
         if ($(".typeResult option:selected").text() == "函数") {
-            //$(".inputArea").attr("data-toggle","dropdown");
             $(".fnSelect").css("display", "none");
             $(this).parents(".value-select").siblings(".inputArea").val(text);
             getTypeAndOperator();
         } else {
-            //$(".inputArea").attr("data-toggle","dropdown");
             $(".varSelect").css("display", "none");
             $(this).parents(".value-select").siblings(".inputArea").val(text);
         }
@@ -242,8 +237,6 @@ $(function () {
         return line;
     }
     
-
-
     function createParamLine(comparator,type,name,parameters,isLeft) {
         var line = {};
         line.comparator = comparator;
@@ -338,21 +331,21 @@ $(function () {
         var rows = $("#example1 tr").length;
         var cells = $("#example1 td").length / rows;
         var trs = $("#example1 tbody tr");
-        var results = [],outComes = [],cols=[];
+        var results = [],cols=[];
         console.log("列数==========" + cells + "行数=" + rows);
         for (var i = 0; i < cells; i++) {
             var index = $(".index:first").index();
             console.log("结果条件:"+index);
             if(i<index){
+                var resultParamType,resultParam,conditions=[];
                 //条件
                 for(var k=0;k<rows;k++){
-                    var conditions=[];
                     var tdValue = trs.eq(k).find("td").eq(i).text();
                     console.log("第" + k + "行的第" + i + "列的值为" + tdValue);
                     var className = trs.eq(k).find("td").eq(i).attr('class'),
                         classNameValue=className.replace("htDimmed","");
                     console.log("className:"+classNameValue);
-                    var firstLine,lastLine,resultParamType,resultParam;
+                    var firstLine,lastLine;
                     //区分是选择变量还是选择条件
                     if(classNameValue.indexOf("conditions")<0){
                         var classNameValueArr = classNameValue.split("only__");
@@ -389,12 +382,10 @@ $(function () {
                                 conditions.push(createCondition(createEmptyLine(),createParamLine(operator,parameters,false)));
                                 break;
                             case "var"://变量
-                                //8.16
                                 conditions.push(createCondition(createEmptyLine(),createVarLine(operator,type,fnName,false)));
                                 break;
 
                         }
-                        cols.push(createCol(resultParam,resultParamType,conditions))
                     }else{
                         firstLine=classNameValue.indexOf("__"),
                         lastLine=classNameValue.lastIndexOf("__"),
@@ -402,10 +393,14 @@ $(function () {
                         resultParamType=classNameValue.substring(firstLine+2,lastLine);
                         console.log("条件变量类型："+resultParamType);
                     }
+                    if (k==(rows-1)){
+                        cols.push(createCol(resultParam,resultParamType,conditions));
+                    }
 
                 }
                 //console.log("我是结果")
             }else if(i>=index){
+                var resultParamType,resultParam,outComes = [];
                 //结果
                 for (var j = 0; j < rows; j++) {
                     var tdValue = trs.eq(j).find("td").eq(i).text();
@@ -438,7 +433,7 @@ $(function () {
                                     if (!isNaN(params[h])) {
                                         parameters.push(createParameter("const", params[h]));
                                     }else {
-                                        if(/.*[\u4e00-\u9fa5]+.*$/.test(params[k])){
+                                        if(/.*[\u4e00-\u9fa5]+.*$/.test(params[h])){
                                             parameters.push(createParameter("const", '\"'+params[h]+'\"'));
                                         }else{
                                             parameters.push(createParameterWithType("var",params[h],"INPUT"));
@@ -449,12 +444,10 @@ $(function () {
                                 outComes.push(createFnOutcome(operator,"fn",fnName,parameters));
                                 break;
                             case "var"://变量
-                                //8.16
                                 outComes.push(createVariableOutCome(operator,"var",tdValue));
                                 break;
 
                         }
-                        results.push(createResults(resultParam,resultParamType,outComes));
 
                     }else{
                         firstLine=classNameValue.indexOf("__"),
@@ -463,7 +456,9 @@ $(function () {
                         resultParam=tdValue;
                         console.log("条件变量类型："+resultParamType);
                     }
-                    // return result;
+                    if (j==(rows-1)){
+                        results.push(createResults(resultParam,resultParamType,outComes));
+                    }
                 }
 
             }
