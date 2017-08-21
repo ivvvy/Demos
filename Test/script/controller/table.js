@@ -30,8 +30,6 @@ $(function () {
             var cellProperties = {};
             if (hot1.getData()[row][prop] === '请输入结果') {
                 cellProperties.className = "index";
-            }else{
-               cellProperties.className = "";
             }
 
             return cellProperties;
@@ -156,39 +154,9 @@ $(function () {
         hot1.render();
     });
 
-    // hot2.addHook('afterSelectionEnd', function(r, c, r2, c2){
-    //     // 给选择范围的单元格添加样式
-    //     for(var i = r; i <= r2; i++){
-    //         for(var j = c; j <= c2; j++){
-    //             console.log("|||"+r+"|||"+c+"|||"+r2+"|||"+c2);
-    //             if(r===0){
-    //                 $(".tableSubmenu li a").off().on("click",function(){
-    //                     var index=$(this).index();
-    //                     var text=$(this).eq(index).text();
-    //                     hot2.setDataAtCell(i-1, j-1, text);
-    //                     $(".tableMenu").removeClass("show");
-    //
-    //                 });
-    //             }else if(r===r2){
-    //                 $(".btn-success").off().on("click",function(){
-    //                     hot2.setDataAtCell(i-1, j-1, getFnValue());
-    //
-    //                 });
-    //             }
-    //
-    //         }
-    //     }
-    //
-    //     // 重新渲染网格
-    //     hot2.render();
-    // });
 
 
     $("#example1 tbody tr:first-child").off().on('dblclick', "td", function () {
-        $(".tableMenu").addClass("show");
-    });
-
-    $("#example2 tbody tr:first-child").off().on('dblclick', "td", function () {
         $(".tableMenu").addClass("show");
     });
 
@@ -222,8 +190,6 @@ $(function () {
             rows: [],
             results: []
         };
-        var colConditions = [];
-        // result.results =
         getColData(result);
         console.log("json========================"+JSON.stringify(result));
 
@@ -375,8 +341,10 @@ $(function () {
         var results = [],outComes = [],cols=[];
         console.log("列数==========" + cells + "行数=" + rows);
         for (var i = 0; i < cells; i++) {
-            var index = $(".index").index();
-            if(i!==index){
+            var index = $(".index:first").index();
+            console.log("结果条件:"+index);
+            if(i<index){
+                //条件
                 for(var k=0;k<rows;k++){
                     var conditions=[];
                     var tdValue = trs.eq(k).find("td").eq(i).text();
@@ -385,6 +353,7 @@ $(function () {
                         classNameValue=className.replace("htDimmed","");
                     console.log("className:"+classNameValue);
                     var firstLine,lastLine,resultParamType,resultParam;
+                    //区分是选择变量还是选择条件
                     if(classNameValue.indexOf("conditions")<0){
                         var classNameValueArr = classNameValue.split("only__");
                         var DataArr=classNameValueArr.toString().split(",")[1];
@@ -417,11 +386,11 @@ $(function () {
                                     }
 
                                 }
-                                conditions.push(createEmptyLine(),createParamLine(operator,parameters,false));
+                                conditions.push(createCondition(createEmptyLine(),createParamLine(operator,parameters,false)));
                                 break;
                             case "var"://变量
                                 //8.16
-                                conditions.push(createEmptyLine(),createVarLine(operator,type,fnName,false));
+                                conditions.push(createCondition(createEmptyLine(),createVarLine(operator,type,fnName,false)));
                                 break;
 
                         }
@@ -436,7 +405,8 @@ $(function () {
 
                 }
                 //console.log("我是结果")
-            }else{
+            }else if(i>=index){
+                //结果
                 for (var j = 0; j < rows; j++) {
                     var tdValue = trs.eq(j).find("td").eq(i).text();
                     console.log("第" + j + "行的第" + i + "列的值为" + tdValue);
@@ -463,11 +433,6 @@ $(function () {
                                 var fnData=allData[3],fnTypes=allData[4];
                                 console.log("函数参数："+fnData+"函数参数类型："+fnTypes);
                                 var params=fnData.split("-");
-                                //var fnTypesArr=fnTypes.split("-");
-                                //for(var a=0;a<fnTypesArr.length;a++){
-                                //    var types=fnTypesArr[a];
-                                //    console.log("我是参数类型："+types)
-                                //}
                                 var parameters = [];
                                 for(var h =0;h<params.length;h++) {
                                     if (!isNaN(params[h])) {

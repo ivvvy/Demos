@@ -92,7 +92,7 @@ $(function(){
             cols:[],
             rows:[],
             results:[]
-        }
+        };
         var rowConditions = [],
             colConditions = [],
             rowName=$(".rowsVal").val(),
@@ -350,11 +350,6 @@ $(function(){
                                     types.push(inputs.eq(h).attr("data-type"));
                                 }
                                 console.log(values+"|||"+types);
-                                /*var id=conditionsName;
-                                for (var a = 0;a<values.length;a++){
-                                    id+=+values[a];
-
-                                }*/
                                 id=(conditionsName+"__"+values).toString().replace(/,/g,"-");
                                 type=types.toString().replace(/,/g,"-");
 
@@ -478,7 +473,6 @@ $(function(){
         console.log("列数=========="+cells+"行数="+rows);
         for (var i =1;i<cells;i++){
             for (var j =0;j<rows-1;j++){
-                //var inputs=$(".inputArea");
                 var tdValue = trs.eq(j).find("td").eq(i).text();
                 var classNameValue = trs.eq(j).find("td").eq(i).attr('class');
                 var classNameValueArr = classNameValue.split("only__");
@@ -500,17 +494,11 @@ $(function(){
                         var fnData=allData[3],fnTypes=allData[4];
                         console.log("函数参数："+fnData+"函数参数类型："+fnTypes);
                         var params=fnData.split("-");
-                        //var fnTypesArr=fnTypes.split("-");
-                        //for(var a=0;a<fnTypesArr.length;a++){
-                        //    var types=fnTypesArr[a];
-                        //    console.log("我是参数类型："+types)
-                        //}
                         var parameters = [];
                         for(var k =0;k<params.length;k++) {
                             if (!isNaN(params[k])) {
                                 parameters.push(createParameter("const", params[k]));
                             }else {
-                                console.log("xxx:"+params[k].match(/^[\u4e00-\u9fa5]+$/));
                                 if(/.*[\u4e00-\u9fa5]+.*$/.test(params[k])){
                                     parameters.push(createParameter("const", '\"'+params[k]+'\"'));
                                 }else{

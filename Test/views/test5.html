@@ -65,9 +65,9 @@
             <div class="col-lg-6" style="margin-bottom: 15px" data-index="0">
                 <button type="button" class="btn btn-primary" id="addConditionCol">添加条件列</button>
                 <button type="button" class="btn btn-info" id="addResultCol">添加结果列</button>
-                <button type="button" class="btn btn-danger" id="deleteCol">删除列</button>
-                <button type="button" class="btn btn-primary" id="addRow">添加行</button>
-                <button type="button" class="btn btn-danger" id="deleteRow">删除行</button>
+                <!--<button type="button" class="btn btn-danger" id="deleteCol">删除列</button>-->
+                <!--<button type="button" class="btn btn-primary" id="addRow">添加行</button>-->
+                <!--<button type="button" class="btn btn-danger" id="deleteRow">删除行</button>-->
             </div>
         </div>
         <div class="row">
@@ -93,20 +93,6 @@
                         <li><a href="javascript:void(0)">P_STAN_8002</a></li>
                         <li><a href="javascript:void(0)">STAN_STATUS_B001</a></li>
                         <li><a href="javascript:void(0)">STAN_ID_HASH</a></li>
-
-
-                        <!-- <li class="dropdown-submenu">
-                             <a href="javascript:void(0)" tabindex="-1" data-type="2" class="title">函数</a>
-                             <ul class="dropdown-menu pull-right submenu">
-                                 <li><a href="javascript:void(0)">函数1</a></li>
-                                 <li><a href="javascript:void(0)">函数2</a></li>
-                                 <li><a href="javascript:void(0)">函数3</a></li>
-                                 <li><a href="javascript:void(0)">函数4</a></li>
-                             </ul>
-                         </li>
-                         <li>
-                             <a href="javascript:void(0)" tabindex="-1" data-type="1" class="title">常量</a>
-                         </li>-->
                     </ul>
                     <ul class="dropdown-menu value-select fnSelect">
                         <li><a href="javascript:void(0)">krange</a></li>
@@ -118,34 +104,10 @@
                 </div>
 
                 <div style="position: absolute">
-                    <!--<input type="text" class="form-control typeArea" style="width:30%;position: relative;margin-bottom:10px" value=""/>-->
                     <div class="inputBox" style="display: none">
                         <input type="text" class="from-control dropdown-toggle typeArea"  data-type="var" value="" />
                         <input type="text" class="from-control dropdown-toggle typeArea"  data-type="const" value="" />
                         <input type="text" class="from-control dropdown-toggle typeArea"  data-type="const" value="" />
-                        <!--<ul class="dropdown-menu params-select" role="menu">
-                            <li class="dropdown-submenu">
-                                <a href="javascript:void(0)" tabindex="-1" data-type="3" class="title">变量</a>
-                                <ul class="dropdown-menu pull-right submenu">
-                                    <li><a href="javascript:void(0)">变量1</a></li>
-                                    <li><a href="javascript:void(0)">变量2</a></li>
-                                    <li><a href="javascript:void(0)">变量3</a></li>
-                                    <li><a href="javascript:void(0)">变量4</a></li>
-                                </ul>
-                            </li>
-                            <li class="dropdown-submenu">
-                                <a href="javascript:void(0)" tabindex="-1" data-type="2" class="title">函数</a>
-                                <ul class="dropdown-menu pull-right submenu">
-                                    <li><a href="javascript:void(0)">函数1</a></li>
-                                    <li><a href="javascript:void(0)">函数2</a></li>
-                                    <li><a href="javascript:void(0)">函数3</a></li>
-                                    <li><a href="javascript:void(0)">函数4</a></li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0)" tabindex="-1" data-type="1" class="title">常量</a>
-                            </li>
-                        </ul>-->
                     </div>
                     <button type="button" class="btn btn-success" style="position: absolute;top:80px">确定</button>
                     <button type="button" class="btn btn-primary compile" style="position: absolute;top:80px;left:80px">查看源代码</button>
@@ -158,9 +120,6 @@
 <div class="table1">
     <div id="example1"></div>
 </div>
-<!--<div class="table2">-->
-    <!--<div id="example2"></div>-->
-<!--</div>-->
 <div>
     <ul class="dropdown-menu tableMenu">
         <li class="dropdown-submenu">
