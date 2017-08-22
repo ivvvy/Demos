@@ -37,6 +37,8 @@ $(function () {
     });
 
 
+
+
     $("#addConditionCol").off().on("click", function () {
         var index = $(".index").index();
         hot1.alter('insert_col', index);
@@ -106,9 +108,10 @@ $(function () {
                 console.log("|||" + r + "|||" + c + "|||" + r2 + "|||" + c2);
                 if (r === 0) {
                     $(".tableSubmenu li a").off().on("click", function () {
+                        var only = "";
                         var index = $(this).index();
                         console.log(i);
-                        var only = "";
+                        hot1.removeCellMeta(i-1, j-1, 'className', hot1.getCellMeta(i-1,j-1).className+' '+only);
                         var text = $(this).eq(index).text();
                         var dataType = $(this).parents(".tableSubmenu").siblings("a").attr("data-type");
                         $(".tableMenu").removeClass("show");
@@ -119,11 +122,12 @@ $(function () {
                     });
                 } else if (r === r2) {
                     $(".btn-success").off().on("click", function () {
+                        var only = "";
+                        hot1.removeCellMeta(i-1, j-1, 'className', hot1.getCellMeta(i-1,j-1).className+' '+only);
                         hot1.setDataAtCell(i - 1, j - 1, getFnValue());
                         var operatorResult = $(".operatorResult option:selected").text();
                         var typeResult = $(".typeResult option:selected").val();
                         var conditionsName = $(".inputArea").val();
-                        var only = "";
                         if (typeResult == "fn") {
                             var inputs = $(".typeArea"), values = [], types = [], id = "", type = "";
                             for (var h = 0; h < inputs.length; h++) {
@@ -343,7 +347,7 @@ $(function () {
                     var tdValue = trs.eq(k).find("td").eq(i).text();
                     console.log("第" + k + "行的第" + i + "列的值为" + tdValue);
                     var className = trs.eq(k).find("td").eq(i).attr('class'),
-                        classNameValue=className.replace("htDimmed","");
+                        classNameValue=className.replace("htDimmed","").trim();
                     console.log("className:"+classNameValue);
                     var firstLine,lastLine;
                     //区分是选择变量还是选择条件
@@ -357,7 +361,9 @@ $(function () {
                         switch (type) {
                             case "const"://常量
                                 if(isNaN(tdValue)) {
-                                    conditions.push(createCondition(createEmptyLine(),createLine(operator,type,fnName,false)));
+                                    if(/.*[\u4e00-\u9fa5]+.*$/.test(tdValue)){
+                                        conditions.push(createCondition(createEmptyLine(),createLine(operator,type,'\"'+fnName+'\"',false)));
+                                    }
                                 }else{
                                     conditions.push(createCondition(createEmptyLine(),createLine(operator,type,fnName,false)));
                                 }
@@ -382,7 +388,7 @@ $(function () {
                                 conditions.push(createCondition(createEmptyLine(),createParamLine(operator,parameters,false)));
                                 break;
                             case "var"://变量
-                                conditions.push(createCondition(createEmptyLine(),createVarLine(operator,type,fnName,false)));
+                                conditions.push(createCondition(createEmptyLine(),createVarLine(operator,type,'\"'+fnName+'\"',false)));
                                 break;
 
                         }
@@ -444,7 +450,7 @@ $(function () {
                                 outComes.push(createFnOutcome(operator,"fn",fnName,parameters));
                                 break;
                             case "var"://变量
-                                outComes.push(createVariableOutCome(operator,"var",tdValue));
+                                outComes.push(createVariableOutCome(operator,"var",'\"'+tdValue+'\"'));
                                 break;
 
                         }

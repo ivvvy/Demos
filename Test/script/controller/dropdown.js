@@ -318,16 +318,16 @@ $(function(){
         }
 
         hot3.addHook('afterSelectionEnd', function(r, c, r2, c2){
-            for(var i = 0; i < hot3.countRows(); i++){
-                for(var j = 0; j < hot3.countCols(); j++){
-                    // 在这里只需移除扩展样式selected-td就行，保留表格原有样式
-                    var className = hot3.getCellMeta(i, j).className;
-                    if(className && className.lastIndexOf('selected-td') > 0){
-                        var index = className.indexOf('selected-td');
-                        hot3.setCellMeta(i, j, 'className', className.substring(0, index) + className.substring(index+1, className.length));
-                    }
-                }
-            }
+            //for(var i = 0; i < hot3.countRows(); i++){
+            //    for(var j = 0; j < hot3.countCols(); j++){
+            //        // 在这里只需移除扩展样式selected-td就行，保留表格原有样式
+            //        var className = hot3.getCellMeta(i, j).className;
+            //        if(className && className.lastIndexOf('selected-td') > 0){
+            //            var index = className.indexOf('selected-td');
+            //            hot3.setCellMeta(i, j, 'className', className.substring(0, index) + className.substring(index+1, className.length));
+            //        }
+            //    }
+            //}
             // 给选择范围的单元格添加样式
             for(var i = r; i <= r2; i++){
                 for(var j = c; j <= c2; j++){
@@ -338,11 +338,12 @@ $(function(){
                         $(".hiddenArea").show();
                         hot3.setCellMeta(i, j, 'className', hot3.getCellMeta(i, j).className + ' selected-td');
                         $(".btn-success").off().on("click",function(){
+                            var only="";
+                            hot3.removeCellMeta(i-1, j-1, 'className', hot3.getCellMeta(i-1,j-1).className+' '+only);
                             hot3.setDataAtCell(i-1, j-1, getFnValue());
                             var operatorResult=$(".operatorResult option:selected").text();
                             var typeResult=$(".typeResult option:selected").val();
                             var conditionsName=$(".typeArea").val();
-                            var only="";
                             if(typeResult=="fn"){
                                 var inputs=$(".inputArea"),values=[],types=[],id="",type="";
                                 for(var h=0;h<inputs.length;h++){
@@ -359,7 +360,6 @@ $(function(){
                             }
                             hot3.setCellMeta(i-1, j-1, 'className', hot3.getCellMeta(i-1,j-1).className+' '+only);
                             hot3.render();
-                            //hot3.removeCellMeta(i-1, j-1, 'className', hot3.getCellMeta(i-1,j-1).className+' '+only);
                         });
                     }
                 }
