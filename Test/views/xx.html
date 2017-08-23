@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script type="text/javascript" src="../script/libs/jquery-2.2.0.min.js"></script>
+    <script type="text/javascript" src="../script/controller/utils.js"></script>
 </head>
 <body>
 <div class="box">
@@ -13,6 +14,7 @@
         <h1></h1>
         <button style="width: 50px;height: 50px">按钮</button>
     </div>
+    <div class="tip">test</div>
 </div>
 <script>
     $("button").on('click',function (e) {
@@ -26,6 +28,7 @@
             $(".modal button").removeClass("rowAdd").addClass("colAdd");
         }
     })
+
 </script>
 </body>
 </html>

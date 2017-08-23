@@ -22,6 +22,7 @@ $(function () {
         readOnly: true,
         autoColumnSize: true,
 
+
     });
 
 

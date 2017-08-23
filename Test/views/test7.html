@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+<head>
+    <meta http-equiv="Content-Type"content="text/html;charset=utf-8"/>
+    <script type="text/javascript" src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        ;(function($,window,document,undefined){
+            var pluginName = "myTab";
+            var defaults = {
+                contentWrapper : '',
+                activeTabName : null
+            }
+            function Plugin(element,options){
+                this.element = element;
+                this.options = $.extend({},defaults,options);
+                this._defaults = defaults;
+                this._name = pluginName;
+                this.init();
+            }
+            Plugin.prototype.init = function(){
+                var self = this;
+                var $element = $(this.element);
+                $element.on('click','li',function(){
+                    var $this = $(this);
+                    var c = $this.data("tab");
+                    $element.trigger('tab/change',c);
+                });
+                $element.on('tab/change',function(e,tabName){
+                    $element.find('li').removeClass('cur');
+                    $element.find('>[data-tab='+tabName+']').addClass("cur");
+                });
+                var $contentWrapper = $(this.options.contentWrapper);
+                $element.on('tab/change',function(e,tabName){
+                    $contentWrapper.find('>[data-tab]').removeClass('on');
+                    $contentWrapper.find('>[data-tab='+tabName+']').addClass("on");
+                });
+                var activeName = this.options.activeTabName;
+                if(activeName == null){
+                    $element.find('li').eq(0).click();
+                }else{
+                    $element.trigger('tab/change',this.options.activeTabName);
+                }
+            }
+            $.fn[pluginName] = function(options){
+                return this.each(function(){
+                    if(!$.data(this,'plugin_'+pluginName)){
+                        $.data(this,'plugin_'+pluginName,new Plugin(this,options));
+                    }
+                });
+            }
+        })(jQuery,window,document);
+    </script>
+    <script type="text/javascript">
+        $(function(){
+            $('#tab').myTab({contentWrapper:'#tabContent',activeTabName : 'tab2'});
+        })
+    </script>
+    <style>
+        .tabContent div{margin:0;padding:0;width:184px;height:200px;border:1px solid #ccc;display:none;}
+        .tab{margin:0;padding:0;list-style:none;width:200px;overflow:hidden;}
+        .tab li{float:left;width:60px;height:30px;background:#ccc;color:#fff;border:1px solid red; text-align:center;line-height:30px;cursor:pointer; }
+        .tab li.cur{background:blue;}
+        div.on{display:block;}
+    </style>
+</head>
+<body>
+<ul id="tab" class="tab">
+    <li data-tab="tab1">最新</li>
+    <li data-tab="tab2">热门</li>
+    <li data-tab="tab3">新闻</li>
+</ul>
+<div id="tabContent" class="tabContent">
+    <div data-tab="tab1">11</div>
+    <div data-tab="tab2">22</div>
+    <div data-tab="tab3">33</div>
+</div>
+</body>
+</html>
