@@ -11,6 +11,7 @@
     <!--<script type="text/javascript" src="../script/libs/bootstrap-editable.js"></script>-->
     <script type="text/javascript" src="../script/libs/handsontable.full.min.js"></script>
     <script type="text/javascript" src="../script/controller/dropdown.js"></script>
+    <script type="text/javascript" src="../script/controller/common.js"></script>
     <style>
         .dropdown-toggle {
             margin: -7px 10px 0 10px;
@@ -100,10 +101,11 @@
             left: 26px;
         }
 
-        .handsontable .selected-td{background-color: rgb(224, 236, 255)}
-        /*.handsontable tbody tr:not(:first-child) td{background-color:rgb(224, 236, 255) }*/
-        .handsontable tbody tr td:not(:first-child){background-color:rgb(224, 236, 255) }
+        .handsontable .selected-td{background-color: #ecfcff}
+        .handsontable tbody tr td:first-child{background-color:#ebf6f9}
+        .handsontable tbody tr:first-child td:not(:first-child){background-color:#ebf6f9}
         .handsontable .selected{background-color: rgb(255, 255, 255)}
+        .handsontable .wtBorder{background-color:#29c6d4;}
         .elseTable > tbody > tr > td {
             height: 35px;
             line-height: 35px;
@@ -261,11 +263,11 @@
                             <option value="fn">函数</option>
                         </select>
                         <div style="position: absolute" class="typeBox">
-                            <input type="text" class="form-control typeArea" style="left: 21px;width:70%;position: relative;margin-bottom:10px" value=""/>
+                            <input type="text" class="form-control inputArea" style="left: 21px;width:70%;position: relative;margin-bottom:10px" value=""/>
                             <div class="inputBox" style="display: none">
-                                <input type="text" class="from-control dropdown-toggle inputArea" value="" data-type="var" style="margin-left:28px" />
-                                <input type="text" class="from-control dropdown-toggle inputArea" value="" data-type="const" />
-                                <input type="text" class="from-control dropdown-toggle inputArea" value="" data-type="const" />
+                                <input type="text" class="from-control dropdown-toggle typeArea" value="" data-type="var" style="margin-left:28px" />
+                                <input type="text" class="from-control dropdown-toggle typeArea" value="" data-type="const" />
+                                <input type="text" class="from-control dropdown-toggle typeArea" value="" data-type="const" />
                                 <ul class="dropdown-menu value-select" role="menu">
                                     <li>
                                         <a href="javascript:void(0)" tabindex="-1" data-type="3" class="var">变量</a>

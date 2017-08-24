@@ -83,6 +83,7 @@ $(function(){
     });
 
 
+
     function getJson() {
         var rowDataArr = getData(true);
         var colDataArr = getData(false);
@@ -248,13 +249,15 @@ $(function(){
     function showTable(row,col) {
         $('#example').empty();
         var data1=[];
-        data1.push(col);
+        //if(!isRow){
+            data1.push(col);
+        //}
         for(var i=0;i<row.length;i++){
             data1.push(new Array(row[i]));
         }
         var container1=document.getElementById('example'),
-            hot3;
-        hot3=new Handsontable(container1,{
+            hot1;
+        hot1=new Handsontable(container1,{
             data:data1,
             rowHeaders:false,
             colHeaders:false,
@@ -265,19 +268,15 @@ $(function(){
 
 
 
-            renderer: function (instance, td, row, col, prop, value, cellProperties) {
-                // 渲染为text类型，可选的有TimeRenderer、PasswordRenderer等不同的类型
-                Handsontable.renderers.TextRenderer.apply(this, arguments);
-                // 判断条件
-                //console.log(value);
-                /*if (!value && col) {
-                    cellProperties.readOnly = false;
-                }else */if(!value && col===0){
-                    td.style.backgroundColor = '#F2F2F2';
-                }else if(value && row===0){
-                    td.style.backgroundColor = '#ffffff';
-                }
-            },
+            //renderer: function (instance, td, row, col, prop, value, cellProperties) {
+            //    // 渲染为text类型，可选的有TimeRenderer、PasswordRenderer等不同的类型
+            //    Handsontable.renderers.TextRenderer.apply(this, arguments);
+            //    if(!value && col===0){
+            //        td.style.backgroundColor = '#F2F2F2';
+            //    }else if(value && row===0){
+            //        td.style.backgroundColor = '#ffffff';
+            //    }
+            //},
 
             //cells: function (row, col, prop) {
             //    var cellProperties = {};
@@ -298,76 +297,77 @@ $(function(){
         });
 
 
-        function getFnValue(){
-           var selectType=$(".typeResult option:selected").text();
-            if(selectType=="变量"){
-                value=$(".typeArea").val();
-            }else if(selectType=="常量"){
-                value=$(".typeArea").val();
-            }else if(selectType=="函数"){
-                var inputs=$(".inputArea");
-                var fnName=$(".typeArea").val();
-                var value=[];
-                for(var k=0;k<inputs.length;k++){
-                    value.push(inputs.eq(k).val());
-                }
-                value=fnName+"("+value+")";
-            }
+        //function getFnValue(){
+        //   var selectType=$(".typeResult option:selected").text();
+        //    if(selectType=="变量"){
+        //        value=$(".typeArea").val();
+        //    }else if(selectType=="常量"){
+        //        value=$(".typeArea").val();
+        //    }else if(selectType=="函数"){
+        //        var inputs=$(".inputArea");
+        //        var fnName=$(".typeArea").val();
+        //        var value=[];
+        //        for(var k=0;k<inputs.length;k++){
+        //            value.push(inputs.eq(k).val());
+        //        }
+        //        value=fnName+"("+value+")";
+        //    }
+        //
+        //    return value;
+        //}
 
-            return value;
-        }
-
-        hot3.addHook('afterSelectionEnd', function(r, c, r2, c2){
-            //for(var i = 0; i < hot3.countRows(); i++){
-            //    for(var j = 0; j < hot3.countCols(); j++){
-            //        // 在这里只需移除扩展样式selected-td就行，保留表格原有样式
-            //        var className = hot3.getCellMeta(i, j).className;
-            //        if(className && className.lastIndexOf('selected-td') > 0){
-            //            var index = className.indexOf('selected-td');
-            //            hot3.setCellMeta(i, j, 'className', className.substring(0, index) + className.substring(index+1, className.length));
-            //        }
-            //    }
-            //}
-            // 给选择范围的单元格添加样式
-            for(var i = r; i <= r2; i++){
-                for(var j = c; j <= c2; j++){
-                    console.log("|||"+r+"|||"+c+"|||"+r2+"|||"+c2);
-                    if(c===0){
-                        hot3.setCellMeta(i, j, 'className', hot3.getCellMeta(i, j).className + ' selected');
-                    }else if(c===c2){
-                        $(".hiddenArea").show();
-                        hot3.setCellMeta(i, j, 'className', hot3.getCellMeta(i, j).className + ' selected-td');
-                        $(".btn-success").off().on("click",function(){
-                            var only="";
-                            hot3.removeCellMeta(i-1, j-1, 'className', hot3.getCellMeta(i-1,j-1).className+' '+only);
-                            hot3.setDataAtCell(i-1, j-1, getFnValue());
-                            var operatorResult=$(".operatorResult option:selected").text();
-                            var typeResult=$(".typeResult option:selected").val();
-                            var conditionsName=$(".typeArea").val();
-                            if(typeResult=="fn"){
-                                var inputs=$(".inputArea"),values=[],types=[],id="",type="";
-                                for(var h=0;h<inputs.length;h++){
-                                    values.push(inputs.eq(h).val());
-                                    types.push(inputs.eq(h).attr("data-type"));
-                                }
-                                console.log(values+"|||"+types);
-                                id=(conditionsName+"__"+values).toString().replace(/,/g,"-");
-                                type=types.toString().replace(/,/g,"-");
-
-                                only="only__"+operatorResult+"__"+typeResult+"__"+id+"__"+type;
-                            }else{
-                                only="only__"+operatorResult+"__"+typeResult+"__"+conditionsName;
-                            }
-                            hot3.setCellMeta(i-1, j-1, 'className', hot3.getCellMeta(i-1,j-1).className+' '+only);
-                            hot3.render();
-                        });
-                    }
-                }
-            }
-
-            // 重新渲染网格
-            hot3.render();
-        })
+        //hot3.addHook('afterSelectionEnd', function(r, c, r2, c2){
+        //    //for(var i = 0; i < hot3.countRows(); i++){
+        //    //    for(var j = 0; j < hot3.countCols(); j++){
+        //    //        // 在这里只需移除扩展样式selected-td就行，保留表格原有样式
+        //    //        var className = hot3.getCellMeta(i, j).className;
+        //    //        if(className && className.lastIndexOf('selected-td') > 0){
+        //    //            var index = className.indexOf('selected-td');
+        //    //            hot3.setCellMeta(i, j, 'className', className.substring(0, index) + className.substring(index+1, className.length));
+        //    //        }
+        //    //    }
+        //    //}
+        //    // 给选择范围的单元格添加样式
+        //    for(var i = r; i <= r2; i++){
+        //        for(var j = c; j <= c2; j++){
+        //            console.log("|||"+r+"|||"+c+"|||"+r2+"|||"+c2);
+        //            if(c===0){
+        //                hot3.setCellMeta(i, j, 'className', hot3.getCellMeta(i, j).className + ' selected');
+        //            }else if(c===c2){
+        //                $(".hiddenArea").show();
+        //                hot3.setCellMeta(i, j, 'className', hot3.getCellMeta(i, j).className + ' selected-td');
+        //                $(".btn-success").off().on("click",function(){
+        //                    var only="";
+        //                    hot3.removeCellMeta(i-1, j-1, 'className', hot3.getCellMeta(i-1,j-1).className+' '+only);
+        //                    hot3.setDataAtCell(i-1, j-1, getFnValue());
+        //                    var operatorResult=$(".operatorResult option:selected").text();
+        //                    var typeResult=$(".typeResult option:selected").val();
+        //                    var conditionsName=$(".typeArea").val();
+        //                    if(typeResult=="fn"){
+        //                        var inputs=$(".inputArea"),values=[],types=[],id="",type="";
+        //                        for(var h=0;h<inputs.length;h++){
+        //                            values.push(inputs.eq(h).val());
+        //                            types.push(inputs.eq(h).attr("data-type"));
+        //                        }
+        //                        console.log(values+"|||"+types);
+        //                        id=(conditionsName+"__"+values).toString().replace(/,/g,"-");
+        //                        type=types.toString().replace(/,/g,"-");
+        //
+        //                        only="only__"+operatorResult+"__"+typeResult+"__"+id+"__"+type;
+        //                    }else{
+        //                        only="only__"+operatorResult+"__"+typeResult+"__"+conditionsName;
+        //                    }
+        //                    hot3.setCellMeta(i-1, j-1, 'className', hot3.getCellMeta(i-1,j-1).className+' '+only);
+        //                    hot3.render();
+        //                });
+        //            }
+        //        }
+        //    }
+        //
+        //    // 重新渲染网格
+        //    hot3.render();
+        //})
+        var hot=select(hot1,false);
     }
 
     function createLeft(type,value) {
@@ -540,7 +540,7 @@ $(function(){
     }
 
 
-    $(".typeArea").off().on('click',function () {
+    $(".inputArea").off().on('click',function () {
         showInput();
     });
 

@@ -5,7 +5,7 @@ $(function () {
     ];
     var container1 = document.getElementById('example1'),
         hot1;
-    hot1 = new Handsontable(container1, {
+    hot1=new Handsontable(container1, {
         data: data,
         rowHeaders: false,
         colHeaders: false,
@@ -26,6 +26,10 @@ $(function () {
     });
 
 
+
+
+
+
     hot1.updateSettings({
         cells: function (row, col, prop) {
             var cellProperties = {};
@@ -37,6 +41,28 @@ $(function () {
         }
     });
 
+
+
+    //$("#example1").handsontable({
+    //    data:[
+    //        ['请选择变量', '请选择变量'],
+    //        ['请输入条件', '请输入结果']
+    //    ],
+    //    colHeaders: false,
+    //    colWidths: 150,
+    //    rowWidths: 150,
+    //    readOnly: true,
+    //    autoColumnSize: true,
+    //    contextMenu:{
+    //        items: {
+    //            "row_above": {name: "当前行上方"},
+    //            "row_below": {name: "当前行下方"},
+    //            "remove_row": {name: "删除行"},
+    //            "remove_col": {name: "删除列"},
+    //        }
+    //    }
+    //
+    //});
 
 
 
@@ -68,25 +94,25 @@ $(function () {
     }
 
 
-    function getFnValue() {
-        var selectType = $(".typeResult option:selected").text();
-        if (selectType == "变量") {
-            value = $(".inputArea").val();
-        } else if (selectType == "常量") {
-            value = $(".inputArea").val();
-        } else if (selectType == "函数") {
-            var inputs = $(".typeArea");
-            var fnName = $(".inputArea").val();
-            var value = [], types = [];
-            for (var k = 0; k < inputs.length; k++) {
-                value.push(inputs.eq(k).val());
-                types.push(inputs.eq(k).attr("data-type"));
-            }
-            value = fnName + "(" + value + ")";
-        }
-
-        return value;
-    }
+    //function getFnValue() {
+    //    var selectType = $(".typeResult option:selected").text();
+    //    if (selectType == "变量") {
+    //        value = $(".inputArea").val();
+    //    } else if (selectType == "常量") {
+    //        value = $(".inputArea").val();
+    //    } else if (selectType == "函数") {
+    //        var inputs = $(".typeArea");
+    //        var fnName = $(".inputArea").val();
+    //        var value = [], types = [];
+    //        for (var k = 0; k < inputs.length; k++) {
+    //            value.push(inputs.eq(k).val());
+    //            types.push(inputs.eq(k).attr("data-type"));
+    //        }
+    //        value = fnName + "(" + value + ")";
+    //    }
+    //
+    //    return value;
+    //}
 
     function getTypeAndOperator() {
         var type = "", operators = "";
@@ -101,60 +127,61 @@ $(function () {
         console.log("|||" + type + "|||" + operators);
     }
 
+    var hot=select(hot1,true);
 
-    hot1.addHook('afterSelectionEnd', function (r, c, r2, c2) {
-        // 给选择范围的单元格添加样式
-        for (var i = r; i <= r2; i++) {
-            for (var j = c; j <= c2; j++) {
-                console.log("|||" + r + "|||" + c + "|||" + r2 + "|||" + c2);
-                if (r === 0) {
-                    $(".tableSubmenu li a").off().on("click", function () {
-                        var only = "";
-                        var index = $(this).index();
-                        console.log(i);
-                        hot1.removeCellMeta(i-1, j-1, 'className', hot1.getCellMeta(i-1,j-1).className+' '+only);
-                        var text = $(this).eq(index).text();
-                        var dataType = $(this).parents(".tableSubmenu").siblings("a").attr("data-type");
-                        $(".tableMenu").removeClass("show");
-                        only = "only__" + dataType+"__conditions";
-                        hot1.setDataAtCell(i - 1, j - 1, text);
-                        hot1.setCellMeta(i - 1, j - 1, 'className', hot1.getCellMeta(i - 1, j - 1).className + ' ' + only);
-                        hot1.render();
-                    });
-                } else if (r === r2) {
-                    $(".btn-success").off().on("click", function () {
-                        var only = "";
-                        hot1.removeCellMeta(i-1, j-1, 'className', hot1.getCellMeta(i-1,j-1).className+' '+only);
-                        hot1.setDataAtCell(i - 1, j - 1, getFnValue());
-                        var operatorResult = $(".operatorResult option:selected").text();
-                        var typeResult = $(".typeResult option:selected").val();
-                        var conditionsName = $(".inputArea").val();
-                        if (typeResult == "fn") {
-                            var inputs = $(".typeArea"), values = [], types = [], id = "", type = "";
-                            for (var h = 0; h < inputs.length; h++) {
-                                values.push(inputs.eq(h).val());
-                                types.push(inputs.eq(h).attr("data-type"));
-                            }
-                            console.log(values + "|||" + types);
-                            id = (conditionsName + "__" + values).toString().replace(/,/g, "-");
-                            type = types.toString().replace(/,/g, "-");
-
-                            only = "only__" + operatorResult + "__" + typeResult + "__" + id + "__" + type;
-                        } else {
-                            only = "only__" + operatorResult + "__" + typeResult + "__" + conditionsName;
-                        }
-                        hot1.setCellMeta(i - 1, j - 1, 'className', hot1.getCellMeta(i - 1, j - 1).className + ' ' + only);
-                        hot1.render();
-
-                    });
-                }
-
-            }
-        }
-
-        // 重新渲染网格
-        hot1.render();
-    });
+    //hot1.addHook('afterSelectionEnd', function (r, c, r2, c2) {
+    //    // 给选择范围的单元格添加样式
+    //    for (var i = r; i <= r2; i++) {
+    //        for (var j = c; j <= c2; j++) {
+    //            console.log("|||" + r + "|||" + c + "|||" + r2 + "|||" + c2);
+    //            if (r === 0) {
+    //                $(".tableSubmenu li a").off().on("click", function () {
+    //                    var only = "";
+    //                    var index = $(this).index();
+    //                    console.log(i);
+    //                    hot1.removeCellMeta(i-1, j-1, 'className', hot1.getCellMeta(i-1,j-1).className+' '+only);
+    //                    var text = $(this).eq(index).text();
+    //                    var dataType = $(this).parents(".tableSubmenu").siblings("a").attr("data-type");
+    //                    $(".tableMenu").removeClass("show");
+    //                    only = "only__" + dataType+"__conditions";
+    //                    hot1.setDataAtCell(i - 1, j - 1, text);
+    //                    hot1.setCellMeta(i - 1, j - 1, 'className', hot1.getCellMeta(i - 1, j - 1).className + ' ' + only);
+    //                    hot1.render();
+    //                });
+    //            } else if (r === r2) {
+    //                $(".btn-success").off().on("click", function () {
+    //                    var only = "";
+    //                    hot1.removeCellMeta(i-1, j-1, 'className', hot1.getCellMeta(i-1,j-1).className+' '+only);
+    //                    hot1.setDataAtCell(i - 1, j - 1, getFnValue());
+    //                    var operatorResult = $(".operatorResult option:selected").text();
+    //                    var typeResult = $(".typeResult option:selected").val();
+    //                    var conditionsName = $(".inputArea").val();
+    //                    if (typeResult == "fn") {
+    //                        var inputs = $(".typeArea"), values = [], types = [], id = "", type = "";
+    //                        for (var h = 0; h < inputs.length; h++) {
+    //                            values.push(inputs.eq(h).val());
+    //                            types.push(inputs.eq(h).attr("data-type"));
+    //                        }
+    //                        console.log(values + "|||" + types);
+    //                        id = (conditionsName + "__" + values).toString().replace(/,/g, "-");
+    //                        type = types.toString().replace(/,/g, "-");
+    //
+    //                        only = "only__" + operatorResult + "__" + typeResult + "__" + id + "__" + type;
+    //                    } else {
+    //                        only = "only__" + operatorResult + "__" + typeResult + "__" + conditionsName;
+    //                    }
+    //                    hot1.setCellMeta(i - 1, j - 1, 'className', hot1.getCellMeta(i - 1, j - 1).className + ' ' + only);
+    //                    hot1.render();
+    //
+    //                });
+    //            }
+    //
+    //        }
+    //    }
+    //
+    //    // 重新渲染网格
+    //    hot1.render();
+    //});
 
 
 
