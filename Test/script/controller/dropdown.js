@@ -61,9 +61,7 @@ $(function(){
     });
 
 
-    //$("#delete").off().on("click",function(){
-    //    $(this).parents(".options-btn").siblings(".options-body").children(".table").children().children().remove();
-    //});
+
 
 
 
@@ -73,13 +71,11 @@ $(function(){
         console.log("rows:"+rows);
         console.log("cols:"+cols);
         showTable(rows,cols);
-        //changeBgColor();
     });
     $("#colSave").off().on("click",function(){
         var rows = getTableArr(true);
         var cols = getTableArr(false);
         showTable(rows,cols);
-        //changeBgColor();
     });
 
 
@@ -265,7 +261,6 @@ $(function(){
             rowWidths:220,
             contextMenu:true,
             readOnly:true,
-
 
 
             //renderer: function (instance, td, row, col, prop, value, cellProperties) {

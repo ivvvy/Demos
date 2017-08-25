@@ -13,8 +13,8 @@ $(function () {
         rowWidths: 150,
         contextMenu: {
             items: {
-                "row_above": {name: "当前行上方"},
-                "row_below": {name: "当前行下方"},
+                "row_above": {name: "上方插入一行"},
+                "row_below": {name: "下方插入一行"},
                 "remove_row": {name: "删除行"},
                 "remove_col": {name: "删除列"},
             }

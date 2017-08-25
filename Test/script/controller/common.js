@@ -26,8 +26,6 @@ function select(hot1,isTable){
                     //
                     console.log("|||" + r + "|||" + c + "|||" + r2 + "|||" + c2);
                     $(".wtBorder").css("background-color",'#29c6d4');
-                    //hot1.setCellMeta(i, j, 'className', hot1.getCellMeta(i,j).className+ ' selected-td');
-                    //hot1.removeCellMeta(i, j, 'className', hot1.getCellMeta(i,j).className+ ' selected-td');
                     if(isTable){
                         if (r === 0) {
                             var varSelect=$(".tableSubmenu li a");
