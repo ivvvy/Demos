@@ -1,5 +1,5 @@
 $(function(){
-    var data="",dataType="";
+    var data="",dataType="",hot1;
 
     $(".dropdown-menu li a").off().on("click",function(){
         var i=$(this).index();
@@ -251,8 +251,7 @@ $(function(){
         for(var i=0;i<row.length;i++){
             data1.push(new Array(row[i]));
         }
-        var container1=document.getElementById('example'),
-            hot1;
+        var container1=document.getElementById('example');
         hot1=new Handsontable(container1,{
             data:data1,
             rowHeaders:false,
@@ -363,6 +362,7 @@ $(function(){
         //    hot3.render();
         //})
         var hot=select(hot1,false);
+
     }
 
     function createLeft(type,value) {

@@ -3,78 +3,330 @@
 <head>
     <meta charset="UTF-8">
     <title></title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/handsontable.full.min.css">
     <script type="text/javascript" src="../script/libs/jquery-2.2.0.min.js"></script>
+    <script type="text/javascript" src="../script/libs/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../script/libs/handsontable.full.min.js"></script>
+    <script type="text/javascript" src="../script/controller/dropdown.js"></script>
+    <script type="text/javascript" src="../script/controller/common.js"></script>
     <style>
-        .table{
-            margin-top: 20px;
-        }
-        .table table{
-            width: 50%;
-            border: 1px solid #000;
-        }
-        .table table td{
-            width: 20%;
-            box-sizing: border-box;
-            border-right: 1px solid #000;
-        }
-        .table table td:last-child{
-            border: none;
-        }
+
     </style>
 </head>
-<body>
-<div class="box" style="display: none">
-    <select>
-        <option value="">1</option>
-        <option value="">2</option>
-        <option value="">3</option>
-        <option value="">4</option>
-        <option value="">5</option>
-    </select>
-    <select>
-        <option value="">6</option>
-        <option value="">7</option>
-        <option value="">8</option>
-        <option value="">9</option>
-        <option value="">10</option>
-    </select>
-    <input type="text" />
+<body class="">
+<div style="padding:100px 100px 150px" id="container">
+    <form class="bs-example bs-example-form" role="form">
+        <div class="row">
+            <div class="col-lg-6" style="margin-bottom: 15px" data-index="0">
+                <div class="input-group">
+                    <input type="text" class="form-control" value="" data-type="OUTPUT">
+                    <input type="hidden" class="rowsVal" value="STAN_STATUS_8003" data-type="OUTPUT">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            行变量
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-submenu">
+                                <a href="javascript:void(0)" tabindex="-1" data-type="INPUT">输入变量</a>
+                                <ul class="dropdown-menu pull-right">
+                                    <li><a href="javascript:void(0)">STAN_SH_RULE_FIRED</a></li>
+                                    <li><a href="javascript:void(0)">P_STAN_8002</a></li>
+                                    <li><a href="javascript:void(0)">STAN_STATUS_B001</a></li>
+                                    <li><a href="javascript:void(0)">STAN_ID_HASH</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown-submenu">
+                                <a href="javascript:void(0)" tabindex="-1" data-type="OUTPUT">输出变量</a>
+                                <ul class="dropdown-menu pull-right">
+                                    <li><a href="javascript:void(0)">G1.ID_ORG</a></li>
+                                    <li><a href="javascript:void(0)">STAN_STATUS_8003</a></li>
+                                    <li><a href="javascript:void(0)">S1_MULTI_APP</a></li>
+                                    <li><a href="javascript:void(0)">CELL_PHONE_ORG</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown-submenu">
+                                <a href="javascript:void(0)" tabindex="-1" data-type="TEMP">中间变量</a>
+                                <ul class="dropdown-menu pull-right">
+                                    <li><a href="javascript:void(0)">APP_AMT_3M</a></li>
+                                    <li><a href="javascript:void(0)">APP_COUNT</a></li>
+                                    <li><a href="javascript:void(0)">FRAUD_LEVEL</a></li>
+                                    <li><a href="javascript:void(0)">FRAUD_SCORE</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <button type="button" class="btn btn-default score" data-toggle="modal" data-target="#myModal1">切分表
+                    </button>
+                </div>
+            </div>
+            <br>
+
+            <div class="col-lg-6" style="margin-bottom: 15px" data-index="1">
+                <div class="input-group">
+                    <input type="text" class="form-control" value="" data-type="TEMP">
+                    <input type="hidden" class="colsVal" value="FRAUD_LEVEL" data-type="TEMP">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            列变量
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu pull-right">
+                            <li class="dropdown-submenu">
+                                <a href="javascript:void(0)" tabindex="-1" data-type="INPUT">输入变量</a>
+                                <ul class="dropdown-menu pull-right">
+                                    <li><a href="javascript:void(0)">STAN_SH_RULE_FIRED</a></li>
+                                    <li><a href="javascript:void(0)">P_STAN_8002</a></li>
+                                    <li><a href="javascript:void(0)">STAN_STATUS_B001</a></li>
+                                    <li><a href="javascript:void(0)">STAN_ID_HASH</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown-submenu">
+                                <a href="javascript:void(0)" tabindex="-1" data-type="OUTPUT">输出变量</a>
+                                <ul class="dropdown-menu pull-right">
+                                    <li><a href="javascript:void(0)">G1.ID_ORG</a></li>
+                                    <li><a href="javascript:void(0)">STAN_STATUS_8003</a></li>
+                                    <li><a href="javascript:void(0)">S1_MULTI_APP</a></li>
+                                    <li><a href="javascript:void(0)">CELL_PHONE_ORG</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown-submenu">
+                                <a href="javascript:void(0)" tabindex="-1" data-type="TEMP">中间变量</a>
+                                <ul class="dropdown-menu pull-right">
+                                    <li><a href="javascript:void(0)">APP_AMT_3M</a></li>
+                                    <li><a href="javascript:void(0)">APP_COUNT</a></li>
+                                    <li><a href="javascript:void(0)">FRAUD_LEVEL</a></li>
+                                    <li><a href="javascript:void(0)">FRAUD_SCORE</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <button type="button" class="btn btn-default score" data-toggle="modal" data-target="#myModal2">切分表
+                    </button>
+                </div>
+            </div>
+            <br>
+
+            <div class="col-lg-6" data-index="2">
+                <div class="input-group">
+                    <input type="text" class="form-control" value="" style="width: 72%;position: relative" data-type="TEMP">
+                    <input type="hidden" class="resultVal" value="S1_MULTI_APP" data-type="TEMP">
+                    <div class="input-group-btn result-value">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="margin:0 0 0 10px" aria-expanded="false">
+                            结果变量
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu pull-right" role="menu">
+                            <li class="dropdown-submenu">
+                                <a href="javascript:void(0)" tabindex="-1" data-type="INPUT">输入变量</a>
+                                <ul class="dropdown-menu pull-right">
+                                    <li><a href="javascript:void(0)">APP_AMT_3M</a></li>
+                                    <li><a href="javascript:void(0)">APP_COUNT</a></li>
+                                    <li><a href="javascript:void(0)">FRAUD_LEVEL</a></li>
+                                    <li><a href="javascript:void(0)">FRAUD_SCORE</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown-submenu">
+                                <a href="javascript:void(0)" tabindex="-1" data-type="OUTPUT">输出变量</a>
+                                <ul class="dropdown-menu pull-right">
+                                    <li><a href="javascript:void(0)">STAN_SH_RULE_FIRED</a></li>
+                                    <li><a href="javascript:void(0)">P_STAN_8002</a></li>
+                                    <li><a href="javascript:void(0)">STAN_STATUS_B001</a></li>
+                                    <li><a href="javascript:void(0)">STAN_ID_HASH</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown-submenu">
+                                <a href="javascript:void(0)" tabindex="-1" data-type="TEMP">中间变量</a>
+                                <ul class="dropdown-menu pull-right">
+                                    <li><a href="javascript:void(0)">G1.ID_ORG</a></li>
+                                    <li><a href="javascript:void(0)">STAN_STATUS_8003</a></li>
+                                    <li><a href="javascript:void(0)">S1_MULTI_APP</a></li>
+                                    <li><a href="javascript:void(0)">CELL_PHONE_ORG</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="input-group hiddenArea" style="position: absolute; left: -20px; top: 60px; width: 100%;">
+                        <select class="select operatorResult">
+                            <option value=""></option>
+                            <option value="=">=</option>
+                            <option value="-=">-=</option>
+                            <option value="+=">+=</option>
+                        </select>
+                        <select class="select typeResult">
+                            <option value=""></option>
+                            <option value="var">变量</option>
+                            <option value="const">常量</option>
+                            <option value="fn">函数</option>
+                        </select>
+                        <div style="position: absolute" class="typeBox">
+                            <input type="text" class="form-control inputArea" style="left: 21px;width:70%;position: relative;margin-bottom:10px" value="">
+                            <div class="inputBox" style="display: none;">
+                                <input type="text" class="from-control dropdown-toggle typeArea" value="" data-type="var" style="margin-left:28px">
+                                <input type="text" class="from-control dropdown-toggle typeArea" value="" data-type="const">
+                                <input type="text" class="from-control dropdown-toggle typeArea" value="" data-type="const">
+                                <ul class="dropdown-menu value-select" role="menu">
+                                    <li>
+                                        <a href="javascript:void(0)" tabindex="-1" data-type="3" class="var">变量</a>
+                                        <a href="javascript:void(0)" tabindex="-1" data-type="2" class="fn">函数</a>
+                                        <a href="javascript:void(0)" tabindex="-1" data-type="1" class="const">常量</a>
+                                        <!--<ul class="dropdown-menu pull-right submenu">
+                                            <li><a href="javascript:void(0)">变量1</a></li>
+                                            <li><a href="javascript:void(0)">变量2</a></li>
+                                            <li><a href="javascript:void(0)">变量3</a></li>
+                                            <li><a href="javascript:void(0)">变量4</a></li>
+                                        </ul>-->
+                                    </li>
+                                    <!--<li class="dropdown-menu">
+                                        <a href="javascript:void(0)" tabindex="-1" data-type="2" class="title">函数</a>
+                                        &lt;!&ndash;<ul class="dropdown-menu pull-right submenu">
+                                            <li><a href="javascript:void(0)">函数1</a></li>
+                                            <li><a href="javascript:void(0)">函数2</a></li>
+                                            <li><a href="javascript:void(0)">函数3</a></li>
+                                            <li><a href="javascript:void(0)">函数4</a></li>
+                                        </ul>&ndash;&gt;
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0)" tabindex="-1" data-type="1" class="title">常量</a>
+                                    </li>-->
+                                </ul>
+                            </div>
+                            <button type="button" class="btn btn-success" style="position: absolute;right: -35px">确定</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6" style="margin-top: 200px">
+                <button type="button" class="btn btn-primary compile">查看源代码</button>
+            </div>
+        </div>
+
+    </form>
+
 </div>
-<div class="table">
-    <table>
+<div id="example" class="handsontable"><div class="ht_master handsontable" style="position: relative; overflow: visible;"><div class="wtHolder" style="position: relative; overflow: visible;"><div class="wtHider" style="width: 660px; height: 70px;"><div class="wtSpreader" style="position: relative; top: 0px; left: 0px;"><table class="htCore"><colgroup><col style="width: 220px;"><col style="width: 220px;"><col style="width: 220px;"></colgroup><thead></thead><tbody><tr><td class="htDimmed"></td><td class="htDimmed">FRAUD_LEVEL&lt;33</td><td class="htDimmed">FRAUD_LEVEL&gt;11</td></tr><tr><td class="htDimmed">5&lt;STAN_STATUS_8003=&lt;15</td><td class="undefined only__+=__var__app htDimmed">app</td><td class="undefined only__=__fn__krange__score-500-500__var-const-const htDimmed">krange(score,500,500)</td></tr><tr><td class="htDimmed">STAN_STATUS_8003&gt;=25</td><td class="undefined only__-=__const__100 htDimmed">100</td><td class="undefined only__=__const__高 htDimmed">高</td></tr></tbody></table><div class="htBorders"><div style="position: absolute; top: 0px; left: 0px;"><div class="wtBorder fill" style="background-color: rgb(41, 198, 212); height: 1px; width: 1px; display: none;"></div><div class="wtBorder fill" style="background-color: rgb(41, 198, 212); height: 1px; width: 1px; display: none;"></div><div class="wtBorder fill" style="background-color: rgb(41, 198, 212); height: 1px; width: 1px; display: none;"></div><div class="wtBorder fill" style="background-color: rgb(41, 198, 212); height: 1px; width: 1px; display: none;"></div><div class="wtBorder fill corner" style="background-color: rgb(41, 198, 212); height: 5px; width: 5px; border: 2px solid rgb(255, 255, 255); display: none;"></div></div><div style="position: absolute; top: 0px; left: 0px;"><div class="wtBorder area" style="background-color: rgb(41, 198, 212); height: 1px; width: 1px; display: none;"></div><div class="wtBorder area" style="background-color: rgb(41, 198, 212); height: 1px; width: 1px; display: none;"></div><div class="wtBorder area" style="background-color: rgb(41, 198, 212); height: 1px; width: 1px; display: none;"></div><div class="wtBorder area" style="background-color: rgb(41, 198, 212); height: 1px; width: 1px; display: none;"></div><div class="wtBorder area corner" style="background-color: rgb(41, 198, 212); height: 5px; width: 5px; border: 2px solid rgb(255, 255, 255); display: none;"></div></div><div style="position: absolute; top: 0px; left: 0px;"><div class="wtBorder current" style="background-color: rgb(41, 198, 212); height: 2px; width: 220px; display: none; top: 46px; left: 439px;"></div><div class="wtBorder current" style="background-color: rgb(41, 198, 212); height: 23px; width: 2px; display: none; top: 46px; left: 439px;"></div><div class="wtBorder current" style="background-color: rgb(41, 198, 212); height: 2px; width: 220px; display: none; top: 68px; left: 439px;"></div><div class="wtBorder current" style="background-color: rgb(41, 198, 212); height: 24px; width: 2px; display: none; top: 46px; left: 658px;"></div><div class="wtBorder current corner" style="background-color: rgb(41, 198, 212); height: 5px; width: 5px; border: 2px solid rgb(255, 255, 255); display: none; top: 65px; left: 655px;"></div></div></div></div></div></div></div><div class="ht_clone_top handsontable" style="position: absolute; top: 0px; left: 0px; overflow: hidden;"><div class="wtHolder" style="position: relative;"><div class="wtHider"><div class="wtSpreader" style="position: relative;"><table class="htCore"><colgroup></colgroup><thead></thead><tbody></tbody></table></div></div></div></div><div class="ht_clone_bottom handsontable" style="position: absolute; top: 0px; left: 0px; overflow: hidden;"><div class="wtHolder" style="position: relative;"><div class="wtHider"><div class="wtSpreader" style="position: relative;"><table class="htCore"><colgroup></colgroup><thead></thead><tbody></tbody></table></div></div></div></div><div class="ht_clone_left handsontable" style="position: absolute; top: 0px; left: 0px; overflow: hidden;"><div class="wtHolder" style="position: relative;"><div class="wtHider"><div class="wtSpreader" style="position: relative;"><table class="htCore"><colgroup></colgroup><thead></thead><tbody></tbody></table></div></div></div></div><div class="handsontableInputHolder" style="top: 0px; left: 0px; display: none;"><textarea class="handsontableInput" style="width: 0px; height: 0px;"></textarea></div></div>
+<div class="elseResult" style="display: none;margin-top: 50px;margin-left: 84px">
+    <button type="button" class="btn btn-primary addElse">添加else结果</button>
+    <table class="table table-bordered elseTable" style="width: 80%">
         <tbody>
-            <tr>
-                <td class="index">else</td>
-                <td class="index"></td>
-                <td class="index"></td>
-                <td class="index"></td>
-            </tr>
+        <tr>
+            <td class="elseTd">ELSE</td>
+        </tr>
         </tbody>
     </table>
 </div>
-<script>
-//    $(".box").on('click',function () {
-//        var classNameValue="only_+=_fn_krange_app-100-200_var-const-const";
-//        var classNameValueArr = classNameValue.split("only_")[1];
-//        var allData=classNameValueArr.toString().split("_");
-//        var operator=allData[0],type=allData[1],fnName=allData[2],fnData=allData[3],fnTypes=allData[4];
-//        console.log("操作符："+operator+"类型："+type+"函数名："+fnName+"函数参数："+fnData+"函数参数类型："+fnTypes);
-//        var fnDataArr=fnData.split("-");
-//        var fnTypesArr=fnTypes.split("-");
-//        for(var k=0;k<fnDataArr.length;k++){
-//            var params=fnDataArr[k];
-//            console.log("我是参数："+params)
-//        }
-//        for(var a=0;a<fnTypesArr.length;a++){
-//            var types=fnTypesArr[a];
-//            console.log("我是参数类型："+types)
-//        }
-//    })
-    $(".table table tbody tr td").off().on('click',function(e){
-        console.log($(".index:first").index());
-        $(".box").css("display","block");
-    });
+<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel1">行变量切分表</h4>
 
-</script>
-</body>
+                <div class="modal-body">
+                    <div class="options-btn">
+                        <button type="button" class="btn btn-primary add rowAdd">添加</button>
+                        <button type="button" class="btn btn-danger delete">删除</button>
+                    </div>
+                    <div class="options-body">
+                        <table class="table table-bordered" id="rowTable">
+                            <thead>
+                            <tr>
+                                <th>比较值1</th>
+                                <th>运算符</th>
+                                <th>比较值2</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="editVal" data-type="const">5</td>
+                                <td>
+                                    <select>
+                                        <option value=""></option>
+                                        <option value="=">=x</option>
+                                        <option value=">">x&gt;</option>
+                                        <option value=">=">x&gt;=</option>
+                                        <option value="<">&lt;x</option>
+                                        <option value="<=">&lt;=x</option>
+                                        <option value="≠">≠x</option>
+                                        <option value=">,<">&gt;x&lt;</option>
+                                        <option value=">=,<">&gt;=x&lt;</option>
+                                        <option value=">,=<">&gt;x=&lt;</option>
+                                        <option value=">=,=<">&gt;=x=&lt;</option>
+
+                                    </select>
+                                </td>
+                                <td class="editVal" data-type="const">15</td>
+                            </tr>
+                            <tr><td class="editVal" data-type="const">25</td><td><select><option value=""></option><option value="=">=x</option><option value=">">x&gt;</option><option value=">=">x&gt;=</option><option value="<">&lt;x</option><option value="<=">&lt;=x</option><option value="≠">≠x</option><option value=">,<">&gt;x&lt;</option><option value=">=,<">&gt;=x&lt;</option><option value=">,=<">&gt;x=&lt;</option><option value=">=,=<">&gt;=x=&lt;</option></select></td><td class="editVal" data-type="const"></td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="rowSave" class="btn btn-primary save" data-dismiss="modal" aria-hidden="true">保存
+                    </button>
+                    <button type="button" class="btn btn-default cancel" data-dismiss="modal" aria-hidden="true">取消
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel2">列变量切分表</h4>
+
+                <div class="modal-body">
+                    <div class="options-btn">
+                        <button type="button" class="btn btn-primary add colAdd">添加</button>
+                        <button type="button" class="btn btn-danger delete">删除</button>
+                    </div>
+                    <div class="options-body">
+                        <table class="table table-bordered" id="colTable">
+                            <thead>
+                            <tr>
+                                <th>比较值1</th>
+                                <th>运算符</th>
+                                <th>比较值2</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="editVal" data-type="const">11</td>
+                                <td>
+                                    <select>
+                                        <option value=""></option>
+                                        <option value="=">=x</option>
+                                        <option value=">">x&gt;</option>
+                                        <option value=">=">x&gt;=</option>
+                                        <option value="<">&lt;x</option>
+                                        <option value="<=">&lt;=x</option>
+                                        <option value="≠">≠x</option>
+                                        <option value=">,<">&gt;x&lt;</option>
+                                        <option value=">=,<">&gt;=x&lt;</option>
+                                        <option value=">,=<">&gt;x=&lt;</option>
+                                        <option value=">=,=<">&gt;=x=&lt;</option>
+                                    </select>
+                                </td>
+                                <td class="editVal" data-type="const"></td>
+                            </tr>
+                            <tr><td class="editVal" data-type="const"></td><td><select><option value=""></option><option value="=">=x</option><option value=">">x&gt;</option><option value=">=">x&gt;=</option><option value="<">&lt;x</option><option value="<=">&lt;=x</option><option value="≠">≠x</option><option value=">,<">&gt;x&lt;</option><option value=">=,<">&gt;=x&lt;</option><option value=">,=<">&gt;x=&lt;</option><option value=">=,=<">&gt;=x=&lt;</option></select></td><td class="editVal" data-type="const">33</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="colSave" class="btn btn-primary save" data-dismiss="modal" aria-hidden="true">保存
+                    </button>
+                    <button type="button" class="btn btn-default cancel" data-dismiss="modal" aria-hidden="true">取消
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<textarea id="HandsontableCopyPaste" class="copyPaste" tabindex="-1" wrap="off"></textarea><div class="htMenu htContextMenu"></div></body>
 </html>
