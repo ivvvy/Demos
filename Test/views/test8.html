@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../script/libs/vue.js"></script>
+    <style>
+        body, html {
+            height: auto;
+            width: 100%;
+            background-color: white;
+            min-width: 1200px;
+        }
+
+        ul, li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
+        }
+
+        * {
+            font-family: 'Microsoft YaHei', SimHei, sans-serif;
+            padding: 0;
+            margin: 0;
+        }
+        .button{
+            margin-top: 10px;
+            margin-left: 30px;
+        }
+        .button button{
+            display: inline-block;
+            width: 100px;
+            height: 35px;
+            line-height: 35px;
+        }
+        #table{
+            margin-top: 30px;
+            margin-left: 30px;
+            font-size: 0;
+
+        }
+        #table>table{
+            border: 1px solid #CCCCCC;
+            max-width: 100%;
+            border-spacing:0 ;
+            display: inline-block;
+
+        }
+        #table>table:first-child{
+            border-right: none;
+        }
+        #table>table{
+            border-bottom: none;
+        }
+        #table table td {
+            text-align: center;
+            font-size: 12px;
+            height: 35px;
+            width: 220px;
+            border-bottom: 1px solid #ccc;
+            border-right: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        /*#table table tr:last-child td{*/
+            /*border-bottom: none;*/
+        /*}*/
+
+        #table table tr td:last-child{
+            border-right: none;
+        }
+
+        #table table td input{
+            display: inline-block;
+            width: 220px;
+            height: 35px;
+            border: none;
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body>
+<div id="box">
+    <div class="button">
+        <button @click="addCondition">添加条件列</button>
+        <button @click="addResult">添加结果列</button>
+    </div>
+    <div id="table">
+        <table>
+            <tr v-for="(item,index) in condition">
+                <td v-for="data in item"><input type="text" readonly="readonly" v-model="condition[index]"></td>
+            </tr>
+        </table>
+        <table>
+            <tr v-for="(items,index) in result">
+                <td v-for="res in items"><input type="text" readonly="readonly" v-model="result[index]"></td>
+            </tr>
+        </table>
+        <!--<condition-part v-bind:type="'condition'" v-bind:result="cols.conditions"></condition-part>-->
+        <!--<table>-->
+            <!--<tr v-for="(con,index) in variate">-->
+                <!--<td v-bind:type="'var'" v-on:click.self="openVarList">-->
+                    <!--请选择条件变量-->
+                <!--</td>-->
+            <!--</tr>-->
+        <!--</table>-->
+        <!--<table>-->
+            <!--<tr>-->
+                <!--<td v-on:click.self="openVarList">-->
+                    <!--请选择结果变量-->
+                <!--</td>-->
+            <!--</tr>-->
+            <!--<tr>-->
+                <!--<td>-->
+                    <!--请输入结果-->
+                <!--</td>-->
+            <!--</tr>-->
+        <!--</table>-->
+
+    </div>
+</div>
+<script>
+
+    var vm=new Vue({
+        el:"#box",
+        data:function(){
+            return{
+                condition: [['请选择变量'],['请输入条件']],
+                result: [['请选择变量'],['请输入结果']]
+
+            }
+
+        },
+        methods:{
+            addCondition:function () {
+                var rows = ['请选择变量3','请输入条件3'];
+                //this.result.splice(index,2);
+                for (var i = 0; i < this.condition.length; i++) {
+                    console.log("xccc"+this.condition[i]);
+                    this.condition[i].push(rows[i]);
+
+                }
+            },
+            addResult:function () {
+                var rows = ['请选择变量2','请输入结果2'];
+                //this.result.splice(index,2);
+                for (var i = 0; i < this.result.length; i++) {
+                    this.result[i].push(rows[i]);
+
+                }
+            }
+            //addCondition:function (item) {
+//                item = item || {temp: {}};
+//                vue.set()
+//                var paramCols = ['变量5','6'];
+//                var resultColIndex = 0;
+//                for (var i=0;i<this.rows[0].length;i++){
+//                    if (this.rows[0][i].indexOf("结果")>0){
+//                        resultColIndex = i;
+//                        console.log("结果咧index"+resultColIndex);
+//                        break;
+//                    }
+//                }
+//                for(var i=0;i<this.rows.length;i++){
+//                    var row=this.rows[i];
+//                    var conditionCols = row.slice(0,resultColIndex);
+//                    var resultCols = row.slice(resultColIndex,row.length);
+//                    console.log("条件==="+conditionCols+"结果======="+resultCols)
+//                    conditionCols.push(paramCols[i]);
+//                    var newCols = conditionCols.concat(resultCols);
+//                    console.log("newCols"+newCols);
+//                    this.rows[i]=newCols;
+//
+//                }
+//                var xxx = this.rows;
+//                Vue.set(vm.rows,"rows", xxx);
+//                console.log("--------"+xxx);
+
+
+
+        }
+    })
+</script>
+</body>
+</html>
+
+<!--addCondition:function () {-->
+<!--var cols = ['变量5','6'];-->
+<!--for(var i=0;i<this.rows.length;i++){-->
+<!--var row=this.rows[i];-->
+<!--row.push(cols[i]);-->
+<!--}-->
+<!--}-->

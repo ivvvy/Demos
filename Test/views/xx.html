@@ -8,26 +8,17 @@
 </head>
 <body>
 <div class="box">
-    <button class="add">添加</button>
-    <button class="delete">删除</button>
-    <div class="modal" style="width: 200px;height: 100px;display: none">
-        <h1></h1>
-        <button style="width: 50px;height: 50px">按钮</button>
-    </div>
-    <div class="tip">test</div>
+
 </div>
 <script>
-    $("button").on('click',function (e) {
-        if($(e.target).hasClass("add")){
-            $(".modal").css("display","block");
-            $(".modal>h1").html("添加");
-            $(".modal button").removeClass("colAdd").addClass("rowAdd");
-        }else{
-            $(".modal").css("display","block");
-            $(".modal>h1").html("删除");
-            $(".modal button").removeClass("rowAdd").addClass("colAdd");
+    var rows=[['请选择变量','请选择变量'],['请输入条件','请输入结果']];
+    for(var i=0;i<rows.length;i++){
+        var row=rows[i];
+        for(var j=0;j<row.length;j++){
+            var col=row[j];
+            console.log("cccccc："+col);
         }
-    })
+    }
 
 </script>
 </body>
