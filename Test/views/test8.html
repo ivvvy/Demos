@@ -103,7 +103,7 @@
                 <!--<td v-for="list in item.list"><input type="text" readonly="readonly" v-model="list.title"></td>-->
             <!--</tr>-->
             <tr v-for="(item,index) in condition">
-                <td v-for="data in item"><input type="text" class="context-menu-one" readonly="readonly" v-model="data.name" v-on:click="data.type=='var' ? 'showVar':'showCondition'"></td>
+                <td v-for="data in item"><input type="text" class="context-menu-one" readonly="readonly" v-model="data.name" :types="data.type" v-on:click="showCondition"></td>
             </tr>
         </table>
         <table>
@@ -183,7 +183,7 @@
 //            ],
 
             condition: [[{name:'请选择变量',type:"var"}],[{name:'请输入条件',type:"condition"}]],
-            result: [[{name:'请选择变量',type:"var"}],[{name:'请输入结果',type:"result"}]]
+            result: [[{name:'请选择变量',type:"var"}],[{name:'请输入结果',type:"result"}]],
         },
         mounted: function () {
             this.showContextMenu();
@@ -225,11 +225,20 @@
                     }
                 });
             },
-            showVar:function(){
-                console.log("我是变量");
+            showVar:function () {
+
             },
             showCondition:function(){
-                console.log("我是条件");
+                var _self = this;
+                console.log("xxxx"+this.types);
+                if(types=='var'){
+                    console.log("我是变量");
+
+                }
+                //console.log("我是条件");
+
+
+
             }
             //addCondition:function (item) {
 //                item = item || {temp: {}};
