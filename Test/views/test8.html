@@ -193,50 +193,90 @@
                 var rows = [{name:'请选择变量3',type:"var"},{name:'请输入条件3',type:"condition"}];
                 //this.result.splice(index,2);
                 for (var i = 0; i < this.condition.length; i++) {
-                    this.condition[i].push(rows[i]);
+                    if(this.condition.length>2){
+                        var item={name:'请输入条件',type:"condition"};
+                        rows.push(item);
+                        this.condition[i].push(rows[i]);
+                        //console.log("添加值"+JSON.stringify(rows));
+                    }else{
+                        this.condition[i].push(rows[i]);
+                    }
+
 
                 }
             },
             addResult:function () {
-                var rows =[{name:'请选择变量',type:"var"},{name:'请输入结果',type:"result"}];
-                //this.result.splice(index,2);
+                var rows =[{name:'请选择变量6',type:"var"},{name:'请输入结果6',type:"result"}];
                 for (var i = 0; i < this.result.length; i++) {
-                    this.result[i].push(rows[i]);
+                    if(this.result.length>2){
+                        var item={name:'请输入结果',type:"result"};
+                        rows.push(item);
+                        this.result[i].push(rows[i]);
+                        //console.log("添加值"+JSON.stringify(rows));
+                    }else{
+                        this.result[i].push(rows[i]);
+                    }
+
 
                 }
             },
             showContextMenu:function(){
+                var _self=this;
                 $.contextMenu({
                     selector: '.context-menu-one',
                     callback: function(key, options) {
                         var m = "clicked: " + key;
-                        window.console && console.log(m) || alert(m);
+                        if(m="row_below"){
+                            var conditionLength=_self.condition.length;
+                            var resultLength=_self.result.length;
+                            var arrItem=[],arrItems=[];
+                            console.log("条件长度"+_self.condition.length);
+                            console.log("结果长度"+_self.result.length);
+                            console.log("条件数组"+JSON.stringify(_self.condition));
+                            for (var i = 0; i < _self.condition.length; i++) {
+                                var item={name:'请输入条件',type:"condition"};
+                                arrItem.push(item);
+
+                            }
+                            for (var j = 0; j < _self.result.length; j++) {
+                                var item={name:'请输入结果',type:"result"};
+                                arrItems.push(item);
+
+                            }
+                            console.log("arrItem："+JSON.stringify(arrItem));
+
+                            if(conditionLength>1){
+                                _self.condition.splice(conditionLength,0,arrItem);
+                            }else{
+                                _self.condition.splice(conditionLength,0,[{name:'请输入条件',type:"result"}]);
+                            }
+
+                            if(resultLength>1){
+                                _self.result.splice(resultLength,0,arrItems);
+                            }else{
+                                _self.result.splice(resultLength,0,[{name:'请输入结果',type:"result"}]);
+                            }
+
+                            //_self.result.splice(resultLength,0,[{name:'请输入结果1',type:"result"}]);
+                            console.log("条件"+JSON.stringify(_self.condition));
+                            console.log("结果"+JSON.stringify(_self.result));
+                        }
                     },
                     items: {
                         "row_above": {name: "上方插入一行"},
                         "row_below": {name: "下方插入一行"},
                         "deleteRow": {name: "删除行"},
                         "deleteCol": {name: "删除列"}
-                    },
-                    bindings:{
-                        "row_above":function(e){
-
-                        }
                     }
                 });
             },
-            showVar:function () {
-
-            },
-            showCondition:function(){
+            showCondition:function(event){
                 var _self = this;
-                console.log("xxxx"+this.types);
-                if(types=='var'){
+                var el=event.target.value;
+                console.log("xxxx"+el);
+                if(el=='请选择变量'){
                     console.log("我是变量");
-
                 }
-                //console.log("我是条件");
-
 
 
             }
