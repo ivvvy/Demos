@@ -100,8 +100,7 @@
                 <td v-for="results in result">{{results.name}}</td>
             </tr>
             <tr v-for="item in rows">
-                <td class="context-menu-one">{{item.condition}}</td>
-                <td class="context-menu-one">{{item.result}}</td>
+                <td v-for="data in item" class="context-menu-one">{{data.name}}</td>
             </tr>
         </table>
 
@@ -112,15 +111,19 @@
     var vm=new Vue({
         el:"#box",
         data:{
-            condition:[{name:'请选择变量'}],
+            condition:[{name:'请选择变量'},{name:'请选择变量'}],
             result:[{name:'请选择变量'}],
-            rows:[{"condition":"请输入条件","result":"请输入结果"}],
-//                "condition":{
-//                    "name":"请输入条件"
+            rows:[[{"name":"请输入条件"},{"name":"请输入结果"},{"name":"请输入条件"}]],
+//                {
+//                "condition": {
+//                    "name": "请输入条件",
 //                },
-//                "result":{
-//                    "name":"请输入结果"
+//                "result": {
+//                    "name": "请输入结果"
 //                }
+//
+//                },
+
 
 
         },

@@ -279,13 +279,13 @@
                             console.log("结果长度"+resultLength);
                             console.log("arrItem："+JSON.stringify(arrItem));
 
-                            if(conditionLength>1){
+                            if(conditionLength>=2){
                                 _self.condition.splice(conditionLength,0,arrItem);
                             }else{
                                 _self.condition.splice(conditionLength,0,[{name:'请输入条件',type:"condition"}]);
                             }
 
-                            if(resultLength>1){
+                            if(resultLength>=2){
                                 _self.result.splice(resultLength,0,arrItems);
                             }else{
                                 _self.result.splice(resultLength,0,[{name:'请输入结果',type:"result"}]);
