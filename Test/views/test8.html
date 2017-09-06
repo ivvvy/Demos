@@ -225,30 +225,64 @@
                 $.contextMenu({
                     selector: '.context-menu-one',
                     callback: function(key, options) {
-                        var m = "clicked: " + key;
-                        if(m="row_below"){
-                            var conditionLength=_self.condition.length;
-                            var resultLength=_self.result.length;
+                        var m = key;
+                        if(m=="row_below"){
+//                            var conditionLength=_self.condition.length;
+//                            var resultLength=_self.result.length;
+//                            var arrItem=[],arrItems=[];
+//                            console.log("条件长度"+_self.condition.length);
+//                            console.log("结果长度"+_self.result.length);
+//                            console.log("条件数组"+JSON.stringify(_self.condition));
+//                            for (var i = 0; i < _self.condition.length; i++) {
+//                                var item={name:'请输入条件',type:"condition"};
+//                                arrItem.push(item);
+//
+//                            }
+//                            for (var j = 0; j < _self.result.length; j++) {
+//                                var item={name:'请输入结果',type:"result"};
+//                                arrItems.push(item);
+//
+//                            }
+//                            console.log("arrItem："+JSON.stringify(arrItem));
+//
+//                            if(conditionLength>1){
+//                                _self.condition.splice(conditionLength,0,arrItem);
+//                            }else{
+//                                _self.condition.splice(conditionLength,0,[{name:'请输入条件',type:"result"}]);
+//                            }
+//
+//                            if(resultLength>1){
+//                                _self.result.splice(resultLength,0,arrItems);
+//                            }else{
+//                                _self.result.splice(resultLength,0,[{name:'请输入结果',type:"result"}]);
+//                            }
+//
+//                            //_self.result.splice(resultLength,0,[{name:'请输入结果1',type:"result"}]);
+//                            console.log("条件"+JSON.stringify(_self.condition));
+//                            console.log("结果"+JSON.stringify(_self.result));
+                            var conditionLength;
+                            var resultLength;
                             var arrItem=[],arrItems=[];
-                            console.log("条件长度"+_self.condition.length);
-                            console.log("结果长度"+_self.result.length);
+                            console.log("长度"+_self.condition.length);
                             console.log("条件数组"+JSON.stringify(_self.condition));
                             for (var i = 0; i < _self.condition.length; i++) {
+                                conditionLength=_self.condition[i].length;
                                 var item={name:'请输入条件',type:"condition"};
                                 arrItem.push(item);
-
                             }
-                            for (var j = 0; j < _self.result.length; j++) {
+                            for (var k = 0; k < _self.result.length; k++) {
+                                resultLength=_self.result[k].length;
                                 var item={name:'请输入结果',type:"result"};
                                 arrItems.push(item);
-
                             }
+                            console.log("条件长度"+conditionLength);
+                            console.log("结果长度"+resultLength);
                             console.log("arrItem："+JSON.stringify(arrItem));
 
                             if(conditionLength>1){
                                 _self.condition.splice(conditionLength,0,arrItem);
                             }else{
-                                _self.condition.splice(conditionLength,0,[{name:'请输入条件',type:"result"}]);
+                                _self.condition.splice(conditionLength,0,[{name:'请输入条件',type:"condition"}]);
                             }
 
                             if(resultLength>1){
@@ -257,7 +291,6 @@
                                 _self.result.splice(resultLength,0,[{name:'请输入结果',type:"result"}]);
                             }
 
-                            //_self.result.splice(resultLength,0,[{name:'请输入结果1',type:"result"}]);
                             console.log("条件"+JSON.stringify(_self.condition));
                             console.log("结果"+JSON.stringify(_self.result));
                         }
