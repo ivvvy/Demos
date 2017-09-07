@@ -97,10 +97,21 @@
         <table>
             <tr>
                 <td v-for="cols in condition">{{cols.name}}</td>
+                <td style="display: none">
+                    <div></div>
+                </td>
                 <td v-for="results in result">{{results.name}}</td>
             </tr>
-            <tr v-for="item in rows">
-                <td v-for="data in item" class="context-menu-one">{{data.name}}</td>
+            <tr v-for="(item,index) in rows" v-bind:type="index">
+                <td v-for="i in condition.length" v-if="condition.length>1" class="context-menu-one">{{(item[index]).name}}</td>
+                <td v-for="i in condition.length" v-else="condition.length<=1" class="context-menu-one">{{(item[index
+                    ]).name}}</td>
+                <td style="display: none">
+                    <div></div>
+                </td>
+               <!--<td v-for="i in result.length" v-if="result.length>1" class="context-menu-one">请输入结果</td>-->
+               <!--<td v-for="i in result.length" v-else="result.length<=1" class="context-menu-one">请输入结果</td>-->
+                <td v-for="i in result.length" v-if="result.length>1" class="context-menu-one"></td>
             </tr>
         </table>
 
@@ -111,36 +122,24 @@
     var vm=new Vue({
         el:"#box",
         data:{
-            condition:[{name:'请选择变量'},{name:'请选择变量'}],
-            result:[{name:'请选择变量'}],
-            rows:[[{"name":"请输入条件"},{"name":"请输入结果"},{"name":"请输入条件"}]],
-//                {
-//                "condition": {
-//                    "name": "请输入条件",
-//                },
-//                "result": {
-//                    "name": "请输入结果"
-//                }
-//
-//                },
-
-
-
+            condition:[{name:'请选择变量'}],
+            result:[{name:'请选择变量'},{name:'请选择变量'},{name:'请选择变量'}],
+            rows:[[{"name":"请输入条件"},{name:'请输入结果'}],[{"name":"请输入条件"},{name:'请输入结果'}]],
         },
         mounted: function () {
             this.showContextMenu();
         },
         methods:{
             addCondition:function () {
-                var rows = {name:'请选择变量',type:"请输入条件1"};
-                console.log("ccccc"+JSON.stringify(this.cols));
-                this.cols.push(rows);
+                var rows = {name:'请选择变量1'};
+                console.log("ccccc"+JSON.stringify(this.condition));
+                this.condition.push(rows);
 
             },
             addResult:function () {
-                var rows ={name:'请选择变量',type:"请输入结果1"};
-                console.log("ccccc"+JSON.stringify(this.results));
-                this.results.push(rows);
+                var rows ={name:'请选择变量2'};
+                console.log("ccccc"+JSON.stringify(this.result));
+                this.result.push(rows);
             },
             showContextMenu:function(event){
                 var _self=this;
@@ -152,7 +151,7 @@
                             //var el = event.target;
                             if($(this).hasClass("context-menu-active")){
                                 var index=$(this).parent().index();
-                                console.log("我被选中了："+index+"1");
+                                console.log("我被选中了："+index*1);
 
                             }
                         }
@@ -172,36 +171,7 @@
                 if(el=='请选择变量'){
                     console.log("我是变量");
                 }
-
-
             }
-            //addCondition:function (item) {
-//                item = item || {temp: {}};
-//                vue.set()
-//                var paramCols = ['变量5','6'];
-//                var resultColIndex = 0;
-//                for (var i=0;i<this.rows[0].length;i++){
-//                    if (this.rows[0][i].indexOf("结果")>0){
-//                        resultColIndex = i;
-//                        console.log("结果咧index"+resultColIndex);
-//                        break;
-//                    }
-//                }
-//                for(var i=0;i<this.rows.length;i++){
-//                    var row=this.rows[i];
-//                    var conditionCols = row.slice(0,resultColIndex);
-//                    var resultCols = row.slice(resultColIndex,row.length);
-//                    console.log("条件==="+conditionCols+"结果======="+resultCols)
-//                    conditionCols.push(paramCols[i]);
-//                    var newCols = conditionCols.concat(resultCols);
-//                    console.log("newCols"+newCols);
-//                    this.rows[i]=newCols;
-//
-//                }
-//                var xxx = this.rows;
-//                Vue.set(vm.rows,"rows", xxx);
-//                console.log("--------"+xxx);
-
 
 
         }
