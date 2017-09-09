@@ -97,15 +97,15 @@
     <div id="table">
         <table>
             <tr>
-                <td v-for="cols in cols.name" v-html="cols.name"></td>
+                <td v-bind:type="index" v-for="(col,index) in col.name" v-html="col.name"></td>
                 <td style="display: none">
                     <div></div>
                 </td>
-                <td v-for="results in results.name" v-html="results.name"></td>
+                <td v-bind:type="index" v-for="(result,index) in result.name" v-html="result.name"></td>
             </tr>
-            <tr v-for="(row,index) in rows" v-bind:type="index">
-                <td v-for="cols in cols.conditions" class="context-menu-one" v-html="cols.name"></td>
-                <td v-for="results in results.result" class="context-menu-one" v-html="results.name"></td>
+            <tr v-for="(row,index) in Row" v-bind:type="index">
+                <td v-for="col in col.conditions" class="condition context-menu-one" v-html="col.name"></td>
+                <td v-for="result in result.result" class="context-menu-one" v-html="result.name"></td>
             </tr>
         </table>
 
@@ -116,33 +116,37 @@
     var vm=new Vue({
         el:"#box",
         data:{
-            cols:{},
-            results:{},
-            rows:[{}],
+            col:{},
+            result:{},
+            Row:[{}],
             conditionVars:[],
             resultVars:[],
             condition:[],
-            result:[]
+            res:[]
         },
         mounted: function () {
             this.showContextMenu();
             this.showTable();
+        },
+        updated:function (){
+
         },
         methods:{
             showTable:function(){
                 var _self = this;
                 _self.conditionVars=[{"name":"请输入条件变量"}];
                 _self.resultVars=[{"name":"请输入结果变量"}];
-                _self.condition=[{"name":"请输入条件"}];
-                _self.result=[{"name":"请输入结果"}];
-                Vue.set(_self.cols, "name", _self.conditionVars);
-                Vue.set(_self.results, "name", _self.resultVars);
-                Vue.set(_self.cols, "conditions", _self.condition);
-                Vue.set(_self.results, "result", _self.result);
-                console.log("条件"+JSON.stringify(_self.cols))
+                _self.condition=[{"name":"请输入条件2"}];
+                _self.res=[{"name":"请输入结果3"}];
+                Vue.set(_self.col, "name", _self.conditionVars);
+                Vue.set(_self.result, "name", _self.resultVars);
+                Vue.set(_self.col, "conditions", _self.condition);
+                Vue.set(_self.result, "result", _self.res);
+                console.log("条件"+JSON.stringify(_self.col))
 
 
             },
+
             addCondition:function () {
                 var _self = this;
                 _self.conditionVars.push({"name":"请输入条件变量"});
@@ -151,9 +155,9 @@
             addResult:function () {
                 var _self = this;
                 _self.resultVars.push({"name":"请输入结果变量"});
-                _self.result.push({"name":"请输入结果1"});
+                _self.res.push({"name":"请输入结果1"});
             },
-            showContextMenu:function(event){
+            showContextMenu:function(index){
                 var _self=this;
                 $.contextMenu({
                     selector: '.context-menu-one',
@@ -161,11 +165,32 @@
                         var m = key;
                         if(m=="row_below"){
                             if($(this).hasClass("context-menu-active")){
-                                var index=$(this).parent().index();
-                                console.log("我被选中了："+index*1);
-                                _self.rows.push({});
+                                var length=_self.Row.length;
+                                _self.Row.splice(length+1,0,{"1":1});
+                                console.log("Row:"+JSON.stringify(_self.Row));
+//
 
+                            }
+                        }else if(m=="row_above"){
+                            if($(this).hasClass("context-menu-active")){
+                                var length=_self.Row.length;
+                                _self.Row.splice(length-1,0,{"2":2});
+                                console.log("Row:"+JSON.stringify(_self.Row));
+                            }
+                        }else if(m=="deleteRow"){
+                            if($(this).hasClass("context-menu-active")){
+                                _self.Row.splice(index,1);
+                            }
 
+                        }else if(m=="deleteCol"){
+                            var index=(parseInt($(this).parent().index()));
+                            if($(this).hasClass("context-menu-active") && $(this).hasClass("condition")){
+                                _self.col.name.splice(index,1);
+                                _self.col.conditions.splice(index,1);
+                            }else{
+                                console.log("index："+index);
+                                _self.result.name.splice(index,1);
+                                _self.result.result.splice(index,1);
                             }
                         }
                     },
