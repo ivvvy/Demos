@@ -3,11 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="../css/jquery.contextMenu.min.css">
-    <script type="text/javascript" src="../script/libs/vue.js"></script>
     <script type="text/javascript" src="../script/libs/jquery-2.2.0.min.js"></script>
-    <script type="text/javascript" src="../script/libs/jquery.contextMenu.min.js"></script>
-    <script type="text/javascript" src="../script/libs/jquery.ui.position.js"></script>
     <style>
         body, html {
             height: auto;
@@ -89,127 +85,16 @@
 </head>
 <body>
 <div id="box">
-    <div class="button">
-        <button @click="addCondition">添加条件列</button>
-        <button @click="addResult">添加结果列</button>
-    </div>
-    <div id="table">
-        <table>
-            <tr>
-                <td v-for="cols in condition">{{cols.name}}</td>
-                <!--<td v-for="results in result">{{results.name}}</td>-->
-            </tr>
-            <tr v-for="item in rows">
-                <td v-for="data in item" class="context-menu-one">{{data.name}}</td>
-            </tr>
-        </table>
-
-    </div>
 </div>
 <script>
-
-    var vm=new Vue({
-        el:"#box",
-        data:{
-            right:{},
-            outcomes:[{"operator":"=","left":{},"right":{"type":"const","value":"10"}},{"left":{},"right":{"type":"const","value":"20"},"operator":"-="}],
-            condition:[{name:'1请选择变量'},{name:'3请选择变量'},{name:'2请选择变量'}],
-//            result:[{name:'3请选择变量'}],
-            rows:[[{"name":"13请输入条件"},{name:'16请输入条件'},{"name":"14请输入结果"}],[{"name":"3请输入条件"},{name:'6请输入条件'},{"name":"4请输入结果"}]],
-//                {
-//                "condition": {
-//                    "name": "请输入条件",
-//                },
-//                "result": {
-//                    "name": "请输入结果"
-//                }
-//
-//                },
-
-
-
-        },
-        mounted: function () {
-            this.showContextMenu();
-            this.right=$.extend({}, this.outcomes);
-            console.log(this.right);
-        },
-        methods:{
-            addCondition:function () {
-                var rows = {name:'请选择变量',type:"请输入条件1"};
-                console.log("ccccc"+JSON.stringify(this.cols));
-                this.cols.push(rows);
-
-            },
-            addResult:function () {
-                var rows ={name:'请选择变量',type:"请输入结果1"};
-                console.log("ccccc"+JSON.stringify(this.results));
-                this.results.push(rows);
-            },
-            showContextMenu:function(event){
-                var _self=this;
-                $.contextMenu({
-                    selector: '.context-menu-one',
-                    callback: function(key, options) {
-                        var m = key;
-                        if(m=="row_below"){
-                            //var el = event.target;
-                            if($(this).hasClass("context-menu-active")){
-                                var index=$(this).parent().index();
-                                console.log("我被选中了："+index+"1");
-
-                            }
-                        }
-                    },
-                    items: {
-                        "row_above": {name: "上方插入一行"},
-                        "row_below": {name: "下方插入一行"},
-                        "deleteRow": {name: "删除行"},
-                        "deleteCol": {name: "删除列"}
-                    }
-                });
-            },
-            showCondition:function(event){
-                var _self = this;
-                var el=event.target.value;
-                console.log("xxxx"+el);
-                if(el=='请选择变量'){
-                    console.log("我是变量");
-                }
-
-
-            }
-            //addCondition:function (item) {
-//                item = item || {temp: {}};
-//                vue.set()
-//                var paramCols = ['变量5','6'];
-//                var resultColIndex = 0;
-//                for (var i=0;i<this.rows[0].length;i++){
-//                    if (this.rows[0][i].indexOf("结果")>0){
-//                        resultColIndex = i;
-//                        console.log("结果咧index"+resultColIndex);
-//                        break;
-//                    }
-//                }
-//                for(var i=0;i<this.rows.length;i++){
-//                    var row=this.rows[i];
-//                    var conditionCols = row.slice(0,resultColIndex);
-//                    var resultCols = row.slice(resultColIndex,row.length);
-//                    console.log("条件==="+conditionCols+"结果======="+resultCols)
-//                    conditionCols.push(paramCols[i]);
-//                    var newCols = conditionCols.concat(resultCols);
-//                    console.log("newCols"+newCols);
-//                    this.rows[i]=newCols;
-//
-//                }
-//                var xxx = this.rows;
-//                Vue.set(vm.rows,"rows", xxx);
-//                console.log("--------"+xxx);
-
-
+    var num = "1234321";
+    var arr = num.split("")
+    for(var i=0;i<arr.length;i++){
+        if (arr[i] == arr[arr.length-1-i]) {
 
         }
-    })
+    }
+
 </script>
 </body>
 </html>
