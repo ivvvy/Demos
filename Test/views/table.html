@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link href="../css/main.css" rel="stylesheet" type="text/css" />
+    <style>
+        .tableBox{
+            border: 1px solid #ccc;
+            padding: 20px;
+            box-sizing: border-box;
+            position: relative;
+            border-bottom: none;
+        }
+
+        .tableButton,.conditionVar,.resVar,.rightBox{
+            display: inline-block;
+        }
+
+        .tableContent{
+            overflow: auto;
+            max-height: 400px;
+            border-left: 1px solid #ccc;
+            border-right: 1px solid #ccc;
+            border-top: 1px solid #ccc;
+        }
+
+        .conditionVar,.resVar{
+            margin-right:20px;
+            font-size: 12px;
+        }
+
+        .icon-add-round{
+            vertical-align: bottom;
+            background-position: -14px -228px;
+        }
+
+        .addContent{
+            position: relative;
+            top: 3px
+        }
+
+        .rightBox{
+            margin-left: 20px;
+        }
+
+        .thenWrapper{
+            margin-left: 30px;
+        }
+
+        .lineWrapper{
+            display: inline-block;
+        }
+
+        .thenWrapper .icon-add-round{
+            left: 300px;
+        }
+
+        .lineWrapper input:first-child{
+            display: none;
+        }
+
+        .thenOperate{
+            display: none;
+        }
+
+        .elseTitle{
+            display: inline-block;
+            margin-top: 25px;
+            font-size: 14px;
+        }
+
+        .elseName{
+            display: inline-block;
+            margin-top:25px;
+            margin-left: 25px;
+            font-size: 12px;
+        }
+
+        .tableContainer{
+            width: 100%;
+            line-height: 30px;
+            text-align: center;
+            font-size: 12px;
+            border-collapse: collapse;
+        }
+
+        .tableContainer tr {
+            background-color: #fff;
+            height: 30px;
+        }
+
+        .tableContainer tr td{
+            min-width: 200px;
+            border-right: 1px solid #ccc;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .tableContainer tr td:last-child{
+            border-right: none;
+        }
+
+        .tableContainer tr td.conditionVariable{
+            background-color: #ebf6f9;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .tableContainer tr td.resultsVariable{
+            background-color: #e8e8e8;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .tableContainer tr td.visited {
+            border: solid 1px #29C6D4;
+            outline: none;
+            background-color: #ECFCFF;
+        }
+
+        .tableContainer tr td.visited:last-child{
+            border-right: none
+        }
+
+        .tableContainer tr td.conditions .rightValues{
+            max-width: 180px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            display:inline-block;
+            /*   vertical-align: middle;*/
+        }
+
+        .tableContainer tr td.results{
+            max-width: 180px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .fnContent > span:first-of-type:before {
+            margin-right: 0;
+        }
+
+        .fnContent > span{
+            margin: 0;
+        }
+    </style>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/vue/2.0.5/vue.js"></script>
+</head>
+<body>
+<div id="table">
+    <div class="tableContent">
+        <table class="tableContainer" v-if="cols && cols.length">
+            <tr>
+                <td v-for="(col,index) in cols" class="conditionVariable">
+                    {{col.name}}
+                </td>
+                <td v-for="(result,index) in results" class="resultsVariable">
+                    {{result.name}}
+                </td>
+            </tr>
+            <tr v-for="(item,index) in cols[0].conditions">
+                <td v-for="(col,i) in cols" class="conditions">
+                                   <span v-if="col.conditions[index].leftLine">
+                                        <span v-if="col.conditions[index].leftLine.right">
+                                            {{col.conditions[index].leftLine.right.value}}
+                                        </span>
+                                        {{col.conditions[index].leftLine.comparator}}
+                                    </span>
+                                    <span class="rightValues" v-if="col.conditions[index].rightLine">
+                                        {{col.conditions[index].rightLine.comparator}}
+                                        <span v-if="col.conditions[index].rightLine.right">
+                                            <template v-if="col.conditions[index].rightLine.right.type=='const'">
+                                                {{col.conditions[index].rightLine.right.value}}
+                                            </template>
+                                            <template v-if="col.conditions[index].rightLine.right.type=='var'">
+                                                {{col.conditions[index].rightLine.right.name}}
+                                            </template>
+                                        </span>
+                                    </span>
+                </td>
+                <td v-for="(result,i) in results" class="results">
+                    <template v-if="result.outcomes[index].type=='const'">
+                        {{result.outcomes[index].value}}
+                    </template>
+                    <template v-if="result.outcomes[index].type=='var'">
+                        {{result.outcomes[index].name}}
+                    </template>
+                    <template v-if="result.outcomes[index].type=='fn'">
+                        {{result.outcomes[index].name}}
+                                        <span class="fnLine fnContent" style="margin: 0">
+                                            <span v-for="fn in result.outcomes[index].parameters">
+                                                <template v-if="fn.type == 'const'">
+                                                    {{fn.value}}
+                                                </template>
+                                                <template v-if="fn.type == 'var'">
+                                                    {{fn.name}}
+                                                </template>
+                                            </span>
+                                        </span>
+                    </template>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <table class="elseBox disabled">
+        <tr v-for="elsePart in elseResults">
+            <td class="elseTitle">ELSE</td>
+            <td class="elseName" style="font-size: 12px">{{elsePart.name}}</td>
+            <td><result-part v-bind:type="''" v-bind:result="elsePart.outcomes" v-bind:withfn="true"></result-part></td>
+        </tr>
+        <!--</tbody>-->
+    </table>
+</div>
+<script type="text/x-template" id="ResultPartTpl">
+    <div class="thenWrapper">
+
+        <span v-if="!!type" class="typeTip" v-html="type"></span>
+
+        <div class="thenLine" v-for="(item,index) in result">
+            <line-part v-bind:line="item" v-bind:type="'result'" v-bind:withfn="withfnLine"></line-part>
+            <span class="thenOperate">
+            <span class="icons icon-add-round" v-if="index == 0" v-on:click="addThenItem"></span>
+            <span v-if="index > 0" v-on:click="deleteThenItem(index)">删除</span>
+            <span v-if="withreset" v-on:click="resetThenItem(item)">重置</span>
+            </span>
+        </div>
+    </div>
+</script>
+<script type="text/x-template" id="LinePartTpl">
+    <div class="lineWrapper">
+        <input type="text" readonly="readonly" placeholder="请选择变量" v-model="line.left.name" />
+        <select v-model="line.operator" v-on:change="changeOperator">
+            <option value="">选择关系</option>
+            <option v-for="op in operates" v-bind:value="op.value">{{op.name}}</option>
+        </select>
+        <right-part v-bind:right="line.right" v-bind:withfn="withfnRight" ref="rightPart" v-if="line.operator.indexOf('null') < 0"></right-part>
+    </div>
+</script>
+<script type="text/x-template" id="RightPartTpl">
+    <span>
+    <select v-model="right.type" v-on:change="changeType">
+        <option value="const">常量</option>
+        <option value="var">变量</option>
+        <option value="fn" v-if="!!withfn">函数</option>
+    </select>
+    <input type="text" v-if="right.type == 'const'" placeholder="请输入值" v-model="right.value"
+           v-bind:maxlength="right.maxlength"/>
+    <input type="text" v-if="right.type == 'var'" readonly="readonly" placeholder="请选择变量" v-model="right.name"/>
+    <input type="text" v-if="right.type == 'fn'" readonly="readonly" placeholder="请选择函数" v-model="right.name"/>
+    <div v-if="right.type == 'fn' && !!right.parameters && right.parameters.length > 0" class="fnLine">
+        <span v-for="fn in right.parameters">
+            <right-part v-bind:right="fn" v-bind:withfn="false"></right-part>
+        </span>
+    </div>
+</span>
+</script>
+<script>
+    //策略组件的结果部分
+    Vue.component('result-part', {
+        template: '#ResultPartTpl',
+        props: ["result", "type", "withfn", "withreset"],
+        data: function () {
+            return {};
+        },
+        computed: {
+            withfnLine: function () {
+                if (this.withfn == undefined) return true;
+                return this.withfn;
+            }
+        },
+        methods: {
+            addThenItem: function () {
+                Vue.set(this.result, this.result.length, {left: {}, right: {}});
+            },
+            deleteThenItem: function (index) {
+                Vue.delete(this.result, index);
+            },
+            resetThenItem: function (item) {
+                Vue.set(item, "left", {});
+                Vue.set(item, "operator", "");
+                Vue.set(item, "right", {type: "const"});
+            }
+        }
+    }),
+        //规则整行控件
+            Vue.component('line-part', {
+                template: '#LinePartTpl',
+                props: ["line", "type", "withfn"],
+                data: function () {
+                    var operates = this.type == "constraint" ? "=" : "-"
+                    if (!this.line.operator) Vue.set(this.line, "operator", "");
+                    if (!!this.line && !this.line.left) Vue.set(this.line, "left", {});
+                    if (!!this.line && !this.line.right) Vue.set(this.line, "right", {});
+                    return {
+                        operates: operates
+                    };
+                },
+                computed: {
+                    withfnRight: function () {
+                        if (this.withfn == undefined) return true;
+                        return this.withfn;
+                    }
+                },
+                methods: {
+                    changeOperator: function () {
+                        if (this.line.operator.indexOf("null") >= 0) Vue.set(this.line, "right", {});
+                        else Vue.set(this.line, "right", {type: "const"});
+                    },
+                }
+            }),
+            Vue.component('right-part', {
+                template: '#RightPartTpl',
+                props: ["right", "withfn"],
+                data: function () {
+                    if (!this.right) Vue.set(this, "right", {type: "const"});
+                    if (!!this.right && !this.right.type) Vue.set(this.right, "type", "const");
+                    return {};
+                },
+                methods: {
+                    changeType: function () {
+                        var _self = this, type = this.right.type;
+                        for (var key in this.right) {
+                            if (key != "operator")
+                                Vue.delete(_self.right, key);
+                        }
+                        Vue.set(this.right, "type", type);
+                    },
+                }
+            }),
+            new Vue({
+                el: '#table',
+                data: {
+                    rows: [],
+                    cols: [{"name":"123","conditions":[{"rightLine":{"comparator":">=","right":{"type":"const","value":"12"}}}],"temp":{"variate":{"name":"123","paramType":"TEMP","controlNo":"VAR201710310000","versions":"V1.0.0","description":"123"}},"paramType":"TEMP","controlNo":"VAR201710310000","versions":"V1.0.0","description":"123"}],
+                    results:[{"name":"123","outcomes":[{"operator":"=","type":"const","value":"12"}],"temp":{"variate":{"name":"123","paramType":"TEMP","controlNo":"VAR201710310000","versions":"V1.0.0","description":"123"}},"paramType":"TEMP","controlNo":"VAR201710310000","versions":"V1.0.0","description":"123"}],
+                    elseResults:[{"name":"123","paramType":"TEMP","controlNo":"VAR201710310000","versions":"V1.0.0","description":"123","outcomes":[{"left":{},"operator":"+=","right":{"type":"var","name":"STAN_8007_CALLEDTIMES_2","paramType":"INPUT","controlNo":"VAR201711010056","versions":"V1.0.0","description":"8007接口返回申请人与联系人2手机号之间，申请人被叫次数","operator":"+="}}]}],
+
+                },
+
+
+
+
+            })
+</script>
+</body>
+</html>

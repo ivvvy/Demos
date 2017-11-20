@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link href="../css/main.css" rel="stylesheet" type="text/css" />
+    <style>
+        .table{
+            overflow: auto;
+            border-left: 1px solid #e5e5e5;
+            border-right: 1px solid #e5e5e5;
+        }
+
+        .matrixTable {
+            width: 100%;
+            line-height: 30px;
+            text-align: center;
+            background-color: #E5E5E5;
+            font-size: 12px;
+            border-spacing: 1px;
+        }
+
+        .matrixTable tr {
+            background-color: white;
+        }
+
+        .matrixTable tr td {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .matrixTable tr td.visited {
+            border: solid 1px #29C6D4;
+            outline: none;
+            background-color: #ECFCFF;
+        }
+
+        .matrixTable tr:first-of-type,
+        .matrixTable tr td:first-of-type {
+            background-color: #EBF6F9;
+        }
+
+        .thenWrapper .icon-add-round{
+            left: 300px;
+        }
+
+        .lineWrapper input:first-child{
+            display: none;
+        }
+
+        .thenOperate{
+            display: none;
+        }
+
+        .elseTitle{
+            display: inline-block;
+            margin-top: 25px;
+            font-size: 14px;
+        }
+
+        .elseName{
+            display: inline-block;
+            margin-top:25px;
+            margin-left: 25px;
+            font-size: 12px;
+        }
+
+        .segmentation {
+            background: #ffffff;
+            border: 1px solid #cccccc;
+            width: 82px;
+            height: 30px;
+            line-height: 30px;
+            border-radius: 4px;
+            box-sizing: border-box;
+            color: #323232;
+        }
+
+        .rightBox {
+            border: 1px solid #dddddd;
+            padding: 20px;
+            border-bottom: none;
+        }
+
+        .segmentationTable {
+            width: 100%;
+            border-spacing: 0;
+            line-height: 25px;
+        }
+
+        .segmentationTable thead {
+            background-color: #e0f0f2;
+
+        }
+
+        .segmentationTable thead tr td {
+            font-size: 12px;
+            color: #323232;
+            padding: 0 10px;
+        }
+
+        .segmentationTable tbody tr:first-child td {
+            border-top: 1px solid #d9d9d9;
+        }
+
+        .segmentationTable tbody tr td {
+            border-bottom: 1px solid #d9d9d9;
+            padding: 0 10px;
+        }
+
+        .segmentationTable tbody tr.selected {
+            background-color: #fbfbfb;
+        }
+
+        .segmentationTable tr td {
+
+        }
+
+        .segmentationTable input {
+            border: none;
+            box-shadow: none;
+            outline: none;
+        }
+
+        .segmentationTable select {
+            margin: 5px 0 5px 0;
+        }
+
+        .segmentationTable .remove {
+            display: inline-block;
+            font-size: 12px;
+            text-decoration: underline;
+            margin-left: -26px;
+            line-height: 40px;
+            color: #535353;
+            cursor: pointer;
+        }
+
+        .addScore {
+            text-align: center;
+            border: 1px dashed #12b9c8;
+            border-radius: 4px;
+            height: 30px;
+            line-height: 30px;
+            color: #12b9c8;
+            font-size: 12px;
+            margin-top: 20px;
+        }
+
+        .fnContent > span:first-of-type:before {
+            margin-right: 0;
+        }
+
+    </style>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/vue/2.0.5/vue.js"></script>
+</head>
+<body id="body">
+<div class="table">
+    <table class="matrixTable" v-if="!!cols.conditions || !!rows.conditions">
+        <tr>
+            <td></td>
+            <td v-for="col in cols.conditions">
+                                    <span v-if="col.leftLine">
+                                        <span v-if="col.leftLine.right">
+                                            {{col.leftLine.right.value}}
+                                        </span>
+                                        {{col.leftLine.comparator | leftComparatorReverse}}
+                                    </span>
+                {{cols.name}}
+                                    <span v-if="col.rightLine">
+                                        {{col.rightLine.comparator}}
+                                        <span v-if="col.rightLine.right">
+                                            {{col.rightLine.right.value}}
+                                        </span>
+                                    </span>
+            </td>
+        </tr>
+        <tr v-for="(row,index) in rows.conditions">
+            <td>
+                                    <span v-if="row.leftLine">
+                                        <span v-if="row.leftLine.right">
+                                            {{row.leftLine.right.value}}
+                                        </span>
+                                        {{row.leftLine.comparator | leftComparatorReverse}}
+                                    </span>
+                {{rows.name}}
+                                    <span v-if="row.rightLine">
+                                        {{row.rightLine.comparator}}
+                                        <span v-if="row.rightLine.right">
+                                            {{row.rightLine.right.value}}
+                                        </span>
+                                    </span>
+            </td>
+            <td v-for="(outcome,i) in outcomes[index]"
+                v-on:click="editResultOutcome(outcome,index,i)">
+                <template v-if="outcome.type=='const'">
+                    {{outcome.value}}
+                </template>
+                <template v-if="outcome.type=='var'">
+                    {{outcome.name}}
+                </template>
+                <template v-if="outcome.type=='fn'">
+                    {{outcome.name}}
+                                        <span class="fnLine fnContent" style="margin: 0">
+                                            <span v-for="fn in outcome.parameters" style="margin: 0">
+                                                <template v-if="fn.type == 'const'">
+                                                    {{fn.value}}
+                                                </template>
+                                                <template v-if="fn.type == 'var'">
+                                                    {{fn.name}}
+                                                </template>
+                                            </span>
+                                        </span>
+                </template>
+            </td>
+        </tr>
+    </table>
+    <table class="elseBox disabled">
+        <tr>
+            <td class="elseTitle">ELSE</td>
+            <td class="elseName">{{elseResults.name}}</td>
+            <td><result-part v-bind:type="''" v-bind:result="elseResults.outcomes" v-bind:withfn="true"></result-part></td>
+        </tr>
+    </table>
+</div>
+<script type="text/x-template" id="ResultPartTpl">
+    <div class="thenWrapper">
+
+        <span v-if="!!type" class="typeTip" v-html="type"></span>
+
+        <div class="thenLine" v-for="(item,index) in result">
+            <line-part v-bind:line="item" v-bind:type="'result'" v-bind:withfn="withfnLine"></line-part>
+            <span class="thenOperate">
+            <span class="icons icon-add-round" v-if="index == 0" v-on:click="addThenItem"></span>
+            <span v-if="index > 0" v-on:click="deleteThenItem(index)">删除</span>
+            <span v-if="withreset" v-on:click="resetThenItem(item)">重置</span>
+            </span>
+        </div>
+    </div>
+</script>
+<script type="text/x-template" id="LinePartTpl">
+    <div class="lineWrapper">
+        <input type="text" readonly="readonly" placeholder="请选择变量" v-model="line.left.name" />
+        <select v-model="line.operator" v-on:change="changeOperator">
+            <option value="">选择关系</option>
+            <option v-for="op in operates" v-bind:value="op.value">{{op.name}}</option>
+        </select>
+        <right-part v-bind:right="line.right" v-bind:withfn="withfnRight" ref="rightPart" v-if="line.operator.indexOf('null') < 0"></right-part>
+    </div>
+</script>
+<script type="text/x-template" id="RightPartTpl">
+    <span>
+    <select v-model="right.type" v-on:change="changeType">
+        <option value="const">常量</option>
+        <option value="var">变量</option>
+        <option value="fn" v-if="!!withfn">函数</option>
+    </select>
+    <input type="text" v-if="right.type == 'const'" placeholder="请输入值" v-model="right.value"
+           v-bind:maxlength="right.maxlength"/>
+    <input type="text" v-if="right.type == 'var'" readonly="readonly" placeholder="请选择变量" v-model="right.name"/>
+    <input type="text" v-if="right.type == 'fn'" readonly="readonly" placeholder="请选择函数" v-model="right.name"/>
+    <div v-if="right.type == 'fn' && !!right.parameters && right.parameters.length > 0" class="fnLine">
+        <span v-for="fn in right.parameters">
+            <right-part v-bind:right="fn" v-bind:withfn="false"></right-part>
+        </span>
+    </div>
+</span>
+</script>
+<script>
+    //策略组件的结果部分
+    Vue.component('result-part', {
+        template: '#ResultPartTpl',
+        props: ["result", "type", "withfn", "withreset"],
+        data: function () {
+            return {};
+        },
+        computed: {
+            withfnLine: function () {
+                if (this.withfn == undefined) return true;
+                return this.withfn;
+            }
+        },
+        methods: {
+            addThenItem: function () {
+                Vue.set(this.result, this.result.length, {left: {}, right: {}});
+            },
+            deleteThenItem: function (index) {
+                Vue.delete(this.result, index);
+            },
+            resetThenItem: function (item) {
+                Vue.set(item, "left", {});
+                Vue.set(item, "operator", "");
+                Vue.set(item, "right", {type: "const"});
+            }
+        }
+    }),
+        //规则整行控件
+        Vue.component('line-part', {
+        template: '#LinePartTpl',
+        props: ["line", "type", "withfn"],
+        data: function () {
+            var operates = this.type == "constraint" ? "=" : "-"
+            if (!this.line.operator) Vue.set(this.line, "operator", "");
+            if (!!this.line && !this.line.left) Vue.set(this.line, "left", {});
+            if (!!this.line && !this.line.right) Vue.set(this.line, "right", {});
+            return {
+                operates: operates
+            };
+        },
+        computed: {
+            withfnRight: function () {
+                if (this.withfn == undefined) return true;
+                return this.withfn;
+            }
+        },
+        methods: {
+            changeOperator: function () {
+                if (this.line.operator.indexOf("null") >= 0) Vue.set(this.line, "right", {});
+                else Vue.set(this.line, "right", {type: "const"});
+            },
+        }
+    }),
+            Vue.component('right-part', {
+                template: '#RightPartTpl',
+                props: ["right", "withfn"],
+                data: function () {
+                    if (!this.right) Vue.set(this, "right", {type: "const"});
+                    if (!!this.right && !this.right.type) Vue.set(this.right, "type", "const");
+                    return {};
+                },
+                methods: {
+                    changeType: function () {
+                        var _self = this, type = this.right.type;
+                        for (var key in this.right) {
+                            if (key != "operator")
+                                Vue.delete(_self.right, key);
+                        }
+                        Vue.set(this.right, "type", type);
+                    },
+                }
+            }),
+    new Vue({
+        el: '.table',
+        data: {
+            rows: {
+                "temp": {
+                    "variate": {
+                        "name": "STAN_3012_HFBALANCE",
+                        "paramType": "INPUT",
+                        "controlNo": "VAR201711010038",
+                        "versions": "V1.0.0",
+                        "description": "3012接口返回申请人手机号手机余额"
+                    }
+                },
+                "name": "STAN_3012_HFBALANCE",
+                "paramType": "INPUT",
+                "controlNo": "VAR201711010038",
+                "versions": "V1.0.0",
+                "description": "3012接口返回申请人手机号手机余额",
+                "conditions": [
+                    {
+                        "leftLine": {
+                            "right": {
+                                "type": "const",
+                                "value": 1
+                            },
+                            "comparator": ">"
+                        },
+                        "rightLine": {
+                            "comparator": "<=",
+                            "right": {
+                                "type": "const",
+                                "value": 10
+                            }
+                        },
+                        "result": {
+                            "operator": "=",
+                            "type": "const",
+                            "value": ""
+                        },
+                        "comparator": ">,<=",
+                        "compartors": [
+                            {
+                                "value": "==",
+                                "name": " x == ",
+                                "leftLine": {},
+                                "rightLine": {
+                                    "comparator": "=="
+                                }
+                            },
+                            {
+                                "value": "!=",
+                                "name": " x != ",
+                                "leftLine": {},
+                                "rightLine": {
+                                    "comparator": "!="
+                                }
+                            },
+                            {
+                                "value": ">=",
+                                "name": " =< x ",
+                                "leftLine": {
+                                    "comparator": ">="
+                                },
+                                "rightLine": {}
+                            },
+                            {
+                                "value": ">",
+                                "name": " < x ",
+                                "leftLine": {
+                                    "comparator": ">"
+                                },
+                                "rightLine": {}
+                            },
+                            {
+                                "value": "<=",
+                                "name": " x <= ",
+                                "leftLine": {},
+                                "rightLine": {
+                                    "comparator": "<="
+                                }
+                            },
+                            {
+                                "value": "<",
+                                "name": " x < ",
+                                "leftLine": {},
+                                "rightLine": {
+                                    "comparator": "<"
+                                }
+                            },
+                            {
+                                "value": ">,<",
+                                "name": " < x < ",
+                                "leftLine": {
+                                    "comparator": ">"
+                                },
+                                "rightLine": {
+                                    "comparator": "<"
+                                }
+                            },
+                            {
+                                "value": ">,<=",
+                                "name": " < x <= ",
+                                "leftLine": {
+                                    "comparator": ">"
+                                },
+                                "rightLine": {
+                                    "comparator": "<="
+                                }
+                            },
+                            {
+                                "value": ">=,<=",
+                                "name": " =< x <= ",
+                                "leftLine": {
+                                    "comparator": ">="
+                                },
+                                "rightLine": {
+                                    "comparator": "<="
+                                }
+                            },
+                            {
+                                "value": ">=,<",
+                                "name": " =< x < ",
+                                "leftLine": {
+                                    "comparator": ">="
+                                },
+                                "rightLine": {
+                                    "comparator": "<"
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "leftLine": {
+                            "right": {
+                                "type": "const",
+                                "value": ""
+                            }
+                        },
+                        "rightLine": {
+                            "comparator": "==",
+                            "right": {
+                                "type": "const",
+                                "value": 20
+                            }
+                        },
+                        "result": {
+                            "operator": "=",
+                            "type": "const",
+                            "value": ""
+                        },
+                        "comparator": "==",
+                        "compartors": [
+                            {
+                                "value": "==",
+                                "name": " x == ",
+                                "leftLine": {},
+                                "rightLine": {
+                                    "comparator": "=="
+                                }
+                            },
+                            {
+                                "value": "!=",
+                                "name": " x != ",
+                                "leftLine": {},
+                                "rightLine": {
+                                    "comparator": "!="
+                                }
+                            },
+                            {
+                                "value": ">=",
+                                "name": " =< x ",
+                                "leftLine": {
+                                    "comparator": ">="
+                                },
+                                "rightLine": {}
+                            },
+                            {
+                                "value": ">",
+                                "name": " < x ",
+                                "leftLine": {
+                                    "comparator": ">"
+                                },
+                                "rightLine": {}
+                            },
+                            {
+                                "value": "<=",
+                                "name": " x <= ",
+                                "leftLine": {},
+                                "rightLine": {
+                                    "comparator": "<="
+                                }
+                            },
+                            {
+                                "value": "<",
+                                "name": " x < ",
+                                "leftLine": {},
+                                "rightLine": {
+                                    "comparator": "<"
+                                }
+                            },
+                            {
+                                "value": ">,<",
+                                "name": " < x < ",
+                                "leftLine": {
+                                    "comparator": ">"
+                                },
+                                "rightLine": {
+                                    "comparator": "<"
+                                }
+                            },
+                            {
+                                "value": ">,<=",
+                                "name": " < x <= ",
+                                "leftLine": {
+                                    "comparator": ">"
+                                },
+                                "rightLine": {
+                                    "comparator": "<="
+                                }
+                            },
+                            {
+                                "value": ">=,<=",
+                                "name": " =< x <= ",
+                                "leftLine": {
+                                    "comparator": ">="
+                                },
+                                "rightLine": {
+                                    "comparator": "<="
+                                }
+                            },
+                            {
+                                "value": ">=,<",
+                                "name": " =< x < ",
+                                "leftLine": {
+                                    "comparator": ">="
+                                },
+                                "rightLine": {
+                                    "comparator": "<"
+                                }
+                            }
+                        ]
+                    }
+                ]
+            },
+            cols: {
+                "temp": {
+                    "variate": {
+                        "name": "STAN_APP_LATITUDE_ST",
+                        "paramType": "INPUT",
+                        "controlNo": "VAR201711010075",
+                        "versions": "V1.0.0",
+                        "description": "线上申请时申请人纬度标准化"
+                    }
+                },
+                "name": "STAN_APP_LATITUDE_ST",
+                "paramType": "INPUT",
+                "controlNo": "VAR201711010075",
+                "versions": "V1.0.0",
+                "description": "线上申请时申请人纬度标准化",
+                "conditions": [
+                    {
+                        "leftLine": {
+                            "right": {
+                                "type": "const",
+                                "value": 5
+                            },
+                            "comparator": ">="
+                        },
+                        "rightLine": {
+                            "comparator": "<=",
+                            "right": {
+                                "type": "const",
+                                "value": 15
+                            }
+                        },
+                        "result": {
+                            "operator": "=",
+                            "type": "const",
+                            "value": ""
+                        },
+                        "comparator": ">=,<=",
+//                        "compartors": [
+//                            {
+//                                "value": "==",
+//                                "name": " x == ",
+//                                "leftLine": {},
+//                                "rightLine": {
+//                                    "comparator": "=="
+//                                }
+//                            },
+//                            {
+//                                "value": "!=",
+//                                "name": " x != ",
+//                                "leftLine": {},
+//                                "rightLine": {
+//                                    "comparator": "!="
+//                                }
+//                            },
+//                            {
+//                                "value": ">=",
+//                                "name": " =< x ",
+//                                "leftLine": {
+//                                    "comparator": ">="
+//                                },
+//                                "rightLine": {}
+//                            },
+//                            {
+//                                "value": ">",
+//                                "name": " < x ",
+//                                "leftLine": {
+//                                    "comparator": ">"
+//                                },
+//                                "rightLine": {}
+//                            },
+//                            {
+//                                "value": "<=",
+//                                "name": " x <= ",
+//                                "leftLine": {},
+//                                "rightLine": {
+//                                    "comparator": "<="
+//                                }
+//                            },
+//                            {
+//                                "value": "<",
+//                                "name": " x < ",
+//                                "leftLine": {},
+//                                "rightLine": {
+//                                    "comparator": "<"
+//                                }
+//                            },
+//                            {
+//                                "value": ">,<",
+//                                "name": " < x < ",
+//                                "leftLine": {
+//                                    "comparator": ">"
+//                                },
+//                                "rightLine": {
+//                                    "comparator": "<"
+//                                }
+//                            },
+//                            {
+//                                "value": ">,<=",
+//                                "name": " < x <= ",
+//                                "leftLine": {
+//                                    "comparator": ">"
+//                                },
+//                                "rightLine": {
+//                                    "comparator": "<="
+//                                }
+//                            },
+//                            {
+//                                "value": ">=,<=",
+//                                "name": " =< x <= ",
+//                                "leftLine": {
+//                                    "comparator": ">="
+//                                },
+//                                "rightLine": {
+//                                    "comparator": "<="
+//                                }
+//                            },
+//                            {
+//                                "value": ">=,<",
+//                                "name": " =< x < ",
+//                                "leftLine": {
+//                                    "comparator": ">="
+//                                },
+//                                "rightLine": {
+//                                    "comparator": "<"
+//                                }
+//                            }
+//                        ]
+                    },
+                    {
+                        "leftLine": {
+                            "right": {
+                                "type": "const",
+                                "value": ""
+                            }
+                        },
+                        "rightLine": {
+                            "right": {
+                                "type": "const",
+                                "value": 25
+                            },
+                            "comparator": "!="
+                        },
+                        "result": {
+                            "operator": "=",
+                            "type": "const",
+                            "value": ""
+                        },
+                        "comparator": "!=",
+//                        "compartors": [
+//                            {
+//                                "value": "==",
+//                                "name": " x == ",
+//                                "leftLine": {},
+//                                "rightLine": {
+//                                    "comparator": "=="
+//                                }
+//                            },
+//                            {
+//                                "value": "!=",
+//                                "name": " x != ",
+//                                "leftLine": {},
+//                                "rightLine": {
+//                                    "comparator": "!="
+//                                }
+//                            },
+//                            {
+//                                "value": ">=",
+//                                "name": " =< x ",
+//                                "leftLine": {
+//                                    "comparator": ">="
+//                                },
+//                                "rightLine": {}
+//                            },
+//                            {
+//                                "value": ">",
+//                                "name": " < x ",
+//                                "leftLine": {
+//                                    "comparator": ">"
+//                                },
+//                                "rightLine": {}
+//                            },
+//                            {
+//                                "value": "<=",
+//                                "name": " x <= ",
+//                                "leftLine": {},
+//                                "rightLine": {
+//                                    "comparator": "<="
+//                                }
+//                            },
+//                            {
+//                                "value": "<",
+//                                "name": " x < ",
+//                                "leftLine": {},
+//                                "rightLine": {
+//                                    "comparator": "<"
+//                                }
+//                            },
+//                            {
+//                                "value": ">,<",
+//                                "name": " < x < ",
+//                                "leftLine": {
+//                                    "comparator": ">"
+//                                },
+//                                "rightLine": {
+//                                    "comparator": "<"
+//                                }
+//                            },
+//                            {
+//                                "value": ">,<=",
+//                                "name": " < x <= ",
+//                                "leftLine": {
+//                                    "comparator": ">"
+//                                },
+//                                "rightLine": {
+//                                    "comparator": "<="
+//                                }
+//                            },
+//                            {
+//                                "value": ">=,<=",
+//                                "name": " =< x <= ",
+//                                "leftLine": {
+//                                    "comparator": ">="
+//                                },
+//                                "rightLine": {
+//                                    "comparator": "<="
+//                                }
+//                            },
+//                            {
+//                                "value": ">=,<",
+//                                "name": " =< x < ",
+//                                "leftLine": {
+//                                    "comparator": ">="
+//                                },
+//                                "rightLine": {
+//                                    "comparator": "<"
+//                                }
+//                            }
+//                        ]
+                    }
+                ]
+            },
+            result:{
+                "temp": {
+                    "variate": {
+                        "name": "STAN_8007_EARLIESTTIME_1",
+                        "paramType": "INPUT",
+                        "controlNo": "VAR201711010063",
+                        "versions": "V1.0.0",
+                        "description": "8007接口返回申请人手机号与联系人1最早联系时间"
+                    }
+                },
+                "name": "STAN_8007_EARLIESTTIME_1",
+                "paramType": "INPUT",
+                "controlNo": "VAR201711010063",
+                "versions": "V1.0.0",
+                "description": "8007接口返回申请人手机号与联系人1最早联系时间",
+                "outcomes": [
+                    {
+                        "type": "const",
+                        "operator": "=",
+                        "value": "100"
+                    },
+                    {
+                        "operator": "-=",
+                        "type": "fn",
+                        "name": "ceiling",
+                        "parameters": [
+                            {
+                                "type": "const",
+                                "value": "300"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "const",
+                        "operator": "=",
+                        "value": "200"
+                    },
+                    {
+                        "operator": "+=",
+                        "type": "var",
+                        "name": "STAN_APP_LONGITUDE",
+                        "paramType": "INPUT",
+                        "controlNo": "VAR201711010077",
+                        "versions": "V1.0.0",
+                        "description": "线上申请时申请人经度"
+                    }
+                ]
+            },
+            outcomes: [
+                [
+                    {
+                        "type": "const",
+                        "operator": "=",
+                        "value": "100"
+                    },
+                    {
+                        "operator": "-=",
+                        "type": "fn",
+                        "name": "ceiling",
+                        "parameters": [
+                            {
+                                "type": "const",
+                                "value": "300"
+                            }
+                        ]
+                    }
+                ],
+                [
+                    {
+                        "type": "const",
+                        "operator": "=",
+                        "value": "200"
+                    },
+                    {
+                        "operator": "+=",
+                        "type": "var",
+                        "name": "STAN_APP_LONGITUDE",
+                        "paramType": "INPUT",
+                        "controlNo": "VAR201711010077",
+                        "versions": "V1.0.0",
+                        "description": "线上申请时申请人经度"
+                    }
+                ]
+            ],
+            elseResults:{
+                "name": "STAN_8007_EARLIESTTIME_1",
+                "paramType": "INPUT",
+                "controlNo": "VAR201711010063",
+                "versions": "V1.0.0",
+                "description": "8007接口返回申请人手机号与联系人1最早联系时间",
+                "outcomes": [
+                    {
+                        "left": {},
+                        "operator": "+=",
+                        "right": {
+                            "type": "var",
+                            "name": "STAN_C_2_ADDR_VALID",
+                            "paramType": "INPUT",
+                            "controlNo": "VAR201711010138",
+                            "versions": "V1.0.0",
+                            "description": "联系人2地址正向校验"
+                        }
+                    }
+                ]
+            },
+
+
+        },
+        filters: {
+            leftComparatorReverse: function (comparator) {
+                return {
+                            ">=": "=<",
+                            ">": "<",
+                            "<=": "=>",
+                            "<": ">"
+                        }[comparator] || comparator;
+            }
+        },
+
+
+
+    })
+</script>
+</body>
+</html>
