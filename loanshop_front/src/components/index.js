@@ -3,5 +3,5 @@ import Header from './common/header'
 
 export default {
   Header,
-  Footer,
+  Footer
 }

@@ -1,7 +1,7 @@
 * {
   margin: 0;
   padding: 0;
-  font-family: 华文细黑;
+  font-family: "Microsoft YaHei", 华文细黑;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   outline: none;
 }
@@ -9,6 +9,7 @@
 body {
   background-color: #F7F8F8;
   -webkit-user-select: none;
+  overflow: hidden;
 }
 
 input, textarea {
@@ -66,37 +67,64 @@ ul, li {
   overflow: hidden;
 }
 
+.img_full_height {
+  height: 100%;
+}
+
+.img_full_width {
+  height: 100%;
+}
+
 .icons {
   display: inline-block;
   background: url("/src/assets/images/icons.svg") no-repeat;
 }
 
+.bodyWrapper {
+  position: absolute;
+  top: 50px;
+  bottom: 46px;
+  width: 100%;
+}
+
 .header {
-  height: 60px;
+  height: 50px;
   width: 100%;
   position: absolute;
   top: 0;
   background-color: #00AAEB;
   color: white;
+  text-align: center;
+  background: -webkit-linear-gradient(to right, #1EA5EB, #13C6F4);
+  background: -o-linear-gradient(to right, #1EA5EB, #13C6F4);
+  background: -moz-linear-gradient(to right, #1EA5EB, #13C6F4);
+  background: linear-gradient(to right, #1EA5EB, #13C6F4);
 }
 
-.header .back {
-  line-height: 60px;
+.header .left {
+  font-size: 13px;
+  line-height: 50px;
   left: 10px;
   position: absolute;
 }
 
 .header .title {
-  line-height: 60px;
-  font-size: 18pt;
+  line-height: 50px;
+  font-size: 17px;
+}
+
+.header .right {
+  right: 10px;
+  position: absolute;
 }
 
 .footer {
-  height: 60px;
+  height: 46px;
   width: 100%;
   position: absolute;
   bottom: 0;
   background-color: white;
+  z-index: 12;
 }
 
 .footer ul {
@@ -105,22 +133,397 @@ ul, li {
 
 .footer ul > li {
   width: 33.3%;
-  height: 60px;
+  height: 46px;
   display: inline-block;
   vertical-align: top;
   text-align: center;
 }
 
 .footer ul > li .icons {
-  height: 36px;
-  width: 40px;
-  margin: 0 auto;
-  background-color: antiquewhite;
+  height: 24px;
+  width: 30px;
+  margin: 2px 0 0 0;
 }
 
 .footer ul > li .text {
-  height: 24px;
-  line-height: 24px;
-  margin: 0 auto;
-  font-size: 12pt;
+  line-height: 6px;
+  font-size: 12px;
+  margin: 0px auto;
 }
+
+.icon-home {
+  background-size: 1100%;
+  background-position: -169px -31px;
+}
+
+.footer ul > li.active .icon-home {
+  background-position: -169px -1px;
+}
+
+.icon-creditInfo {
+  background-position: -229px -32px;
+  background-size: 1100%;
+}
+
+.footer ul > li.active .icon-creditInfo {
+  background-position: -229px -1px;
+}
+
+.icon-user {
+  background-position: -282px -32px;
+  background-size: 1100%;
+}
+
+.footer ul > li.active .icon-user {
+  background-position: -282px -1px;
+}
+
+.header .icon-collect {
+  top: 15px;
+}
+
+.icon-collect {
+  background-position: -224px -79px;
+  background-size: 1100%;
+  height: 30px;
+  width: 30px;
+}
+
+.header.addCollect .icon-collect {
+  background-position: -277px -79px;
+}
+
+.clear {
+  clear: both;
+}
+
+.fl {
+  float: left;
+}
+
+.fr {
+  float: right;
+}
+
+.d_ib {
+  display: inline-block;
+}
+
+.p_r {
+  position: relative;
+}
+
+.mt_10 {
+  margin-top: 10px;
+}
+
+.mr_30 {
+  margin-right: 30px
+}
+
+.mr_50 {
+  margin-right: 50px
+}
+
+.mt_70 {
+  margin-top: 70px;
+}
+
+.font-ms {
+  font-size: 11pt;
+}
+
+.font-s {
+  font-size: 10pt;
+}
+.font_w_b {
+  font-weight: bold;
+}
+.gray {
+  color: #9F9F9F;
+}
+.red {
+  color: #CA1A1D;
+}
+
+.ta_c {
+  text-align: center;
+}
+
+/* 信用信息 begin */
+.input {
+  border-bottom: 1px solid #F7F8F8;
+  background-color: #ffffff;
+  height: 55px;
+  line-height: 55px;
+  padding: 0 3% 0 10%;
+  color: #4A4A4A;
+  font-size: 12pt;
+  position: relative;
+}
+
+input.check {
+  display: block;
+  width: 100%;
+  padding-left: 10%;
+  height: 50px;
+  border: none;
+}
+
+.input .input_title {
+  position: absolute;
+  top: 0;
+  left: 10%;
+  z-index: 1;
+}
+
+.input .input_content {
+  text-align: right;
+  /*float: right;*/
+  /*width: 100%;*/
+  height: 100%;
+  border: none;
+  /*line-height: initial;*/
+  position: absolute;
+  right: 3%;
+  top: 0;
+}
+
+.input_content + .hasIcon {
+  height: 30px;
+  display: inline-block;
+  position: absolute;
+  right: 8%;
+  top: 8px;
+  font-weight: 600;
+  width: 20px;
+  background: url("../images/icons.svg") 0px 0px no-repeat;
+  background-size: 2000%;
+
+}
+
+/* 信用信息 end */
+/* 运营商登陆 begin */
+.user_input {
+  height: 45px;
+  position: relative;
+  border-bottom: 1px solid #EFEFEF;
+  background-color: white;
+  line-height: 45px;
+  color: #CCCCCC;
+}
+
+.user_input input, .user_input select {
+  position: absolute;
+  top: 1px;
+  bottom: 1px;
+  border: none;
+  width: 100%;
+  margin-left: 15px;
+  line-height: 45px;
+  background-color: white;
+}
+
+.user_input .icon-eyes {
+  top: 2px;
+  right: 5px;
+  position: absolute;
+  display: inline-block;
+  height: 40px;
+  width: 40px;
+  background: url(../../assets/images/icons.svg) no-repeat;
+  background-size: 1000%;
+  background-position: -130px 6px;
+}
+.user_input .icon-eyes.visible {
+  background-position: -130px -35px;
+}
+
+.UpdateProgressBar {
+  -webkit-box-pack: center;
+  -webkit-box-align: center;
+  z-index: 50000;
+  display: -webkit-box;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.UpdateProgressBar.white {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+/*成功信息*/
+.info_alert_wrapper {
+  position: absolute;
+  display: -webkit-box;
+  bottom: 50px;
+  -webkit-box-orient: vertical;
+  -webkit-box-pack: center;
+  -webkit-box-align: center;
+  z-index: 50000;
+  width: 80%;
+  left: 10%;
+}
+
+.info_alert_wrapper .info_alert {
+  height: auto;
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  -webkit-box-pack: center;
+  -webkit-box-align: center;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #FFF;
+  border-radius: 8px;
+  padding: 10px 20px;
+  word-break: break-all;
+}
+/*成功信息*/
+/*错误信息*/
+.errorContainer {
+  background-color: #000;
+  border-radius: 10px;
+  padding: 20px;
+  color: #FFF;
+  text-align: center;
+  position: relative;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  min-width: 120px;
+  max-width: 60%;
+}
+/*错误信息*/
+/*加载框*/
+img.loading {
+  vertical-align: top;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  width: 40px;
+}
+#__progressbar__ {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+#__progressbar__ > div {
+  background-color: #000;
+  border-radius: 10px;
+  padding: 10px 20px;
+  color: #FFF;
+  text-align: center;
+  position: relative;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+/*加载框*/
+
+/* 运营商登陆 end */
+
+/*设置*/
+.modify {
+  margin-top: 10px;
+}
+
+.modify .input_container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 15px 15px 15px 25px;
+  background: #fff;
+}
+
+.modify .input_container input {
+  font-size: 15px;
+  border: none;
+  color: #737373;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+
+}
+
+.save {
+  width: 100%;
+  margin-top: 15px;
+}
+
+.save button {
+  width: 90%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  background: #069CE9;
+  color: #fff;
+  border: none;
+  height: 40px;
+  border-radius: 7px;
+  font-size: 16px;
+}
+
+/*登录*/
+.lgBox {
+  width: 100%;
+  height: 100%;
+}
+
+.lgContent {
+  width: 100%;
+  margin-top: 65px;
+  position: relative;
+}
+
+.lgContent input {
+  width: 92%;
+  height: 60px;
+  padding-left: 8%;
+  border: none;
+  color: #999999;
+}
+
+.lgContent .loginBtn {
+  width: 90%;
+  height: 50px;
+  color: #fff;
+  background: #079ce9;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -o-border-radius: 5px;
+  margin: 10px auto;
+  display: block;
+  font-size: 11pt;
+}
+
+.pos {
+  height: 55px;
+  line-height: 55px;
+  font-size: 11pt;
+  color: #15c3f3;
+  position: absolute;
+  top: 167px;
+  right: 3%;
+  padding-left: 22px;
+}
+.pos span{
+  height: 25px;
+  display: inline-block;
+  width: 18px;
+  background: red;
+  background: url("../images/icons.svg") no-repeat;
+  background-position: -128px -92px;
+  background-size: 2000%;
+  position: absolute;
+  left: 0;
+  top: 13px;
+}
+
+.register {
+  line-height: 52px;
+  font-size: 14px;
+}
+/*登录结束*/

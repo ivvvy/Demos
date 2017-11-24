@@ -1,20 +1,23 @@
 <template>
   <div>
-    <Header title="首页" :showLeft="false"></Header>
-    <Banner></Banner>
-    <div>我是home</div>
-    <Footer></Footer>
+    <div class="bodyWrapper" style="top:0;">
+      <Banner></Banner>
+      <ProductList></ProductList>
+    </div>
+    <Footer mid="home"></Footer>
   </div>
 </template>
 
 <script>
-  import Banner from '../../components/common/banner.vue'
+  import '../../assets/css/flexslider.css'
+  import '../../assets/js/jquery.flexslider.js'
+  import Banner from '../../components/common/banner'
+  import ProductList from '../../components/home/productList'
 
   export default {
     components: {
-      'Banner': Banner
+      'Banner': Banner,
+      'ProductList': ProductList,
     },
   }
-
-
 </script>

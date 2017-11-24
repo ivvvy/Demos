@@ -1,13 +1,15 @@
 <template>
   <div class="header">
-    <span class="back" @click='goBack' v-if='isShow'>返回</span>
+    <span class="left" @click='goBack' v-if='isShowLeft'>返回</span>
+    <slot name="left"></slot>
     <span class="title">{{title}}</span>
+    <slot name="right"></slot>
   </div>
 </template>
 <script>
   export default {
     data() {
-      return {isShow: true}
+      return {isShowLeft: true}
     },
     methods: {
       goBack() {
@@ -16,7 +18,7 @@
     },
     props: ['title', 'showLeft'],
     mounted: function () {
-      if (this.$options.propsData.showLeft !== undefined) this.isShow = this.$options.propsData.showLeft;	//如果传递了showLeft(默认是true),则该值决定左侧是否显示
+      if (this.$options.propsData.showLeft !== undefined) this.isShowLeft = this.$options.propsData.showLeft;	//如果传递了showLeft(默认是true),则该值决定左侧是否显示
     }
   }
 </script>

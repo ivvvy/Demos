@@ -1,55 +1,48 @@
 <template>
   <div>
-    <div class="user_page">
-      <div class="user_content">
-        <router-link to="/setUserAvatar" class="avatar_link">
-          <img src="../../assets/images/userImg.png" class="privateImage">
-        </router-link>
-        <div class="user_name">
-          <p>王小乖乖</p>
+    <div class="bodyWrapper" style="top: 0px;">
+      <div class="user_page">
+        <div class="user_content">
+          <router-link to="/user/setUserAvatar" class="avatar_link">
+            <img :src="userInfo.avatarUrl" class="privateImage">
+          </router-link>
+          <div class="user_name">
+            <p>{{userInfo.name}}</p>
+          </div>
         </div>
-      </div>
-      <div class="user_info">
-        <router-link to='/setUserInfo' class="user_data">
-          <div class="myInfo">
-            <span>我的资料</span>
-            <span class="icons icon-arrow-r"></span>
-          </div>
-        </router-link>
-        <router-link to='/userCollect' class="user_data">
-          <div class="myInfo">
-            <span>我的收藏</span>
-            <span class="icons icon-arrow-r"></span>
-          </div>
-        </router-link>
-        <router-link to='/loanRecords' class="user_data">
-          <div class="myInfo">
-            <span>借款申请记录</span>
-            <span class="icons icon-arrow-r"></span>
-          </div>
-        </router-link>
-        <router-link to='/setting' class="user_data">
-          <div class="myInfo">
-            <span>设置</span>
-            <span class="icons icon-arrow-r"></span>
-          </div>
-        </router-link>
+        <list-item :items="items"></list-item>
       </div>
     </div>
+    <Footer mid="user"></Footer>
   </div>
 </template>
+
 <script>
+  import listItem from '../../components/common/list'
+
   export default {
     name: 'User',
+    components: {
+      listItem
+    },
     data() {
       return {
-        userInfo: {}
+        userInfo: {
+          name: '王小乖乖',
+          avatarUrl: '/src/assets/images/userImg.png'
+        },
+        items: [
+          {txt: '我的资料', hasArrowRight: true, routerLink: "/user/setUserInfo",isLink:true},
+          {txt: '我的收藏', hasArrowRight: true, routerLink: "/user/userCollect",isLink:true},
+          {txt: '借款申请历史', hasArrowRight: true, routerLink: "/user/loanRecords",isLink:true},
+          {txt: '设置', hasArrowRight: true, routerLink: "/user/setting",isLink:true},
+        ]
       }
     }
   }
 </script>
 
-<style>
+<style scoped>
   #app {
     margin-top: 0;
   }
@@ -60,7 +53,10 @@
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
-    background: url("../../assets/images/bg.png") no-repeat 0 0;
+    background: linear-gradient(left, #1EA5EB, #13C6F4);
+    background: -webkit-linear-gradient(left, #1EA5EB, #13C6F4);
+    background: -o-linear-gradient(left, #1EA5EB, #13C6F4);
+    background: -moz-linear-gradient(left, #1EA5EB, #13C6F4);
     height: 100%;
     padding: 15px 15px 45px 25px;
   }
@@ -81,34 +77,5 @@
     color: #fff
   }
 
-  .user_info {
-    width: 100%;
-    background: #fff;
-  }
-
-  .user_info .user_data {
-    padding-left: 40px;
-    display: flex;
-    align-items: center;
-    border-bottom: 1px solid #f1f1f1;
-    box-sizing: border-box;
-  }
-
-  .user_info .user_data:last-child {
-    border-bottom: none;
-  }
-
-  .user_info .user_data .myInfo {
-    width: 100%;
-    padding: 15px 7px 15px 0;
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .user_info .user_data .icon-arrow-r {
-    background-position: -955px -117px;
-    width: 20px;
-    height: 20px;
-  }
 
 </style>
