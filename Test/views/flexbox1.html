@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>浮动布局-两栏布局</title>
+    <title>双飞翼布局-两栏布局</title>
     <link href="../css/main.css" rel="stylesheet" type="text/css" />
     <style>
         .container {
@@ -24,10 +24,14 @@
             width: 200px;
             height: 500px;
             background-color: #00aaff;
+            margin-right: -100%;
         }
-        .main .content {
+        .main #box{
+            float: left;
+            width: 100%;
+        }
+        .main #box .content {
             margin-left: 210px;
-            overflow: auto;
             height: 500px;
             background-color: #00C3D2;
         }
@@ -43,7 +47,9 @@
         <div class="header">header</div>
         <div class="main">
             <div class="sidebar">sidebar</div>
-            <div class="content">content</div>
+            <div id="box">
+                <div class="content">content</div>
+            </div>
         </div>
         <div class="footer">
             footer

@@ -8,29 +8,34 @@
 </head>
 <body>
     <div id="app">
-        <h1>Hello App!</h1>
-        <p>
-            <router-link to="/foo">Go to Foo</router-link>
-            <router-link to="/bar">Go to Bar</router-link>
-        </p>
-        <router-view></router-view>
+        <h1 @click="changeCity">{{city}}</h1>
     </div>
 <script>
-    const Foo = { template: '<div>foo</div>'}
-    const Bar = { template: '<div>bar</div>'}
+    var vm=new Vue({
+        el:"#app",
+        data:{
+            city:"上海",
+            cityList: [
+                {city:"北京",id:"1"},
+                {city:"杭州",id:"2"},
+                {city:"上海",id:"3"},
+                {city:"南京",id:"4"}
+            ],
+            loaction:{id:2}
+        },
+        methods:{
+            changeCity:function () {
+                var _this = this;
+                _this.cityList.forEach((item) => {
+                    if(item.id == this.loaction.id) {
+                        this.city = item.city
+                }
+            })
+            }
 
-    const routes = [
-        { path: '/foo', component: Foo },
-        { path: '/bar', component: Bar }
-    ]
 
-    const router = new VueRouter({
-        routes
+        }
     })
-
-    const app = new Vue({
-        router
-    }).$mount('#app')
 </script>
 </body>
 </html>

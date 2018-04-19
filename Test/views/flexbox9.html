@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>浮动布局-两栏布局</title>
+    <title>圣杯布局-三栏布局</title>
     <link href="../css/main.css" rel="stylesheet" type="text/css" />
     <style>
         .container {
@@ -15,21 +15,33 @@
             background: cornflowerblue;
         }
         .main {
-            margin-top: 10px;
             height: 500px;
-            margin-bottom: 15px;
+            margin: 10px 220px 15px 220px;
         }
         .main .sidebar {
             float: left;
-            width: 200px;
+            width: 210px;
             height: 500px;
+            position: relative;
+            margin-left: -100%;
+            left: -220px;
             background-color: #00aaff;
         }
         .main .content {
-            margin-left: 210px;
-            overflow: auto;
+            float: left;
+            width: 100%;
             height: 500px;
             background-color: #00C3D2;
+        }
+        .main .rightbar {
+            float: left;
+            position: relative;
+            margin-left: -200px;
+            right:-220px;
+            width: 200px;
+            height: 500px;
+            background-color: #8fa9ee;
+            color: #fff;
         }
         .footer {
             width: 100%;
@@ -42,8 +54,9 @@
     <div class="container">
         <div class="header">header</div>
         <div class="main">
-            <div class="sidebar">sidebar</div>
             <div class="content">content</div>
+            <div class="sidebar">sidebar</div>
+            <div class="rightbar">rightbar</div>
         </div>
         <div class="footer">
             footer

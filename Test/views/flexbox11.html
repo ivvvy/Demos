@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>浮动布局-两栏布局</title>
+    <title>flex布局-三栏布局</title>
     <link href="../css/main.css" rel="stylesheet" type="text/css" />
     <style>
         .container {
@@ -15,21 +15,26 @@
             background: cornflowerblue;
         }
         .main {
-            margin-top: 10px;
             height: 500px;
-            margin-bottom: 15px;
+            margin: 10px 0 15px 0;
+            display: flex;
         }
         .main .sidebar {
-            float: left;
-            width: 200px;
             height: 500px;
+            order:-1;
+            flex: 0 1 200px;
+            margin-right: 10px;
             background-color: #00aaff;
         }
         .main .content {
-            margin-left: 210px;
-            overflow: auto;
-            height: 500px;
+            flex: 1;
             background-color: #00C3D2;
+        }
+        .main .rightbar {
+            margin-left: 10px;
+            flex: 0 1 200px;
+            background-color: #8fa9ee;
+            color: #fff;
         }
         .footer {
             width: 100%;
@@ -37,6 +42,7 @@
             background-color: #3e8acc;
         }
     </style>
+    <script src="../../../../workspace_suanhua/engineRule/rulengine-app/src/main/webapp/js/libs/jsPlumbTool.js"></script>
 </head>
 <body>
     <div class="container">
@@ -44,6 +50,7 @@
         <div class="main">
             <div class="sidebar">sidebar</div>
             <div class="content">content</div>
+            <div class="rightbar">rightbar</div>
         </div>
         <div class="footer">
             footer

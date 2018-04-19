@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>浮动布局-两栏布局</title>
+    <title>BFC-三栏布局</title>
     <link href="../css/main.css" rel="stylesheet" type="text/css" />
     <style>
         .container {
@@ -23,13 +23,21 @@
             float: left;
             width: 200px;
             height: 500px;
+            margin-right: 20px;
             background-color: #00aaff;
         }
         .main .content {
-            margin-left: 210px;
-            overflow: auto;
+            overflow: hidden;
             height: 500px;
             background-color: #00C3D2;
+        }
+        .main .rightbar {
+            float: right;
+            margin-left: 20px;
+            width: 200px;
+            height: 500px;
+            background-color: #8fa9ee;
+            color: #fff;
         }
         .footer {
             width: 100%;
@@ -43,6 +51,7 @@
         <div class="header">header</div>
         <div class="main">
             <div class="sidebar">sidebar</div>
+            <div class="rightbar">rightbar</div>
             <div class="content">content</div>
         </div>
         <div class="footer">

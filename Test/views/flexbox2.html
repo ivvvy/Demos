@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>浮动布局-两栏布局</title>
+    <title>绝对定位-两栏布局</title>
     <link href="../css/main.css" rel="stylesheet" type="text/css" />
     <style>
         .container {
@@ -20,14 +20,14 @@
             margin-bottom: 15px;
         }
         .main .sidebar {
-            float: left;
+            position: absolute;
+            left:0;
             width: 200px;
             height: 500px;
             background-color: #00aaff;
         }
         .main .content {
             margin-left: 210px;
-            overflow: auto;
             height: 500px;
             background-color: #00C3D2;
         }
