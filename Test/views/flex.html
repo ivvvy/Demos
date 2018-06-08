@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Title</title>
+    <link href="../css/main.css" rel="stylesheet" type="text/css"/>
+    <style>
+        *{
+            font-family: PingFangSC;
+        }
+        .header_guide {
+            position: relative;
+            width: 100%;
+            height: 75px;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            right: 0;
+            background-color: #FB573F;
+            display: flex;
+        }
+
+        .guide_item {
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .guide_item span {
+            font-size: 12px;
+            color: #fff;
+        }
+
+        .guide_item .time {
+            font-size: 18px;
+            margin-top: 14px;
+        }
+
+        .guide_item.selected:after {
+            border: 7px solid transparent;
+            border-bottom: 7px solid #fff;
+            width: 0;
+            height: 0;
+            position: absolute;
+            content: '';
+            top: 62px;
+            transition: all .2s linear;
+        }
+
+        .list_head {
+            border-top: 1px solid #e1e1e1;
+            padding: 0 15px;
+            vertical-align: middle;
+            color: #252525;
+            font-size: 15px;
+            background-color: #fff;
+            height: 44px;
+            font-size: 0;
+            border-bottom: 1px solid #E6E6E6;
+        }
+
+        .seckill-body .list_head {
+            border-top: none;
+        }
+
+        .list_head > span {
+            display: inline-block;
+        }
+
+        .seckill-body .buy-txt {
+            color: #333;
+            font-size: 14px;
+            margin-top: -5px;
+        }
+
+        .list_head .timeTip {
+            float: right;
+            line-height: 25px;
+            height: 25px;
+            margin-top: 10px;
+        }
+
+        span.static-txt-end {
+            font-size: 12px;
+            color: #686868;
+            margin-right: 5px;
+        }
+
+        .seckill-body .static-txt-end {
+            color: #999;
+            display: inline-block;
+        }
+
+        .timeText {
+            height: 16px;
+            display: inline-block;
+        }
+
+        .seckill-time {
+            display: inline-block;
+            background-color: #FFCC00;
+            width: 22px;
+            height: 16px;
+            color: #FA4D41;
+            font-size: 12px;
+            line-height: 16px;
+            text-align: center;
+            border-radius: 3px;
+            -webkit-border-radius: 3px;
+        }
+
+        .seckill-body .time-separator {
+            display: inline-block;
+            width: 4px;
+            height: 16px;
+            color: #888
+        }
+
+        .spike_item {
+            display: none;
+        }
+
+        .spike_item:first-of-type {
+            display: block;
+        }
+
+        .bdr-b,
+        .bdr-bom {
+            -webkit-border-image: url(data:image/gif;base64,R0lGODlhAgAEAJEDAMfGy8jHy8jGy////yH/C1hNUCBEYXRhWE1QPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS4zLWMwMTEgNjYuMTQ1NjYxLCAyMDEyLzAyLzA2LTE0OjU2OjI3ICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIiB4bWxuczpzdFJlZj0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlUmVmIyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M2IChNYWNpbnRvc2gpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOkY1NEY4MjZDNkQ3MTExRTRCOTRCQkI3NjVBQzgwRjQ3IiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOkY1NEY4MjZENkQ3MTExRTRCOTRCQkI3NjVBQzgwRjQ3Ij4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6RjU0RjgyNkE2RDcxMTFFNEI5NEJCQjc2NUFDODBGNDciIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6RjU0RjgyNkI2RDcxMTFFNEI5NEJCQjc2NUFDODBGNDciLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz4B//79/Pv6+fj39vX08/Lx8O/u7ezr6uno5+bl5OPi4eDf3t3c29rZ2NfW1dTT0tHQz87NzMvKycjHxsXEw8LBwL++vby7urm4t7a1tLOysbCvrq2sq6qpqKempaSjoqGgn56dnJuamZiXlpWUk5KRkI+OjYyLiomIh4aFhIOCgYB/fn18e3p5eHd2dXRzcnFwb25tbGtqaWhnZmVkY2JhYF9eXVxbWllYV1ZVVFNSUVBPTk1MS0pJSEdGRURDQkFAPz49PDs6OTg3NjU0MzIxMC8uLSwrKikoJyYlJCMiISAfHh0cGxoZGBcWFRQTEhEQDw4NDAsKCQgHBgUEAwIBAAAh+QQBAAADACwAAAAAAgAEAAACBAyGI1IAOw==) 2 0 stretch
+        }
+
+        .bdr-b {
+            border-width: 1px 0 1px 0
+        }
+
+        .bdr-bom {
+            border-width: 0 0 1px 0
+        }
+
+        .good-list {
+            padding: 0 15px
+        }
+
+        .good-list li {
+            height: 120px;
+            padding: 15px 0;
+            position: relative
+        }
+
+        .good-list li:last-child {
+            border: 0
+        }
+
+        .good-list a {
+            display: block;
+            text-decoration: none;
+            overflow: hidden;
+            color: #252525;
+            font-size: 14px;
+        }
+
+        .seckill-body .good-list a {
+            color: #232326;
+        }
+
+        .good-list .img {
+            width: 100px;
+            height: 100px;
+            float: left;
+            margin-right: 10px;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            border-radius: 3px;
+            vertical-align: middle;
+            text-align: center
+        }
+
+        .good-list .img img {
+            max-width: 100%;
+            max-height: 100%
+        }
+
+        .skill-pic {
+            position: relative
+        }
+
+        .g-title {
+            font-size: 14px;
+            color: #333;
+            height: 32px;
+            overflow: hidden;
+            line-height: 16px;
+            margin-bottom: 5px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical
+        }
+
+        .norm {
+            font-size: 12px;
+            color: #858585
+        }
+
+        .seckill-body .g-price {
+            margin: 12px 0 7px;
+            color: #F33C6A;
+            font-size: 16px;
+        }
+
+        .skill-lod {
+            position: absolute;
+            left: 111px;
+            bottom: 5px
+        }
+
+        .seckill-body .skill-lod {
+            font-size: 0;
+            bottom: -1px;
+        }
+
+        .skill-lod .sale-count {
+            font-size: 10px;
+            color: #848689;
+            display: inline-block;
+            margin-right: 21px;
+        }
+
+        .kill-progress {
+            width: 74px;
+            height: 9px;
+            overflow: hidden;
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        .seckill-body .kill-progress {
+            width: 72px;
+            height: 8px;
+        }
+
+        .skill-pro-bg {
+            background: #FBC4D2;
+            height: 17px;
+            width: 100%;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            padding: 0 5px;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            border-radius: 50px;
+        }
+
+        .kill-progress .skill-pro-bg {
+            position: relative;
+            left: auto;
+            bottom: auto;
+            padding: 0;
+            height: 7px;
+        }
+
+        .skill-item-progress {
+            position: relative;
+            top: 5px;
+            left: 0;
+            height: 16px;
+            width: 200%;
+            -webkit-transform: scale(.5, .5);
+            transform: scale(.5, .5);
+            -webkit-transform-origin: 0 0;
+            transform-origin: 0 0;
+            border: solid 1px #FBC4D2;
+            border-radius: 50px;
+            overflow: hidden
+        }
+
+        .kill-progress .skill-item-progress {
+            top: 0;
+            height: 15px;
+        }
+
+        .skill-pro-insetbg {
+            width: 100%;
+            height: 100%;
+            display: inline-block;
+            border: solid 1px rgba(255, 255, 255, .2)
+        }
+
+        .skill-iteam-pro {
+            position: absolute;
+            top: 0;
+            left: -1px;
+            background-image: linear-gradient(to right, #FE648A, #F3416D);
+            background-image: -webkit-linear-gradient(right, #FE648A, #F3416D);
+            background: -webkit-gradient(linear, left center, right center, from(#FE648A), to(#F3416D));
+            background: -moz-linear-gradient(right, #FE648A, #F3416D);
+            background: -o-linear-gradient(right, #FE648A, #F3416D);
+            height: 100%;
+            display: block;
+            width: 0;
+            -webkit-transition: width 1.8s;
+            transition: width 1.8s
+        }
+
+        .good-list li .skill-count-grey {
+            background-color: #f0f0f0;
+            color: #bfbfbf
+        }
+
+        .skill-count {
+            height: 30px;
+            position: absolute;
+            bottom: 22px;
+            right: 0;
+            background-color: #ff7878;
+            color: #fff;
+            text-align: center;
+            vertical-align: middle;
+            line-height: 30px;
+            font-size: 15px;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            border-radius: 3px
+        }
+
+        .seckill-body .skill-count {
+            width: 76px;
+            height: 30px;
+            line-height: 30px;
+            background-image: linear-gradient(to right, #FD6188, #F3416D);
+            background-image: -webkit-linear-gradient(right, #FD6188, #F3416D);
+            background: -webkit-gradient(linear, left center, right center, from(#FD6188), to(#F3416D));
+            background: -moz-linear-gradient(right, #FD6188, #F3416D);
+            background: -o-linear-gradient(right, #FD6188, #F3416D);
+            font-size: 14px;
+            bottom: 10px;
+            border-radius: 20px;
+            padding: 0 10px;
+            /*bottom: 16px*/
+        }
+
+        .sold .g-title {
+            color: #c9c9c9
+        }
+
+        .sold .norm {
+            color: #d6d6d6
+        }
+
+        .seckill-body .sold .g-price {
+            color: #c1c1c1;
+        }
+
+        .sold_modal {
+            position: absolute;
+            bottom: 5px;
+            width: 99px;
+            height: 20px;
+            color: #fff;
+            font-size: 12px;
+        }
+
+        .sold_modal p {
+            position: absolute;
+            width: 100%;
+            height: 20px;
+            line-height: 20px;
+            vertical-align: middle;
+            text-align: center;
+            background-color: rgba(0, 0, 0, .7);
+            bottom: 0;
+        }
+
+
+    </style>
+</head>
+<body>
+<section class="header_guide">
+    <section class="guide_item selected">
+        <span class="time">12:00</span>
+        <span>正在秒杀</span>
+    </section>
+    <section class="guide_item">
+        <span class="time">13:00</span>
+        <span>即将开始</span>
+    </section>
+    <!--<section class="guide_item">-->
+        <!--<span class="time">14:00</span>-->
+        <!--<span>即将开始</span>-->
+    <!--</section>-->
+    <!--<section class="guide_item">-->
+        <!--<span class="time">15:00</span>-->
+        <!--<span>即将开始</span>-->
+    <!--</section>-->
+    <!--<section class="guide_item">-->
+        <!--<span class="time">16:00</span>-->
+        <!--<span>即将开始</span>-->
+    <!--</section>-->
+</section>
+<section class="seckill-body">
+    <header class="list_head">
+        <span class="buy-txt" id="seckillBuyTxt">疯抢中先到先得</span>
+        <span class="timeTip">
+		    <span class="static-txt-end" id="staticTxtEnd">距结束</span>
+		    <div id="seckill_time" class="timeText">
+			    <span class="seckill-time">00</span>
+			    <span class="time-separator">:</span>
+			    <span class="seckill-time">46</span>
+			    <span class="time-separator">:</span>
+			    <span class="seckill-time">18</span>
+		    </div>
+	    </span>
+    </header>
+    <section class="spike_item">
+        <ul class="good-list bdr-b seckilling">
+            <li class="bdr-bom">
+                <a href="">
+                    <div class="skill-pic">
+                        <div class="img">
+                            <img src="//m.360buyimg.com/mobilecms/s220x220_jfs/t10879/85/1966089075/505112/7b750bcd/59eb0a8cN236e3559.jpg!q70.jpg.dpg"
+                                 style="animation: fade 400ms 0s; opacity: 1;">
+                        </div>
+                    </div>
+                    <p class="g-title">[美赞臣]乐高婴儿配方全新包装羊奶粉3段800g[6件]</p>
+                    <p class="norm">规格：90cm 1支</p>
+                    <p class="g-price">￥29.9</p>
+                    <div class="skill-lod">
+                        <div id="progress-b" class="kill-progress">
+                            <div class="skill-pro-bg">
+                                <p class="skill-item-progress">
+                                    <span class="skill-pro-insetbg">
+                                        <span class="skill-iteam-pro" style="width: 93%;"></span>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                        <span class="sale-count" id="sale-count-b">已抢93%</span>
+                    </div>
+                    <span class="skill-count">立即抢购</span>
+                </a>
+            </li>
+            <li class="bdr-bom sold">
+                <a href="">
+                    <div class="skill-pic">
+                        <div class="img">
+                            <img src="//m.360buyimg.com/mobilecms/s220x220_jfs/t10879/85/1966089075/505112/7b750bcd/59eb0a8cN236e3559.jpg!q70.jpg.dpg"
+                                 style="animation: fade 400ms 0s; opacity: 1;">
+                        </div>
+                    </div>
+                    <p class="g-title">[美赞臣]乐高婴儿配方全新包装羊奶粉3段800g[6件]</p>
+                    <p class="norm">规格：90cm 1支</p>
+                    <p class="g-price">￥29.9</p>
+                    <div class="skill-lod">
+                        <div id="progress-b" class="kill-progress">
+                            <div class="skill-pro-bg">
+                                <p class="skill-item-progress">
+                                    <span class="skill-pro-insetbg">
+                                        <span class="skill-iteam-pro" style="width: 101%;"></span>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                        <span class="sale-count" id="sale-count-b">已抢100%</span>
+                    </div>
+                    <span class="skill-count">已售完</span>
+                </a>
+                <div class="sold_modal"><p>已售完</p></div>
+            </li>
+        </ul>
+    </section>
+    <section class="spike_item">
+        <ul class="good-list bdr-b seckilling">
+            <li class="bdr-bom">
+                <a href="">
+                    <div class="skill-pic">
+                        <div class="img">
+                            <img src="//m.360buyimg.com/mobilecms/s220x220_jfs/t10879/85/1966089075/505112/7b750bcd/59eb0a8cN236e3559.jpg!q70.jpg.dpg"
+                                 style="animation: fade 400ms 0s; opacity: 1;">
+                        </div>
+                    </div>
+                    <p class="g-title">戴尔（DELL）U2518D 25英寸2K分辨率四边微边框旋转升降IPS屏 HDR 爱眼护眼滤蓝光显示器（带DP线）</p>
+                    <p class="norm">规格：90cm 1支</p>
+                    <p class="g-price">￥29.9</p>
+                    <div class="skill-lod">
+                        <div id="progress-b" class="kill-progress">
+                            <div class="skill-pro-bg">
+                                <p class="skill-item-progress">
+                                    <span class="skill-pro-insetbg">
+                                        <span class="skill-iteam-pro" style="width: 93%;"></span>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                        <span class="sale-count" id="sale-count-b">已抢93%</span>
+                    </div>
+                    <span class="skill-count">立即抢购</span>
+                </a>
+            </li>
+            <li class="bdr-bom">
+                <a href="">
+                    <div class="skill-pic">
+                        <div class="img">
+                            <img src="//m.360buyimg.com/mobilecms/s220x220_jfs/t10879/85/1966089075/505112/7b750bcd/59eb0a8cN236e3559.jpg!q70.jpg.dpg"
+                                 style="animation: fade 400ms 0s; opacity: 1;">
+                        </div>
+                    </div>
+                    <p class="g-title">[美赞臣]乐高婴儿配方全新包装羊奶粉3段800g[6件]</p>
+                    <p class="norm">规格：90cm 1支</p>
+                    <p class="g-price">￥29.9</p>
+                    <div class="skill-lod">
+                        <div id="progress-b" class="kill-progress">
+                            <div class="skill-pro-bg">
+                                <p class="skill-item-progress">
+                                    <span class="skill-pro-insetbg">
+                                        <span class="skill-iteam-pro" style="width: 101%;"></span>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                        <span class="sale-count" id="sale-count-b">已抢100%</span>
+                    </div>
+                    <span class="skill-count">已售完</span>
+                </a>
+            </li>
+        </ul>
+    </section>
+</section>
+<script type="text/javascript" src="../script/libs/jquery-2.2.0.min.js"></script>
+<script>
+    $(function () {
+        $(".guide_item").on('click',function () {
+            $(this).addClass('selected').siblings().removeClass('selected');
+            var i = $(this).index();
+            $('.spike_item').eq(i).show().siblings(".spike_item").hide();
+        })
+    })
+</script>
+</body>
+</html>
