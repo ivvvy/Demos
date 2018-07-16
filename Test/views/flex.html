@@ -6,9 +6,10 @@
     <title>Title</title>
     <link href="../css/main.css" rel="stylesheet" type="text/css"/>
     <style>
-        *{
+        * {
             font-family: PingFangSC;
         }
+
         .header_guide {
             position: relative;
             width: 100%;
@@ -117,7 +118,9 @@
             display: inline-block;
             width: 4px;
             height: 16px;
-            color: #888
+            color: #888;
+            font-size: 12px;
+            margin: 0 2px;
         }
 
         .spike_item {
@@ -343,6 +346,14 @@
             /*bottom: 16px*/
         }
 
+        .sold .skill-count{
+            background-image: linear-gradient(to right, #FFD1DC, #FCC5D3);
+            background-image: -webkit-linear-gradient(right, #FFD1DC, #FCC5D3);
+            background: -webkit-gradient(linear, left center, right center, from(#FFD1DC), to(#FCC5D3));
+            background: -moz-linear-gradient(right, #FFD1DC, #FCC5D3);
+            background: -o-linear-gradient(right, #FFD1DC, #FCC5D3);
+        }
+
         .sold .g-title {
             color: #c9c9c9
         }
@@ -375,7 +386,78 @@
             bottom: 0;
         }
 
+        .msgbox-wrapper {
+            position: absolute;
+            z-index: 2003;
+            display: none;
+        }
 
+        .msgbox {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            -webkit-transform: translate3d(-50%, -50%, 0);
+            transform: translate3d(-50%, -50%, 0);
+            background-color: #fff;
+            width: 80%;
+            border-radius: 8px;
+            font-size: 16px;
+            -webkit-user-select: none;
+            overflow: hidden;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            -webkit-transition: .2s;
+            transition: .2s;
+        }
+
+        .msgbox-content {
+            padding: 10px 20px 15px;
+            border-bottom: 1px solid #E6E6E6;
+            min-height: 36px;
+            position: relative;
+        }
+
+        .msgbox-message {
+            color: #333;
+            margin: 0;
+            text-align: center;
+            line-height: 36px;
+            font-size: 14px;
+        }
+
+        .msgbox-btns {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            height: 40px;
+            line-height: 40px;
+        }
+
+        .msgbox-btn {
+            line-height: 40px;
+            display: block;
+            background-color: #fff;
+            -webkit-box-flex: 1;
+            -ms-flex: 1;
+            flex: 1;
+            margin: 0;
+            border: 0;
+            color: #F33C6A;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .v-modal {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            opacity: .5;
+            background: #000;
+            z-index: 2002;
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -389,16 +471,16 @@
         <span>即将开始</span>
     </section>
     <!--<section class="guide_item">-->
-        <!--<span class="time">14:00</span>-->
-        <!--<span>即将开始</span>-->
+    <!--<span class="time">14:00</span>-->
+    <!--<span>即将开始</span>-->
     <!--</section>-->
     <!--<section class="guide_item">-->
-        <!--<span class="time">15:00</span>-->
-        <!--<span>即将开始</span>-->
+    <!--<span class="time">15:00</span>-->
+    <!--<span>即将开始</span>-->
     <!--</section>-->
     <!--<section class="guide_item">-->
-        <!--<span class="time">16:00</span>-->
-        <!--<span>即将开始</span>-->
+    <!--<span class="time">16:00</span>-->
+    <!--<span>即将开始</span>-->
     <!--</section>-->
 </section>
 <section class="seckill-body">
@@ -406,13 +488,7 @@
         <span class="buy-txt" id="seckillBuyTxt">疯抢中先到先得</span>
         <span class="timeTip">
 		    <span class="static-txt-end" id="staticTxtEnd">距结束</span>
-		    <div id="seckill_time" class="timeText">
-			    <span class="seckill-time">00</span>
-			    <span class="time-separator">:</span>
-			    <span class="seckill-time">46</span>
-			    <span class="time-separator">:</span>
-			    <span class="seckill-time">18</span>
-		    </div>
+		    <div id="seckill_time" class="timeText"></div>
 	    </span>
     </header>
     <section class="spike_item">
@@ -429,7 +505,7 @@
                     <p class="norm">规格：90cm 1支</p>
                     <p class="g-price">￥29.9</p>
                     <div class="skill-lod">
-                        <div id="progress-b" class="kill-progress">
+                        <div class="kill-progress">
                             <div class="skill-pro-bg">
                                 <p class="skill-item-progress">
                                     <span class="skill-pro-insetbg">
@@ -438,7 +514,7 @@
                                 </p>
                             </div>
                         </div>
-                        <span class="sale-count" id="sale-count-b">已抢93%</span>
+                        <span class="sale-count">已抢93%</span>
                     </div>
                     <span class="skill-count">立即抢购</span>
                 </a>
@@ -455,7 +531,7 @@
                     <p class="norm">规格：90cm 1支</p>
                     <p class="g-price">￥29.9</p>
                     <div class="skill-lod">
-                        <div id="progress-b" class="kill-progress">
+                        <div class="kill-progress">
                             <div class="skill-pro-bg">
                                 <p class="skill-item-progress">
                                     <span class="skill-pro-insetbg">
@@ -464,11 +540,37 @@
                                 </p>
                             </div>
                         </div>
-                        <span class="sale-count" id="sale-count-b">已抢100%</span>
+                        <span class="sale-count">已抢100%</span>
                     </div>
                     <span class="skill-count">已售完</span>
                 </a>
                 <div class="sold_modal"><p>已售完</p></div>
+            </li>
+            <li class="bdr-bom">
+                <a href="">
+                    <div class="skill-pic">
+                        <div class="img">
+                            <img src="//m.360buyimg.com/mobilecms/s220x220_jfs/t10879/85/1966089075/505112/7b750bcd/59eb0a8cN236e3559.jpg!q70.jpg.dpg"
+                                 style="animation: fade 400ms 0s; opacity: 1;">
+                        </div>
+                    </div>
+                    <p class="g-title">[美赞臣]乐高婴儿配方全新包装羊奶粉3段800g[6件]</p>
+                    <p class="norm">规格：90cm 1支</p>
+                    <p class="g-price">￥29.9</p>
+                    <div class="skill-lod">
+                        <div class="kill-progress">
+                            <div class="skill-pro-bg">
+                                <p class="skill-item-progress">
+                                    <span class="skill-pro-insetbg">
+                                        <span class="skill-iteam-pro"></span>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                        <span class="sale-count">已抢0%</span>
+                    </div>
+                    <span class="skill-count">立即抢购</span>
+                </a>
             </li>
         </ul>
     </section>
@@ -486,7 +588,7 @@
                     <p class="norm">规格：90cm 1支</p>
                     <p class="g-price">￥29.9</p>
                     <div class="skill-lod">
-                        <div id="progress-b" class="kill-progress">
+                        <div class="kill-progress">
                             <div class="skill-pro-bg">
                                 <p class="skill-item-progress">
                                     <span class="skill-pro-insetbg">
@@ -495,7 +597,7 @@
                                 </p>
                             </div>
                         </div>
-                        <span class="sale-count" id="sale-count-b">已抢93%</span>
+                        <span class="sale-count">已抢93%</span>
                     </div>
                     <span class="skill-count">立即抢购</span>
                 </a>
@@ -512,7 +614,7 @@
                     <p class="norm">规格：90cm 1支</p>
                     <p class="g-price">￥29.9</p>
                     <div class="skill-lod">
-                        <div id="progress-b" class="kill-progress">
+                        <div class="kill-progress">
                             <div class="skill-pro-bg">
                                 <p class="skill-item-progress">
                                     <span class="skill-pro-insetbg">
@@ -521,7 +623,7 @@
                                 </p>
                             </div>
                         </div>
-                        <span class="sale-count" id="sale-count-b">已抢100%</span>
+                        <span class="sale-count">已抢100%</span>
                     </div>
                     <span class="skill-count">已售完</span>
                 </a>
@@ -529,15 +631,75 @@
         </ul>
     </section>
 </section>
+<section class="msgbox-wrapper">
+    <div class="msgbox">
+        <div class="msgbox-content">
+            <div class="msgbox-message"></div>
+        </div>
+        <div class="msgbox-btns">
+            <span class="msgbox-btn"></span>
+        </div>
+    </div>
+</section>
+<section class="v-modal"></section>
 <script type="text/javascript" src="../script/libs/jquery-2.2.0.min.js"></script>
 <script>
     $(function () {
-        $(".guide_item").on('click',function () {
+        $(".guide_item").on('click', function () {
             $(this).addClass('selected').siblings().removeClass('selected');
             var i = $(this).index();
             $('.spike_item').eq(i).show().siblings(".spike_item").hide();
         })
     })
+
+    var interval = 1000;//指定时间为：1秒（可要可不要）
+    var dates = '2018-06-12 16:10:00'
+    var endTime = new Date(dates);
+    function Show(endTime, divname) {
+        var now = new Date().getTime();            //调用系统时间,当前时间
+        var endDate = endTime.getTime();   //结束时间
+        var leftTime = endDate - now;//剩下的时间
+        var leftsecond = parseInt(leftTime / 1000);//剩下的秒数
+        var day_1 = Math.floor(leftsecond / (60 * 60 * 24));//剩余天数
+        var hour = Math.floor((leftsecond - day_1 * 24 * 60 * 60) / 3600);//剩余小时
+        var minute = Math.floor((leftsecond - day_1 * 24 * 60 * 60 - hour * 60 * 60) / 60);//剩余分钟
+        var second = Math.floor(leftsecond - day_1 * 24 * 3600 - hour * 3600 - minute * 60);//剩余秒数
+        var showTime = document.getElementById(divname);//把结果显示在div上
+        hour < 10 ? hour = '0' + hour : hour;//判断是否小于10，是则在时间前面加0
+        minute < 10 ? minute = '0' + minute : minute;
+        second < 10 ? second = '0' + second : second;
+        showTime.innerHTML = '<span class="seckill-time">' + hour + '</span>'
+            + '<span class="time-separator">:</span>'
+            + '<span class="seckill-time">' + minute + '</span>'
+            + '<span class="time-separator">:</span>'
+            + '<span class="seckill-time">' + second + '</span>'
+        if (now >= endDate) {
+            clearInterval(function () {
+                Show(endTime, 'seckill_time');
+            });
+            showTime.innerHTML = '<span class="seckill-time">00</span>'
+                + '<span class="time-separator">:</span>'
+                + '<span class="seckill-time">00</span>'
+                + '<span class="time-separator">:</span>'
+                + '<span class="seckill-time">00</span>'
+            $(".msgbox-wrapper").show()
+            $(".msgbox-message").innerHTML('本场秒杀活动结束啦，去看看其他秒杀吧~')
+            $(".msgbox-btn").innerHTML('去下单')
+            $(".v-modal").show()
+            return;
+        }
+    }
+    setInterval(function () {
+        Show(endTime, 'seckill_time');
+    }, interval);
+
+
+    $(".msgbox-btn").on('click',function () {
+        $(".msgbox-wrapper").hide()
+        $(".v-modal").hide()
+    })
+
+
 </script>
 </body>
 </html>
